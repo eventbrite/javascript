@@ -1,0 +1,53 @@
+{
+  "name": "eslint-config-eventbrite-react",
+  "version": "0.0.1",
+  "description": "Eventbrites's ESLint config that lints React & JSX, adhering to the Eventbrite JavaScript Coding Style Guide",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "test": "npm run lint",
+    "preversion": "npm test",
+    "postversion": "git push && git push --tags",
+    "release:patch": "npm version patch --message 'Patch release v%s' && npm publish",
+    "release:minor": "npm version minor --message 'Minor release v%s' && npm publish",
+    "release:major": "npm version major --message 'Major release v%s' && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eventbrite/javascript.git"
+  },
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "config",
+    "eventbrite",
+    "javascript",
+    "styleguide"
+  ],
+  "author": "Evenbrite Frontend Engineering <frontend@eventbrite.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eventbrite/javascript/issues"
+  },
+  "homepage": "https://github.com/eventbrite/javascript#readme",
+  "dependencies": {
+    "eslint-config-eventbrite": "../eslint-config-eventbrite"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.0",
+    "eslint": "^2.5.3",
+    "eslint-plugin-react": "^4.2.3",
+    "pre-commit": "^1.1.2"
+  },
+  "peerDependencies": {
+    "babel-eslint": ">=6.0.0",
+    "eslint": ">=2.5.3",
+    "eslint-plugin-react": ">=4.2.3"
+  },
+  "engines": {
+    "node": ">=0.10"
+  },
+  "pre-commit": [
+    "test"
+  ]
+}
