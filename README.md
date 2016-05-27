@@ -8,6 +8,7 @@ This coding style guide has been created _for_ Eventbrite developers, but is cer
 
 ## Table of Contents
 
+1. [ESLint Configurations](#eslint-configurations)
 1. [General guidelines](#general-guidelines)
 1. [ES6+](#es6)
 1. [React & JSX](#react--jsx)
@@ -15,6 +16,14 @@ This coding style guide has been created _for_ Eventbrite developers, but is cer
 1. [Backbone & Marionette](#backbone--marionette)
 1. [Resources](#resources)
 1. [License](#license)
+
+## ESLint Configurations
+
+Eventbrite has 3 ESLint configuration packages that you can extend:
+
+- [`eslint-config-eventbrite`](packages/eslint-config-eventbrite): base ESLint config that lints ES6+/ES2015+
+- [`eslint-config-eventbrite-react`](packages/eslint-config-eventbrite-react): extends `eslint-config-eventbrite`, also linting React & JSX
+- [`eslint-config-eventbrite-legacy`](packages/eslint-config-eventbrite-legacy): ESLint config that lints legacy ES5-
 
 ## General guidelines
 
