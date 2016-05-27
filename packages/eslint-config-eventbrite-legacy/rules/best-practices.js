@@ -28,9 +28,12 @@ module.exports = {
         // http://eslint.org/docs/rules/dot-location
         'dot-location': ['error', 'property'],
 
-        // force use of dot notation whenever possible
+        // force use of dot notation whenever possible, except for names w/
+        // underscores in them
         // http://eslint.org/docs/rules/dot-notation
-        'dot-notation': 'error',
+        'dot-notation': ['error', {
+            allowPattern: '^[a-z]+(_[a-z]+)+$'
+        }],
 
         // require use of === and !==
         // http://eslint.org/docs/rules/eqeqeq
