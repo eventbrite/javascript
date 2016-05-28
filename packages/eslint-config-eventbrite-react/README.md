@@ -5,7 +5,7 @@
 [![Maintenance Status](https://img.shields.io/badge/status-maintained-brightgreen.svg)](https://github.com/eventbrite/javascript/pulse)
 [![license](https://img.shields.io/npm/l/eslint-config-eventbrite-react.svg?style=flat-square)](http://spdx.org/licenses/MIT)
 
-Eventbrites's ESLint config that lints React & JSX, adhering to the [Eventbrite JavaScript Coding Style Guide](https://github.com/eventbrite/javascript).
+Eventbrite's ESLint config that lints React & JSX, adhering to the [Eventbrite JavaScript Coding Style Guide](https://github.com/eventbrite/javascript).
 
 ## Usage
 
