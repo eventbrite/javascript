@@ -29,6 +29,14 @@ Extend `eslint-config-eventbrite-legacy` in your [`.eslintrc.json`](http://eslin
 
 _NOTE:_ This configuration extends `eslint:recommended`.
 
+## Contributing
+
+Thank you for your willingness to contribute! 😀
+
+Although `eslint-config-eventbrite-legacy` is a public package, its primary purpose is for linting Eventbrite's legacy JavaScript code written in ES5. Therefore, it is unlikely that we'll accept changes to rules as they may adversely affect the linting of our own code. However, we do welcome fixes for errors or additions for omissions.
+
+If you are uncertain as to whether your suggestion qualifies, go ahead and submit a [Pull Request](https://github.com/eventbrite/javascript/pulls) and we'll let you know. Thanks again!
+
 ## License
 
 [MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016 Eventbrite.

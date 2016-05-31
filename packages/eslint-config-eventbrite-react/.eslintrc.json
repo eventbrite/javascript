@@ -1,3 +1,3 @@
 {
-  "extends": "eventbrite-react"
+  "extends": "eventbrite-legacy"
 }

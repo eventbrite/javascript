@@ -11,10 +11,10 @@ Eventbrite's ESLint config that lints React & JSX, adhering to the [Eventbrite J
 
 This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react) and [`babel-eslint`](https://github.com/babel/babel-eslint).
 
-Install `eslint`, `eslint-plugin-react`, `babel-eslint` & `eslint-config-eventbrite-react` dependencies:
+Install `eslint`, `eslint-plugin-react`, `eslint-plugin-jsx-a11y`, `babel-eslint` & `eslint-config-eventbrite-react` dependencies:
 
 ```sh
-npm install --save-dev eslint eslint-plugin-react babel-eslint eslint-config-eventbrite-react
+npm install --save-dev eslint eslint-plugin-react eslint-plugin-jsx-a11y babel-eslint eslint-config-eventbrite-react
 ```
 
 Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
@@ -27,7 +27,15 @@ Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint
 }
 ```
 
-_NOTE:_ This configuration extends [`eslint-config-eventbrite`](../eslint-config-eventbrite).
+_NOTE:_ This configuration extends [`eslint-config-eventbrite`](../eslint-config-eventbrite) and [`plugin:react/recommended'`](https://github.com/yannickcr/eslint-plugin-react#user-content-recommended-configuration).
+
+## Contributing
+
+Thank you for your willingness to contribute! 😀
+
+Although `eslint-config-eventbrite-react` is a public package, its primary purpose is for linting Eventbrite's React JavaScript code. Therefore, it is unlikely that we'll accept changes to rules as they may adversely affect the linting of our own code. However, we do welcome fixes for errors or additions for omissions.
+
+If you are uncertain as to whether your suggestion qualifies, go ahead and submit a [Pull Request](https://github.com/eventbrite/javascript/pulls) and we'll let you know. Thanks again!
 
 ## License
 
