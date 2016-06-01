@@ -49,15 +49,13 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
         'react/jsx-handler-names': 'error',
 
-        // Do not enforce specific JSX tag indentation
-        // NOTE: We DO want to force indentation but would want 4 spaces OR 1 tab
+        // Enforce 4 space JSX tag indentation
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md
-        'react/jsx-indent': 'off',
+        'react/jsx-indent': 'error',
 
-        // Do not enforce specific JSX props indentation
-        // NOTE: We DO want to force indentation but would want 4 spaces OR 1 tab
+        // Enforce 4 space JSX props indentation
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md
-        'react/jsx-indent-props': 'off',
+        'react/jsx-indent-props': 'error',
 
         // Validate JSX has key prop when in array or iterator
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-key.md
