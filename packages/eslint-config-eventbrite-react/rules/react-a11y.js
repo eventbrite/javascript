@@ -3,6 +3,9 @@ module.exports = {
         'react',
         'jsx-a11y'
     ],
+
+    // View link below for docs on react a11y rules
+    // https://github.com/yannickcr/eslint-plugin-react#list-of-supported-rules
     rules: {
         // Enforce all `aria-*` props are valid
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/aria-props.md
@@ -47,9 +50,10 @@ module.exports = {
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-access-key.md
         'jsx-a11y/no-access-key': 'error',
 
-        // Enforce that `onBlur` is used instead of (or more likely in parallel with) `onChange`
+        // Don't enforce that `onBlur` is used instead of (or more likely in parallel with) `onChange`
+        // NOTE: We may want to consider this later, but this has UX implications
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-onchange.md
-        'jsx-a11y/no-onchange': 'error',
+        'jsx-a11y/no-onchange': 'off',
 
         // Enforce that elements with `onClick` handlers must be focusable
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/onclick-has-focus.md
