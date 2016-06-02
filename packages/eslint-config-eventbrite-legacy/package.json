@@ -31,11 +31,11 @@
   },
   "homepage": "https://github.com/eventbrite/javascript#readme",
   "devDependencies": {
-    "eslint": "^2.5.3",
+    "eslint": "^2.11.1",
     "pre-commit": "^1.1.2"
   },
   "peerDependencies": {
-    "eslint": "^2.5.3"
+    "eslint": "^2.11.1"
   },
   "engines": {
     "node": ">=0.10"
