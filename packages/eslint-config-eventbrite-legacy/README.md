@@ -21,9 +21,7 @@ Extend `eslint-config-eventbrite-legacy` in your [`.eslintrc.json`](http://eslin
 
 ```json
 {
-    "extends": [
-        "eventbrite-legacy"
-    ]
+    "extends": "eventbrite-legacy"
 }
 ```
 

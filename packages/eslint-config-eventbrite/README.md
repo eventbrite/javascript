@@ -9,21 +9,19 @@ Eventbrite's base ESLint config that lints ES6+/ES2015+ and adheres to the [Even
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint) and [`babel-eslint`](https://github.com/babel/babel-eslint).
 
-Install `eslint` & `eslint-config-eventbrite` dependencies:
+Install `eslint`, `babel-eslint` & `eslint-config-eventbrite` dependencies:
 
 ```sh
-npm install --save-dev eslint eslint-config-eventbrite
+npm install --save-dev eslint babel-eslint eslint-config-eventbrite
 ```
 
 Extend `eslint-config-eventbrite` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
 
 ```json
 {
-    "extends": [
-        "eventbrite"
-    ]
+    "extends": "eventbrite"
 }
 ```
 

@@ -5,7 +5,7 @@ module.exports = {
     ],
 
     // View link below for docs on react a11y rules
-    // https://github.com/yannickcr/eslint-plugin-react#list-of-supported-rules
+    // https://github.com/evcohen/eslint-plugin-jsx-a11y/
     rules: {
         // Enforce all `aria-*` props are valid
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/aria-props.md
