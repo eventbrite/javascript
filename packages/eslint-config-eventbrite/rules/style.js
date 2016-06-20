@@ -3,7 +3,7 @@ module.exports = {
     rules: {
         // Enforce function expressions
         // http://eslint.org/docs/rules/func-style
-        'func-style': 'error',
+        'func-style': ['error', 'expression'],
 
         // enforce that `let` & `const` declarations are declared together
         // http://eslint.org/docs/rules/one-var

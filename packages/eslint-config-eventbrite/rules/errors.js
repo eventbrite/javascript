@@ -6,6 +6,6 @@ module.exports = {
         // closing ] or } and disallows trailing commas when the last
         // element or property is on the same line as the closing ] or }
         // http://eslint.org/docs/rules/comma-dangle
-        'comma-dangle': 'error'
+        'comma-dangle': ['error', 'only-multiline']
     }
 };

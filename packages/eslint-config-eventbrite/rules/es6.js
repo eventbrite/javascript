@@ -20,7 +20,7 @@ module.exports = {
         // disallow arrow functions where they could be confused with comparisons
         // unless a parentheses are used to disambiguate
         // http://eslint.org/docs/rules/no-confusing-arrow
-        'no-confusing-arrow': ['error', {allowParens: false}],
+        'no-confusing-arrow': ['error', {allowParens: true}],
 
         // disallow duplicate module imports & exports
         // http://eslint.org/docs/rules/no-duplicate-imports
@@ -34,9 +34,10 @@ module.exports = {
         // http://eslint.org/docs/rules/no-useless-constructor
         'no-useless-constructor': 'error',
 
-        // disallow renaming import, export, and destructured assignments to the same name
+        // disallow renaming export and destructured assignments to the same name
+        // imports are ignored because they seem to generate false positives
         // http://eslint.org/docs/rules/no-useless-rename
-        'no-useless-rename': 'error',
+        'no-useless-rename': ['error', {ignoreImport: true}],
 
         // require use of let & const
         // http://eslint.org/docs/rules/no-var
