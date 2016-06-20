@@ -36,10 +36,12 @@
     "eslint-config-eventbrite-legacy": "^1.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^6.0.0",
     "eslint": "^2.11.1",
     "pre-commit": "^1.1.2"
   },
   "peerDependencies": {
+    "babel-eslint": "^6.0.0",
     "eslint": "^2.11.1"
   },
   "engines": {
