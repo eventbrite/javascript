@@ -61,9 +61,9 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-key.md
         'react/jsx-key': 'error',
 
-        // Limit maximum of props on a single line in JSX to 4
+        // Limit maximum of props on a single line in JSX to 3
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md
-        'react/jsx-max-props-per-line': ['error', {maximum: 4}],
+        'react/jsx-max-props-per-line': ['error', {maximum: 3}],
 
         // Prevent arrow functions & refs in a JSX prop (but still allow bind for now)
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
