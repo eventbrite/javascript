@@ -29,7 +29,7 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
         'react/jsx-boolean-value': ['error', 'always'],
 
-        // Validate closing bracket location in JSX is aligned with opening tag
+        // Enforce closing bracket location in JSX is aligned with opening tag
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md
         'react/jsx-closing-bracket-location': 'error',
 
