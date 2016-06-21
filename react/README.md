@@ -98,6 +98,8 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 Export only one component per file as the default (eslint: [`react/no-multi-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md))
 
 ```js
+// MainComponent.js
+
 // good
 export default class MainComponent extends React.Component {
 
@@ -105,11 +107,10 @@ export default class MainComponent extends React.Component {
 
 
 // bad (exports multiple components)
-export class ComponentA extends React.Component {
+export class MainComponent extends React.Component {
 
 }
-
-export class ComponentB extends React.Component {
+export class OtherComponent extends React.Component {
 
 }
 ```
@@ -196,8 +197,8 @@ When a component has three props or less with no content, the tag can be on a si
 // good
 <TextInput type="email" name="email" />
 
-// not-so-good (attributes are long)
-<TextInput type="email" name="email" placeholder="Enter in your email" />
+// not-so-good (attributes are on the long side)
+<TextInput type="email" name="really-long-email-name" placeholder="Enter in your email here please" />
 
 // bad (more than 3 attributes)
 <TextInput type="email" name="email" id="email" tabIndex="0"  />
