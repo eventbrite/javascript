@@ -32,7 +32,27 @@ For more info, see [JSX in Depth](https://facebook.github.io/react/docs/jsx-in-d
 
 ## General rules
 
-- Always use JSX syntax (don't use `React.createElement`)
+Always use JSX syntax (don't use `React.createElement`):
+
+```js
+// good
+render() {
+    return (
+        <Component value="foo">
+            <ChildComponent />
+        </Component>
+    );
+}
+
+// bad (why torture yourself with React.createElement?)
+render() {
+    return React.createElement(
+        Component,
+        { value: "foo" },
+        React.createElement(ChildComponent, null)
+    );
+}
+```
 
 ## Component files
 
@@ -44,7 +64,7 @@ For more info, see [JSX in Depth](https://facebook.github.io/react/docs/jsx-in-d
 
 Prefer ES6 classes over `React.createClass` (eslint: [`react/prefer-es6-class`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-es6-class.md)):
 
-```jsx
+```js
 // good
 export default class MainComponent extends React.Component {
 
@@ -67,7 +87,7 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 
 Export only one component per file as the default (eslint: [`react/no-multi-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md))
 
-```jsx
+```js
 // good
 export default class MainComponent extends React.Component {
 
@@ -89,7 +109,7 @@ export class ComponentB extends React.Component {
 Use PascalCase for React components and camelCase for their instances (eslint: [`react/jsx-pascal-case`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-pascal-case.md)).
 
 Components:
-```jsx
+```js
 // good
 import TextInput from './atoms/TextInput';
 
@@ -98,7 +118,7 @@ import textInput from './atoms/TextInput';
 ```
 
 Component instances:
-```jsx
+```js
 // good
 let emailField = (<TextInput name="email" />);
 
@@ -122,7 +142,7 @@ Coming soon...
 
 Always wrap JSX tags in parentheses as a signal that we're transitioning from vanilla JavaScript to JSX (eslint: [`react/wrap-multilines`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/wrap-multilines.md)):
 
-```jsx
+```js
 // good (multi-line JSX wrapped in parentheses)
 render() {
     return (
@@ -148,42 +168,39 @@ let content = <div>Content</div>
 
 ## JSX alignment
 
-When a component has four props or less with no content, the tag can be on a single line (eslint: [`react/jsx-max-props-per-line`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md)):
+When a component has three props or less with no content, the tag can be on a single line (eslint: [`react/jsx-max-props-per-line`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md)):
 
-```jsx
+```js
 // good
-<TextInput type="email" name="email" id="email" />
+<TextInput type="email" name="email" />
 
 // not-so-good (attributes are long)
-<TextInput type="email" name="email" id="email" placeholder="Enter in your email" />
+<TextInput type="email" name="email" placeholder="Enter in your email" />
 
-// bad (more than 4 attributes)
-<TextInput type="email" name="email" id="email" tabIndex="0" required={true}  />
+// bad (more than 3 attributes)
+<TextInput type="email" name="email" id="email" tabIndex="0"  />
 ```
 
-However, if the props are too long or there are more than four props, the JSX attributes should each be on their own line (eslint: [`react/jsx-first-prop-new-line`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md)):
+However, if the props are too long or there are more than three props, the JSX attributes should each be on their own line (eslint: [`react/jsx-first-prop-new-line`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md)):
 
 
-```jsx
+```js
 // good
 <TextInput
     type="email"
     name="email"
-    id="email"
     placeholder="Enter in your email"
 />
 
 // bad (first attribute is on the same line)
 <TextInput type="email"
     name="email"
-    id="email"
     placeholder="Enter in your email"
 />
 
 // bad (two attributes on the same line when others are multi-line)
 <TextInput
     type="email" name="email"
-    id="email"
     placeholder="Enter in your email"
 />
 ```
@@ -191,7 +208,7 @@ However, if the props are too long or there are more than four props, the JSX at
 JSX attributes must be indented four spaces (eslint: [`react/jsx-indent`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md)):
 
 
-```jsx
+```js
 // good
 <TextInput
     type="email"
@@ -211,7 +228,7 @@ placeholder="Enter in your email"
 
  The closing bracket should be aligned with the opening tag (eslint: [`react/jsx-closing-bracket-location`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md)):
 
-```jsx
+```js
 // good
 <TextInput
     type="email"
@@ -237,7 +254,7 @@ placeholder="Enter in your email"
 
 If the component has no content, the JSX tag should be self-closing (eslint: [`react/self-closing-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md)) with a space before the self-closing tag (eslint: [`react/jsx-space-before-closing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md)):
 
-```jsx
+```js
 // good
 <TextInput type="email" name="email" htmlFor="email" />
 
@@ -255,7 +272,7 @@ If the component has no content, the JSX tag should be self-closing (eslint: [`r
 
 Always use double quotes (`"`) for JSX attribute values (eslint: [`jsx-quotes`](http://eslint.org/docs/rules/jsx-quotes)):
 
-```jsx
+```js
 // good
 <TextInput type="email" name="email" htmlFor="email" />
 
@@ -265,7 +282,7 @@ Always use double quotes (`"`) for JSX attribute values (eslint: [`jsx-quotes`](
 
 A `true` prop value must be explicitly specified as the attribute value (eslint [`react/jsx-boolean-value`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md)):
 
-```jsx
+```js
 // good
 <TextInput type="email" required={true} />
 
@@ -275,7 +292,7 @@ A `true` prop value must be explicitly specified as the attribute value (eslint 
 
 When passing a variable to a prop, the curly braces should **not** be padded by spaces (eslint: [`react/jsx-curly-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md)) and neither should the equals (eslint: [`react/jsx-equals-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md)):
 
-```jsx
+```js
 // good
 <TextInput defaultValue={value} />
 
