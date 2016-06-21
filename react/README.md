@@ -11,7 +11,7 @@
 1. [Component class](#component-class)
 1. [Component organization](#component-organization)
 1. [Component reference naming](#component-reference-naming)
-1. [Component `propTypes`](#component-propTypes)
+1. [Component `propTypes`](#component-proptypes)
 1. [Helper components](#helper-components)
 1. [Component method ordering](#component-method-ordering)
 1. [JSX wrapping](#jsx-wrapping)
@@ -24,11 +24,15 @@
 
 For more info, see [Getting started with React](https://facebook.github.io/react/docs/getting-started.html).
 
+**[⬆ back to top](#table-of-contents)**
+
 ## What is JSX?
 
 [JSX](https://facebook.github.io/jsx/) is a JavaScript syntax extension that looks similar to XML. We use it with React because it is a concise and familiar syntax for defining tree structures with attributes.
 
 For more info, see [JSX in Depth](https://facebook.github.io/react/docs/jsx-in-depth.html).
+
+**[⬆ back to top](#table-of-contents)**
 
 ## General rules
 
@@ -54,11 +58,15 @@ render() {
 }
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Component files
 
 - Use PascalCase for React component names, e.g. `TextInput`
 - Use `.js` extension for React components
 - Use the component name for filenames. E.g., `TextInput.js`
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Component class
 
@@ -83,6 +91,8 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 - [`propTypes`](#component-propTypes) are defined _within_ the ES6 class, but have to be defined as additional properties _outside_ of a stateless function
 - Using ES6 classes for the main/default component help differentiate it from [helper components](#)
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Component organization
 
 Export only one component per file as the default (eslint: [`react/no-multi-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md))
@@ -103,6 +113,8 @@ export class ComponentB extends React.Component {
 
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Component reference naming
 
@@ -126,17 +138,25 @@ let emailField = (<TextInput name="email" />);
 let EmailField = (<TextInput name="email" />);
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Component `propTypes`
 
 Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
 
 ## Helper components
 
 Coming soon...
 
+**[⬆ back to top](#table-of-contents)**
+
 ## Component method ordering
 
 Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
 
 ## JSX Wrapping
 
@@ -165,6 +185,8 @@ render() {
 // bad (missing wrapping parentheses for single-line)
 let content = <div>Content</div>
 ```
+
+**[⬆ back to top](#table-of-contents)**
 
 ## JSX alignment
 
@@ -268,6 +290,8 @@ If the component has no content, the JSX tag should be self-closing (eslint: [`r
 <TextInput type="email" name="email" htmlFor="email"></TextInput>
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
 ## JSX attribute values
 
 Always use double quotes (`"`) for JSX attribute values (eslint: [`jsx-quotes`](http://eslint.org/docs/rules/jsx-quotes)):
@@ -302,3 +326,5 @@ When passing a variable to a prop, the curly braces should **not** be padded by 
 // bad (padding around equals)
 <TextInput defaultValue = {value} />
 ```
+
+**[⬆ back to top](#table-of-contents)**
