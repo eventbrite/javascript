@@ -106,6 +106,11 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md
         'react/prefer-stateless-function': 'off',
 
+        // (temporary) Allow missing props validation in a React component definition
+        // TODO: Reenable once we're able to configure it to ignore stateless functions (our helper components)
+        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prop-types.md
+        'react/prop-types': 'off',
+
         // Enforce that ES6 class returns a value for `render()` method
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/require-render-return.md
         'react/require-render-return': 'error',
