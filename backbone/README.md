@@ -271,7 +271,7 @@ return Marionette.ItemView({
 var Marionette = require('marionette');
 
 return Marionette.ItemView({
-	classname: 'g-cell g-cell-12-12'
+	className: 'g-cell g-cell-12-12'
 });
 ```
 
