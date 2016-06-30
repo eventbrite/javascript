@@ -4,19 +4,20 @@
 
 ## Table of Contents
 
-1. [What is React?](#what-is-react)
-1. [What is JSX?](#what-is-jsx)
-1. [General rules](#general-rules)
-1. [Component files](#component-files)
-1. [Component class](#component-class)
-1. [Component organization](#component-organization)
-1. [Component reference naming](#component-reference-naming)
-1. [Component `propTypes`](#component-proptypes)
-1. [Helper components](#helper-components)
-1. [Component method ordering](#component-method-ordering)
-1. [JSX wrapping](#jsx-wrapping)
-1. [JSX alignment](#jsx-alignment)
-1. [JSX attribute values](#jsx-attribute-values)
+0. [What is React?](#what-is-react)
+0. [What is JSX?](#what-is-jsx)
+0. [General rules](#general-rules)
+0. [Component files](#component-files)
+0. [Component class](#component-class)
+0. [Component organization](#component-organization)
+0. [Component reference naming](#component-reference-naming)
+0. [Component `propTypes`](#component-proptypes)
+0. [Helper components](#helper-components)
+0. [Component method ordering](#component-method-ordering)
+0. [JSX wrapping](#jsx-wrapping)
+0. [JSX alignment](#jsx-alignment)
+0. [JSX attribute values](#jsx-attribute-values)
+0. [State](#state)
 
 ## What is React?
 
@@ -70,6 +71,8 @@ render() {
 
 ## Component class
 
+### Class style
+
 Prefer ES6 classes over `React.createClass` (eslint: [`react/prefer-es6-class`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-es6-class.md)):
 
 ```js
@@ -89,9 +92,33 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 
 - When the component does more than just render `props`, such as attaching callback handlers, the stateless function can become unnecessarily complex with nested functions
 - [`propTypes`](#component-propTypes) are defined _within_ the ES6 class, but have to be defined as additional properties _outside_ of a stateless function
-- Using ES6 classes for the main/default component help differentiate it from [helper components](#)
+- Using ES6 classes for the main/default component help differentiate it from [helper components](#helper-components)
 
 **[⬆ back to top](#table-of-contents)**
+
+#### `displayName`
+
+Do not use `displayName` for naming components. Instead, name the `class` expression. React will infer the `displayName` from the reference name:
+
+```jsx
+// good
+export default class TextInput extends React.Component {
+}
+
+// ok (uses class expression assigned to a named const reference)
+const TextInput = class extends React.Component {
+
+};
+
+// bad (missing name of `class` expression)
+export default class extends React.Component {
+}
+
+// bad (uses `displayName` instead of `class` name)
+export default class extends React.Component {
+    static displayName = 'TextInput';
+}
+```
 
 ## Component organization
 
@@ -143,7 +170,191 @@ let EmailField = (<TextInput name="email" />);
 
 ## Component `propTypes`
 
-Coming soon...
+### Definition
+
+Use `static` class property syntax to define `propTypes` and `defaultProps`:
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        type: React.PropTypes.string,
+        defaultValue: React.PropTypes.string
+    }
+
+    static defaultProps = {
+        type: 'text',
+        defaultValue: ''
+    }
+}
+
+// bad (adds `propTypes` & `defaultProps` after class definition)
+const TextInput = class extends React.Component {
+    static propTypes = {
+        type: React.PropTypes.string,
+        defaultValue: React.PropTypes.string
+    }
+};
+
+TextInput.propTypes = {
+    type: React.PropTypes.string,
+    defaultValue: React.PropTypes.string
+};
+TextInput.defaultProps = {
+    type: 'text',
+    defaultValue: ''
+};
+
+export default TextInput;
+```
+
+_NOTE:_ [Static class properties](https://github.com/jeffmo/es-class-fields-and-static-properties) are not a part of the ES2015 specification and are a in the midst of the ECMAScript proposal approval process. Currently they are sitting in Stage 1. For all proposed features, check out [ECMAScript proposals](https://github.com/tc39/ecma262).
+
+**[⬆ back to top](#table-of-contents)**
+
+### Naming
+
+Use camelCase for `propTypes` (eslint: [`camelcase`](http://eslint.org/docs/rules/camelcase)):
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        type: React.PropTypes.string,
+        defaultValue: React.PropTypes.string,
+        onChange: React.PropTypes.func,
+        onFocus: React.PropTypes.func,
+        onBlur: React.PropTypes.func
+    }
+}
+
+// bad (uses non-camelCase)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        type: React.PropTypes.string,
+        default_value: React.PropTypes.string,
+        OnChange: React.PropTypes.func,
+        On_Focus: React.PropTypes.func,
+        on_Blur: React.PropTypes.func
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Required props
+
+Don't mark any of the `propTypes` as required if they are included in `defaultProps` or are boolean values that (implicitly) default to `false`:
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func.isRequired,
+        type: React.PropTypes.string,
+        required: React.PropTypes.bool,
+        defaultValue: React.PropTypes.string,
+        role: React.PropTypes.string
+    }
+
+    static defaultProps = {
+        type: 'text',
+        defaultValue: '',
+    }
+}
+
+// bad (`type` is marked as required even though it's defaulted &
+// `required` is marked as required even though it's boolean w/ `false` default)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func.isRequired,
+        type: React.PropTypes.string.isRequired,
+        required: React.PropTypes.bool.isRequired,
+        defaultValue: React.PropTypes.string,
+        role: React.PropTypes.string
+    }
+
+    static defaultProps = {
+        type: 'text',
+        defaultValue: '',
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Ordering
+
+Define required `propTypes` first to make it clear what the set of minimum props are needed to use the component:
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        role: React.PropTypes.string.isRequired,
+        onChange: React.PropTypes.func.isRequired,
+
+        type: React.PropTypes.string,
+        required: React.PropTypes.bool,
+        defaultValue: React.PropTypes.string
+    }
+
+    static defaultProps = {
+        type: 'text',
+        defaultValue: '',
+    }
+}
+
+// bad (required props are not first)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        type: React.PropTypes.string,
+        required: React.PropTypes.bool,
+        defaultValue: React.PropTypes.string,
+        role: React.PropTypes.string.isRequired,
+        onChange: React.PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+        type: 'text',
+        defaultValue: '',
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Vague types
+
+Don't use the vague prop types, `React.PropTypes.any`, `React.PropTypes.array`, and `React.PropTypes.object`, and instead be more explicit using, `React.PropTypes.oneOfType`, `React.PropTypes.arrayOf`, and `React.PropTypes.shape` (eslint [`react/forbid-prop-types`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md)):
+
+```js
+// good
+export default class Candidate extends React.Component {
+    static propTypes = {
+        id: React.PropTypes.oneOfType(
+            React.PropTypes.number,
+            React.PropTypes.string
+        ),
+        names: React.PropTypes.arrayOf(
+            React.PropTypes.string
+        ),
+        person: React.PropTypes.shape({
+            name: React.PropTypes.string,
+            age: React.PropTypes.number
+        })
+    }
+}
+
+// bad (uses vague prop types)
+export default class Candidate extends React.Component {
+    static propTypes = {
+        id: React.PropTypes.any,
+        names: React.PropTypes.array,
+        person: React.PropTypes.object
+    }
+}
+```
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -191,6 +402,8 @@ let content = <div>Content</div>
 
 ## JSX alignment
 
+### Single-line
+
 When a component has three props or less with no content, the tag can be on a single line (eslint: [`react/jsx-max-props-per-line`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md)):
 
 ```js
@@ -203,6 +416,10 @@ When a component has three props or less with no content, the tag can be on a si
 // bad (more than 3 attributes)
 <TextInput type="email" name="email" id="email" tabIndex="0"  />
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Multi-line
 
 However, if the props are too long or there are more than three props, the JSX attributes should each be on their own line (eslint: [`react/jsx-first-prop-new-line`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md)):
 
@@ -228,6 +445,10 @@ However, if the props are too long or there are more than three props, the JSX a
 />
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
+### Indentation
+
 JSX attributes must be indented four spaces (eslint: [`react/jsx-indent`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md)):
 
 
@@ -249,7 +470,11 @@ placeholder="Enter in your email"
 />
 ```
 
- The closing bracket should be aligned with the opening tag (eslint: [`react/jsx-closing-bracket-location`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md)):
+**[⬆ back to top](#table-of-contents)**
+
+### Closing bracket
+
+The closing bracket should be aligned with the opening tag (eslint: [`react/jsx-closing-bracket-location`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md)):
 
 ```js
 // good
@@ -275,6 +500,10 @@ placeholder="Enter in your email"
     Go!</Button>
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
+### Self-closing
+
 If the component has no content, the JSX tag should be self-closing (eslint: [`react/self-closing-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md)) with a space before the self-closing tag (eslint: [`react/jsx-space-before-closing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md)):
 
 ```js
@@ -295,6 +524,8 @@ If the component has no content, the JSX tag should be self-closing (eslint: [`r
 
 ## JSX attribute values
 
+### Quoting
+
 Always use double quotes (`"`) for JSX attribute values (eslint: [`jsx-quotes`](http://eslint.org/docs/rules/jsx-quotes)):
 
 ```js
@@ -305,6 +536,10 @@ Always use double quotes (`"`) for JSX attribute values (eslint: [`jsx-quotes`](
 <TextInput type='email' name='email' htmlFor='email' />
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
+### Boolean values
+
 A `true` prop value must be explicitly specified as the attribute value (eslint [`react/jsx-boolean-value`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md)):
 
 ```js
@@ -314,6 +549,10 @@ A `true` prop value must be explicitly specified as the attribute value (eslint 
 // bad (missing explicit `true` value)
 <TextInput type="email" required />
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Curly brace padding
 
 When passing a variable to a prop, the curly braces should **not** be padded by spaces (eslint: [`react/jsx-curly-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md)) and neither should the equals (eslint: [`react/jsx-equals-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md)):
 
@@ -327,5 +566,31 @@ When passing a variable to a prop, the curly braces should **not** be padded by 
 // bad (padding around equals)
 <TextInput defaultValue = {value} />
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## State
+
+### Initializing
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+### Dynamic data
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+### Defaulting from props
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+### Resetting
+
+Coming soon...
 
 **[⬆ back to top](#table-of-contents)**

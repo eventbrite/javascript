@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-1. [ES5 compatibility](#es5-compatibility)
+0. [ES5 compatibility](#es5-compatibility)
 
 ## ES5 compatibility
 

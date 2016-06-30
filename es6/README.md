@@ -4,7 +4,7 @@
 
 ## Table of Contents
 
-1. [ES6 compatibility](#es6-compatibility)
+0. [ES6 compatibility](#es6-compatibility)
 
 ## ES6 compatibility
 
