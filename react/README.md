@@ -107,7 +107,6 @@ export default class TextInput extends React.Component {
 
 // ok (uses class expression assigned to a named const reference)
 const TextInput = class extends React.Component {
-
 };
 
 // bad (missing name of `class` expression)
