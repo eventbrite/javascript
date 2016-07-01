@@ -331,10 +331,10 @@ Don't use the vague prop types, `React.PropTypes.any`, `React.PropTypes.array`, 
 // good
 export default class Candidate extends React.Component {
     static propTypes = {
-        id: React.PropTypes.oneOfType(
+        id: React.PropTypes.oneOfType([
             React.PropTypes.number,
             React.PropTypes.string
-        ),
+        ]),
         names: React.PropTypes.arrayOf(
             React.PropTypes.string
         ),
