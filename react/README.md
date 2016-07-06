@@ -13,11 +13,15 @@
 0. [Component reference naming](#component-reference-naming)
 0. [Component `propTypes`](#component-proptypes)
 0. [Helper components](#helper-components)
-0. [Component method ordering](#component-method-ordering)
+0. [Component methods](#component-methods)
 0. [JSX wrapping](#jsx-wrapping)
 0. [JSX alignment](#jsx-alignment)
 0. [JSX attribute values](#jsx-attribute-values)
+0. [React `key` prop](#react-key-prop)
+0. [Event handlers](#event-handlers)
 0. [State](#state)
+0. [Refs](#refs)
+0. [Dangerous props](#dangerous-props)
 
 ## What is React?
 
@@ -169,7 +173,7 @@ let EmailField = (<TextInput name="email" />);
 
 ## Component `propTypes`
 
-### Definition
+### Defining `propTypes`
 
 Use `static` class property syntax to define `propTypes` and `defaultProps`:
 
@@ -211,7 +215,7 @@ _NOTE:_ [Static class properties](https://github.com/jeffmo/es-class-fields-and-
 
 **[⬆ back to top](#table-of-contents)**
 
-### Naming
+### Props naming
 
 Use camelCase for `propTypes` (eslint: [`camelcase`](http://eslint.org/docs/rules/camelcase)):
 
@@ -282,7 +286,7 @@ export default class TextInput extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Ordering
+### `propTypes` Ordering
 
 Define required `propTypes` first to make it clear what the set of minimum props are needed to use the component:
 
@@ -323,7 +327,7 @@ export default class TextInput extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Vague types
+### Vague `propTypes`
 
 Don't use the vague prop types, `React.PropTypes.any`, `React.PropTypes.array`, and `React.PropTypes.object`, and instead be more explicit using, `React.PropTypes.oneOfType`, `React.PropTypes.arrayOf`, and `React.PropTypes.shape` (eslint [`react/forbid-prop-types`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md)):
 
@@ -363,9 +367,75 @@ Coming soon...
 
 **[⬆ back to top](#table-of-contents)**
 
-## Component method ordering
+## Component methods
 
-Coming soon...
+### Private helper methods
+
+JavaScript doesn't (yet) have a mechanism for declaring a method as `private`, which would only allow the class to call the method. As a quick signal that a React component method helper is private prefix it with underscore (`_`):
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+    }
+
+    render() {
+        <input type="text" onChange={this._handleChange.bind(this)} />
+    }
+}
+
+// bad (private method does not start with `_`)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+    }
+
+    render() {
+        <input type="text" onChange={this.handleChange.bind(this)} />
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Method ordering
+
+For consistency and ease of finding methods within a React component, the order of methods should be as follows (eslint [`react/sort-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md)):
+
+  0. `propTypes`
+  0. `contextTypes`
+  0. `childContextTypes`
+  0. `defaultProps`
+  0. `state`
+  0. `getChildContext`
+  0. `componentWillMount`
+  0. `componentDidMount`
+  0. `componentWillReceiveProps`
+  0. `shouldComponentUpdate`
+  0. `componentWillUpdate`
+  0. `componentDidUpdate`
+  0. `componentWillUnmount`
+  0. event handlers (like `_handleChange`)
+  0. getters called from `render` (like `_getType()`)
+  0. helper render methods (like `_renderSubHeading()`)
+  0. `render`
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -568,6 +638,292 @@ When passing a variable to a prop, the curly braces should **not** be padded by 
 
 **[⬆ back to top](#table-of-contents)**
 
+## React `key` prop
+
+### Mandatory `key` prop
+
+When rendering an array of React components, specify the `key` prop for each component in the array to aid React's Virtual DOM diffing algorithm (eslint: [`react/jsx-key`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-key.md)):
+
+```js
+// good
+export default class NamesList extends React.Component {
+    static propTypes = {
+        names: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                id: React.PropTypes.string,
+                name: React.PropTypes.string
+            })
+        ).isRequired
+    }
+
+    render() {
+        let {names} = this.props;
+        let nameItems = names.map(({id, name}) => (
+            <NameItem key={id} name={name} />
+        ));
+
+        return (
+            <div>{nameItems}</div>
+        );
+    }
+}
+
+// bad (fails to specify `key` prop in loop)
+export default class NamesList extends React.Component {
+    static propTypes = {
+        names: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                id: React.PropTypes.string,
+                name: React.PropTypes.string
+            })
+        ).isRequired
+    }
+
+    render() {
+        let {names} = this.props;
+        let nameItems = names.map(({id, name}) => (
+            <NameItem name={name} />
+        ));
+
+        return (
+            <div>{nameItems}</div>
+        );
+    }
+}
+```
+
+For more info, see: [Multiple Components | Dynamic Children](https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
+
+**[⬆ back to top](#table-of-contents)**
+
+### Index as `key`
+
+Avoid passing the loop iteration index as the `key` prop, as this ends up confusing React's Virtual DOM diffing algorithm. Instead, always use an id or something else that uniquely identifies each item in the array:
+
+```js
+// good
+export default class NamesList extends React.Component {
+    static propTypes = {
+        names: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                id: React.PropTypes.string,
+                name: React.PropTypes.string
+            })
+        ).isRequired
+    }
+
+    render() {
+        let {names} = this.props;
+        let nameItems = names.map(({id, name}) => (
+            <NameItem key={id} name={name} />
+        ));
+
+        return (
+            <div>{nameItems}</div>
+        );
+    }
+}
+
+// bad (uses array index as a key)
+export default class NamesList extends React.Component {
+    static propTypes = {
+        names: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                id: React.PropTypes.string,
+                name: React.PropTypes.string
+            })
+        ).isRequired
+    }
+
+    render() {
+        let {names} = this.props;
+        let nameItems = names.map(({name}, nameIndex) => (
+            <NameItem key={nameIndex} name={name} />
+        ));
+
+        return (
+            <div>{nameItems}</div>
+        );
+    }
+}
+```
+
+Keep in mind that the data uniquely identifies each item in the array could be the item itself in the case of an array of strings or numbers. For more info, see: [Index as `key` is an anti-pattern](https://medium.com/@robinpokorny/index-as-a-key-is-an-anti-pattern-e0349aece318#.zcyttevkz).
+
+**[⬆ back to top](#table-of-contents)**
+
+## Event handlers
+
+### Event handler naming
+
+React doesn't support two-way binding. Parent components can update their children by passing props. Child components can communicate with their parent by calling callback functions (also passed by parents to children via props). Prefix the name of the props with `on` and the internal method handler with `_handle` (eslint: [`react/jsx-handler-names`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md)):
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+    }
+
+    render() {
+        <input type="text" onChange={this._handleChange.bind(this)} />
+    }
+}
+
+// bad (callback prop is not prefixed with `on`)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        // this should be named `onChange`
+        change: React.PropTypes.func
+    }
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.change) {
+            this.props.change(value);
+        }
+    }
+
+    render() {
+        <input type="text" onChange={this._handleChange.bind(this)} />
+    }
+}
+
+// bad (event handler is not prefixed with `_handle`)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    _onChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+    }
+
+    render() {
+        <input type="text" onChange={this._onChange.bind(this)} />
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### DOM event handling
+
+When handling a DOM event that will be passed to the parent via a callback, avoid passing the entire DOM event object. Instead, narrow the component's API by only passing the minimal data that's needed.
+
+If you pass the entire DOM event object, the parent now has access to `event.taget` (among other properties) that gives it access to DOM nodes that it shouldn't have access to. At worst, it could manipulate or even remove those DOM nodes.
+
+As a result, this means that you must **always** handle DOM events it within the component even if it's just a wrapper. Otherwise the event object will still be implicitly returned:
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func
+    }
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            // only the value is passed back
+            this.props.onChange(value);
+        }
+    }
+
+    // blur is explicitly handled even though it's a basic wrapper
+    _handleBlur() {
+        if (this.props.onBlur) {
+            this.props.onBlur();
+        }
+    }
+
+    render() {
+        <input
+            type="text"
+            onChange={this._handleChange.bind(this)}
+            onBlur={this._handleBlur.bind(this)}
+        />
+    }
+}
+
+// bad (_handleChange passes entire event object back)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func
+    }
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(e);
+        }
+    }
+
+    _handleBlur() {
+        if (this.props.onBlur) {
+            this.props.onBlur();
+        }
+    }
+
+    render() {
+        <input
+            type="text"
+            onChange={this._handleChange.bind(this)}
+            onBlur={this._handleBlur.bind(this)}
+        />
+    }
+}
+
+// bad (blur event isn't wrapped, which implicitly passed back event object)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func,
+        onBlur: React.PropTypes.func
+    }
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(e);
+        }
+    }
+
+    _handleBlur() {
+        if (this.props.onBlur) {
+            this.props.onBlur();
+        }
+    }
+
+    render() {
+        <input
+            type="text"
+            onChange={this._handleChange.bind(this)}
+            onBlur={this.props.onBlur}
+        />
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ## State
 
 ### Initializing
@@ -591,5 +947,66 @@ Coming soon...
 ### Resetting
 
 Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+## Refs
+
+Avoid using React refs. Both callback-style (eslint: [`react/jsx-no-bind`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)) and string (eslint: [`react/no-string-refs`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-string-refs.md)) refs are prohibited by default.
+
+React refs are a way to get references to underlying DOM nodes after the component has been mounted. This is needed when:
+
+- You need to pass a reference to a DOM node to a non-React library (such as jQuery)
+- You need to manually control a DOM node (such as to call `.focus()` on an input)
+
+Generally when refs are used within React, it can be rewritten to use [state](#state) that will cause a re-render. This is a preferred approach because it keeps the code within the optimizations of React's Virtual DOM. Causing ESLint errors when React refs are used, strongly encourages the developer to rethink the approach.
+
+However, if refs are needed, use callback-style refs and temporarily disable the ESLint rules:
+
+```js
+export default class RawContainer extends React.Component {
+    render() {
+        let innerHTML = {__html: '<span>Safe HTML</span>'};
+
+        return (
+            {/* eslint-disable react/jsx-no-bind */}
+            <input type="text" ref={(input) => this._input = input} />
+            {/* eslint-enable react/jsx-no-bind */}
+        );
+    }
+}
+```
+
+This will be a clear signal in code reviews that a special exception is happening. If refs were universally accepted, it would be harder to distinguish between valid and incorrect uses of React refs.
+
+For more info on React refs, see [Refs to Components](https://facebook.github.io/react/docs/more-about-refs.html).
+
+**[⬆ back to top](#table-of-contents)**
+
+## Dangerous props
+
+Avoid using `dangerouslySetInnerHTML` (eslint: [`react/no-danger`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md)). This will through an ESLint **warning** instead of an error.
+
+By default all text passed as content to HTML nodes are sanitized by React, preventing exploits. React is safe by default. However, if your text contains HTML you would like rendered, the HTML will be encoded instead of rendered.
+
+Just like with [refs](#refs), using `dangerouslySetInnerHTML` is something that should be used sparingly. When it is truly needed, you can temporarily disable rule:
+
+```js
+export default class RawContainer extends React.Component {
+    render() {
+        let innerHTML = {__html: '<span>Safe HTML</span>'};
+
+        return (
+            {/* eslint-disable react/no-danger */}
+            <div dangerouslySetInnerHTML={innerHTML} />
+            {/* eslint-enable react/no-danger */}
+        );
+    }
+}
+```
+
+Once again, this will be a clear signal in code reviews that a special exception is happening.
+
+For more info on `dangerouslySetInnerHTML`, see: [Dangerously Set innerHTML](https://facebook.github.io/react/tips/dangerously-set-inner-html.html).
 
 **[⬆ back to top](#table-of-contents)**
