@@ -95,7 +95,7 @@ export default MainComponent
 _NOTE:_ There is a common practice to use stateless/pure functions over ES6 classes for components without any internal state (eslint: [`react/prefer-stateless-function`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md)), but we are choosing to stick with ES6 classes for a few reasons:
 
 - When the component does more than just render `props`, such as attaching callback handlers, the stateless function can become unnecessarily complex with nested functions
-- [`propTypes`](#component-propTypes) are defined _within_ the ES6 class, but have to be defined as additional properties _outside_ of a stateless function
+- [`propTypes`](#component-proptypes) are defined _within_ the ES6 class, but have to be defined as additional properties _outside_ of a stateless function
 - Using ES6 classes for the main/default component help differentiate it from [helper components](#helper-components)
 
 **[⬆ back to top](#table-of-contents)**
