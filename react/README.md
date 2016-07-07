@@ -389,7 +389,9 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input type="text" onChange={this._handleChange.bind(this)} />
+        return (
+            <input type="text" onChange={this._handleChange.bind(this)} />
+        );
     }
 }
 
@@ -408,7 +410,9 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input type="text" onChange={this.handleChange.bind(this)} />
+        return (
+            <input type="text" onChange={this._handleChange.bind(this)} />
+        );
     }
 }
 ```
@@ -692,7 +696,7 @@ export default class NamesList extends React.Component {
 }
 ```
 
-For more info, see: [Multiple Components | Dynamic Children](https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
+Not specifying `key` will not only be an ESLint error, but React will also display a warning messaging in the console complaining that it's missing. It really is critical for performance. For more info, see: [Multiple Components | Dynamic Children](https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -774,7 +778,9 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input type="text" onChange={this._handleChange.bind(this)} />
+        return (
+            <input type="text" onChange={this._handleChange.bind(this)} />
+        );
     }
 }
 
@@ -794,7 +800,9 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input type="text" onChange={this._handleChange.bind(this)} />
+        return (
+            <input type="text" onChange={this._handleChange.bind(this)} />
+        );
     }
 }
 
