@@ -820,11 +820,87 @@ export default class TextInput extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
+### Semantic event handler names
+
+If you are defining an event handler prop that is wrapping a DOM event, you should name your prop semantically without tying it to the underlying DOM event that triggered it.
+
+For example, let's say you have a pagination component (`Pagination`) that contains a bunch child `Button` components for each page (1, 2, 3, etc). When clicking a `Button`, in the `_handleClick` handler within the `Pagination`, it updates the components [state](#state) to reflect the current page.
+
+The component wants to also notify the parent component in `_handleClick` that the page has changed. That prop should be called something semantic like `onPageChange` instead of `onPageClick`. This way if the DOM interaction that triggers the page changes (such as a hover), the event handler name doesn't have to change as well.
+
+```js
+// good (uses semantic onPageChange event handler name)
+export default class Pagination React.Component {
+    static propTypes = {
+        onPageChange: React.PropTypes.func
+    }
+    state = {
+        page: 1
+    }
+
+    _handlePageClick(e, page) {
+        this.setState({page});
+
+        let {onPageChange} = this.props;
+
+        if (onPageChange) {
+            onPageChange(page);
+        }
+    }
+
+    render() {
+        let buttons = [1, 2, 3, 4, 5].map((page) => (
+            <Button onClick={this._handlePageClick.bind(this, page)} />
+        ));
+
+        return (
+            <div>{buttons}</div>
+        )
+    }
+}
+
+// bad (event handler name is DOM-specific)
+export default class Pagination React.Component {
+    static propTypes = {
+        onPageClick: React.PropTypes.func
+    }
+    state = {
+        page: 1
+    }
+
+    _handlePageClick(e, page) {
+        this.setState({page});
+
+        let {onPageClick} = this.props;
+
+        if (onPageClick) {
+            onPageClick(page);
+        }
+    }
+
+    render() {
+        let buttons = [1, 2, 3, 4, 5].map((page) => (
+            <Button onClick={this._handlePageClick.bind(this, page)} />
+        ));
+
+        return (
+            <div>{buttons}</div>
+        )
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ### DOM event handling
 
 When handling a DOM event that will be passed to the parent via a callback, avoid passing the entire DOM event object. Instead, narrow the component's API by only passing the minimal data that's needed.
 
-If you pass the entire DOM event object, the parent now has access to `event.taget` (among other properties) that gives it access to DOM nodes that it shouldn't have access to. At worst, it could manipulate or even remove those DOM nodes.
+If you pass the entire DOM event object:
+
+- It's a leaky interface. The parent now has access to `event.taget` (among other properties) that gives it access to DOM nodes that it shouldn't have access to. At worst, it could manipulate or even remove those DOM nodes.
+- It's a poor interface. Instead of being passed the data it will need directly, it now has to navigate within the event object to get the data it wants.
+- It's a fragile interface. If you later want to change how the event is triggered, maybe another type of DOM event can also trigger it, the parents may now have to check the _type_ of event object it
 
 As a result, this means that you must **always** handle DOM events it within the component even if it's just a wrapper. Otherwise the event object will still be implicitly returned:
 
