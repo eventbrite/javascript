@@ -32,7 +32,7 @@ module.exports = {
         // underscores in them
         // http://eslint.org/docs/rules/dot-notation
         'dot-notation': ['error', {
-            allowPattern: '^[a-z]+(_[a-z]+)+$'
+            allowPattern: '^[a-zA-Z0-9]+(_[a-zA-Z0-9]+)+$'
         }],
 
         // require use of === and !==

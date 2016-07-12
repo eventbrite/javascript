@@ -45,9 +45,12 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md
         'react/jsx-first-prop-new-line': ['error', 'multiline'],
 
-        // Enforce event handler naming conventions in JSX: on* for props, handle* from functions
+        // Enforce event handler naming conventions in JSX: on* for props, _handle* from methods/functions
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-handler-names.md
-        'react/jsx-handler-names': 'error',
+        'react/jsx-handler-names': ['error', {
+            eventHandlerPrefix: '_handle',
+            eventHandlerPropPrefix: 'on'
+        }],
 
         // Enforce 4 space JSX tag indentation
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent.md

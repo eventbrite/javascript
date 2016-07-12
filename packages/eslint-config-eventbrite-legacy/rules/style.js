@@ -31,7 +31,9 @@ module.exports = {
 
         // 4-space indentation
         // http://eslint.org/docs/rules/indent
-        'indent': 'error',
+        'indent': ['error', 2, {
+            SwitchCase: 1
+        }],
 
         // space for values in object literals
         // http://eslint.org/docs/rules/key-spacing
@@ -88,9 +90,9 @@ module.exports = {
         // http://eslint.org/docs/rules/operator-assignment
         'operator-assignment': 'error',
 
-        // enforce operators to be placed before linebreaks
+        // don't enforce placement of operators with line breaks
         // http://eslint.org/docs/rules/operator-linebreak
-        'operator-linebreak': ['error', 'before'],
+        'operator-linebreak': 'off',
 
         // always use single quotes
         // http://eslint.org/docs/rules/quotes
