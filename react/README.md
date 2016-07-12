@@ -487,7 +487,7 @@ When a component has three props or less with no content, the tag can be on a si
 <TextInput type="email" name="really-long-email-name" placeholder="Enter in your email here please" />
 
 // bad (more than 3 attributes)
-<TextInput type="email" name="email" id="email" tabIndex="0"  />
+<TextInput type="email" name="email" id="email" tabIndex="0" />
 ```
 
 **[⬆ back to top](#table-of-contents)**
