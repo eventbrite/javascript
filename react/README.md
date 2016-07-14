@@ -263,7 +263,7 @@ export default class TextInput extends React.Component {
 
     static defaultProps = {
         type: 'text',
-        defaultValue: '',
+        defaultValue: ''
     }
 }
 
@@ -280,7 +280,7 @@ export default class TextInput extends React.Component {
 
     static defaultProps = {
         type: 'text',
-        defaultValue: '',
+        defaultValue: ''
     }
 }
 ```
