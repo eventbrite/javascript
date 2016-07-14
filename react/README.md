@@ -19,9 +19,10 @@
 0. [JSX attribute values](#jsx-attribute-values)
 0. [React `key` prop](#react-key-prop)
 0. [Event handlers](#event-handlers)
-0. [State](#state)
 0. [Refs](#refs)
 0. [Dangerous props](#dangerous-props)
+0. [`render()`](#render)
+0. [State](#state)
 
 ## What is React?
 
@@ -363,7 +364,188 @@ export default class Candidate extends React.Component {
 
 ## Helper components
 
-Coming soon...
+When a component contains a lot of markup or it contains significant logic that determines how its markup should appear, use helper components to keep `render()` as small as possible. Instead of using `class` declarations for these helper components, use [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions). Because these components are only useful to the main component and only exist to keep `render()` lean, these helper components shouldn't be placed in their own files, nor should they be `export`ed within the main component.
+
+Let's look at a simple example. Let's say you had a global footer that contained a section with links to important top-level pages, another section with a bunch of links for SEO (😐), a section of links to all of  your top-level domains (.com, .co.uk, etc), and a final section of links to all of your social media accounts.
+
+Properly using helper components, this would look like:
+
+```js
+// good (clean render w/ help of helper components)
+
+// using arrow functions for stateless functions
+const SiteLinks = () => (
+    <ul className="global-footer__site-links">
+        <li><a href="/about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/help">Help</a></li>
+        <li><a href="/careers">Careers</a></li>
+    </ul>
+);
+
+const SeoLinks = (props) => {
+    let linkItems = props.links.map((link) => (
+        <li><a key={link.url} href={link.url}>{link.label}</a></li>
+    ));
+
+    return (
+        <ul className="global-footer__seo-links">
+            {linkItems}
+        </ul>
+    );
+};
+
+const DomainLinks = ({allTlds, currentTld}) => {
+    // use destructuring to immediately pull out `allTlds` & `currentTld`
+
+    // filter out the current tld and then map to <li>
+    let domainItems = allTlds.filter((tldInfo) => tldInfo.tld !== currentTld)
+        .map(({tld, url, label}) => (
+            <li><a key={tld} href={url}>{label}</a></li>
+        ));
+
+    return (
+        <ul className="global-footer__domain-links">
+            {domainItems}
+        </ul>
+    );
+};
+
+const SocialLinks = ({links}) => {
+    if (!links) {
+        return null;
+    }
+
+    let socialItems = links.map(({url, label}) => (
+        <li><a key={url} href={url}>{label}</a></li>
+    ));
+
+    return (
+        <ul className="global-footer__social-links">
+            {socialItems}
+        </ul>
+    );
+};
+
+export default class GlobalFooter extends React.Component {
+    static propType = {
+        allTlds: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                tld: React.PropTypes.string.isRequired,
+                url: React.PropTypes.string.isRequired,
+                label: React.PropTypes.string.isRequired
+            })
+        ).isRequired,
+        currentTld: React.PropTypes.string.isRequired,
+        seoLinks: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                url: React.PropTypes.string.isRequired,
+                label: React.PropTypes.string.isRequired
+            })
+        ).isRequired,
+
+        // socialLinks are optional
+        socialLinks: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                url: React.PropTypes.string.isRequired,
+                label: React.PropTypes.string.isRequired
+            })
+        )
+    }
+
+    render() {
+        let {allTlds, currentTld, seoLinks, socialLinks} = this.props;
+
+        return (
+            <div className="global-footer">
+                <SiteLinks />
+                <SeoLinks links={seoLinks} />
+                <DomainLinks allTlds={allTlds} currentTld={currentTld} />
+                <SocialLinks links={socialLinks} />
+            </div>
+        );
+    }
+}
+```
+
+As you can see, with this best practice, the `render()` of `GlobalFooter` is really clean. It's immediately obvious that the global footer consists of site, SEO, domain and social links. The `GlobalFooter` is composed of these helper components in true React style. Furthermore, if more content is needed for a given section, it's easy for the developer to know where to add code, and `render()` of `GlobalFooter` doesn't need to grow.
+
+Let's take a look at the "bad" approach:
+
+```js
+// bad (longer, less maintainable render)
+export default class GlobalFooter extends React.Component {
+    static propType = {
+        allTlds: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                tld: React.PropTypes.string.isRequired,
+                url: React.PropTypes.string.isRequired,
+                label: React.PropTypes.string.isRequired
+            })
+        ).isRequired,
+        currentTld: React.PropTypes.string.isRequired,
+        seoLinks: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                url: React.PropTypes.string.isRequired,
+                label: React.PropTypes.string.isRequired
+            })
+        ).isRequired,
+
+        // socialLinks are optional
+        socialLinks: React.PropTypes.arrayOf(
+            React.PropTypes.shape({
+                url: React.PropTypes.string.isRequired,
+                label: React.PropTypes.string.isRequired
+            })
+        )
+    }
+
+    render() {
+        let {allTlds, currentTld, seoLinks, socialLinks} = this.props;
+        let seoItems = seoLinks.map((link) => (
+            <li><a key={link.url} href={link.url}>{link.label}</a></li>
+        ));
+        let domainItems = allTlds.filter((tldInfo) => tldInfo.tld !== currentTld)
+            .map(({tld, url, label}) => (
+                <li><a key={tld} href={url}>{label}</a></li>
+            ));
+        let socialItems;
+
+        if (socialLinks) {
+            socialItems = socialLinks.map(({url, label}) => (
+                <li><a key={url} href={url}>{label}</a></li>
+            ));
+        }
+
+        return (
+            <div className="global-footer">
+                <ul className="global-footer__site-links">
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    <li><a href="/help">Help</a></li>
+                    <li><a href="/careers">Careers</a></li>
+                </ul>
+                <ul className="global-footer__seo-links">
+                    {seoItems}
+                </ul>
+                <ul className="global-footer__domain-links">
+                    {domainItems}
+                </ul>
+                <ul className="global-footer__social-links">
+                    {socialItems}
+                </ul>
+            );
+            </div>
+        );
+    }
+}
+```
+
+So why is this code "bad" when it looks like _less_ code? In it's current state, there's actually nothing inherently wrong with the code. If the `GlobalFooter` was going to remain in this state _forever_, then this code would be just fine. The use of BEM-style CSS classes plus [separating logic from of the JSX](#logic-and-jsx) make `render()` pretty readable in its current state.
+
+However, as we all know code has entropy; over time it'll change as new functionality is added and other is removed. If the markup becomes more than a simple unordered list or the logic determining what should be rendered becomes more complicated, having everything mixed together in `render()` will slowly become unwieldy. A code refactor would be needed, but with everything intertwined that could prove to be a big challenge.
+
+Better to start the code on the right foot.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -1008,32 +1190,6 @@ export default class TextInput extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
-## State
-
-### Initializing
-
-Coming soon...
-
-**[⬆ back to top](#table-of-contents)**
-
-### Dynamic data
-
-Coming soon...
-
-**[⬆ back to top](#table-of-contents)**
-
-### Defaulting from props
-
-Coming soon...
-
-**[⬆ back to top](#table-of-contents)**
-
-### Resetting
-
-Coming soon...
-
-**[⬆ back to top](#table-of-contents)**
-
 ## Refs
 
 Avoid using React refs. Both callback-style (eslint: [`react/jsx-no-bind`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)) and string (eslint: [`react/no-string-refs`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-string-refs.md)) refs are prohibited by default.
@@ -1092,5 +1248,39 @@ export default class RawContainer extends React.Component {
 Once again, this will be a clear signal in code reviews that a special exception is happening.
 
 For more info on `dangerouslySetInnerHTML`, see: [Dangerously Set innerHTML](https://facebook.github.io/react/tips/dangerously-set-inner-html.html).
+
+**[⬆ back to top](#table-of-contents)**
+
+## `render()`
+
+### Logic and JSX
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+## State
+
+### Initializing
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+### Dynamic data
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+### Defaulting from props
+
+Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+### Resetting
+
+Coming soon...
 
 **[⬆ back to top](#table-of-contents)**
