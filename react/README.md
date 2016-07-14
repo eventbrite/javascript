@@ -383,6 +383,7 @@ const SiteLinks = () => (
     </ul>
 );
 
+// arrow function takes in props object
 const SeoLinks = (props) => {
     let linkItems = props.links.map((link) => (
         <li><a key={link.url} href={link.url}>{link.label}</a></li>
@@ -395,6 +396,8 @@ const SeoLinks = (props) => {
     );
 };
 
+// arrow function immediately destructures props object into
+// `allTlds` and `currentTld`
 const DomainLinks = ({allTlds, currentTld}) => {
     // use destructuring to immediately pull out `allTlds` & `currentTld`
 
@@ -411,6 +414,7 @@ const DomainLinks = ({allTlds, currentTld}) => {
     );
 };
 
+// arrow function immediately destructures props object into `links`
 const SocialLinks = ({links}) => {
     if (!links) {
         return null;
