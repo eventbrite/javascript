@@ -416,6 +416,8 @@ const DomainLinks = ({allTlds, currentTld}) => {
 
 // arrow function immediately destructures props object into `links`
 const SocialLinks = ({links}) => {
+    // Return null to indicate you want nothing rendered
+    // Returning `undefined` will cause a render error
     if (!links) {
         return null;
     }
