@@ -1009,7 +1009,9 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input type="text" onChange={this._onChange.bind(this)} />
+        return (
+            <input type="text" onChange={this._onChange.bind(this)} />
+        );
     }
 }
 ```
@@ -1046,12 +1048,12 @@ export default class Pagination React.Component {
 
     render() {
         let buttons = [1, 2, 3, 4, 5].map((page) => (
-            <Button onClick={this._handlePageClick.bind(this, page)} />
+            <Button key={page} onClick={this._handlePageClick.bind(this, page)} />
         ));
 
         return (
             <div>{buttons}</div>
-        )
+        );
     }
 }
 
@@ -1076,12 +1078,12 @@ export default class Pagination React.Component {
 
     render() {
         let buttons = [1, 2, 3, 4, 5].map((page) => (
-            <Button onClick={this._handlePageClick.bind(this, page)} />
+            <Button key={page} onClick={this._handlePageClick.bind(this, page)} />
         ));
 
         return (
             <div>{buttons}</div>
-        )
+        );
     }
 }
 ```
@@ -1125,11 +1127,13 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input
-            type="text"
-            onChange={this._handleChange.bind(this)}
-            onBlur={this._handleBlur.bind(this)}
-        />
+        return (
+            <input
+                type="text"
+                onChange={this._handleChange.bind(this)}
+                onBlur={this._handleBlur.bind(this)}
+            />
+        );
     }
 }
 
@@ -1155,11 +1159,13 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input
-            type="text"
-            onChange={this._handleChange.bind(this)}
-            onBlur={this._handleBlur.bind(this)}
-        />
+        return (
+            <input
+                type="text"
+                onChange={this._handleChange.bind(this)}
+                onBlur={this._handleBlur.bind(this)}
+            />
+        );
     }
 }
 
@@ -1185,11 +1191,13 @@ export default class TextInput extends React.Component {
     }
 
     render() {
-        <input
-            type="text"
-            onChange={this._handleChange.bind(this)}
-            onBlur={this.props.onBlur}
-        />
+        return (
+            <input
+                type="text"
+                onChange={this._handleChange.bind(this)}
+                onBlur={this.props.onBlur}
+            />
+        );
     }
 }
 ```
@@ -1259,9 +1267,121 @@ For more info on `dangerouslySetInnerHTML`, see: [Dangerously Set innerHTML](htt
 
 ## `render()`
 
+In addition to `render()` being the _last_ method in a component (see [Method ordering](#method-ordering)), we have additional best practices...
+
 ### Logic and JSX
 
-Coming soon...
+React and JSX supporting logic and markup in the same file allows for substantial complexity in markup generation over other traditional templating languages (like [handlebars](http://handlebarsjs.com)). But with that increased complexity can come a decrease in readability.
+
+In order to maximize both complexity and readability, we suggest keeping all logic out of JSX, except variable references and method calls. Expressions, particularly ternary expressions, should be stored in variables outside of JSX.
+
+```js
+// good
+render() {
+    let {includeHeader} = this.props;
+    let buttons = [1, 2, 3, 4, 5].map((page) => (
+        <Button key={page} onClick={this._handlePageClick.bind(this, page)} />
+    ));
+    let header;
+
+    if (includeHeader) {
+        header = (<h2>Pagination</h2>);
+    }
+
+    return (
+        <div>
+            {header}
+            {buttons}
+        </div>
+    );
+}
+
+// bad (expressions in JSX)
+render() {
+    let {includeHeader} = this.props;
+
+    return (
+        <div>
+            {includeHeader ? (<h2>Pagination</h2>) : null}
+            {[1, 2, 3, 4, 5].map((page) => (
+                <Button key={page} onClick={this._handlePageClick.bind(this, page)} />
+            ))}
+        </div>
+    );
+}
+```
+
+The above "bad" example doesn't seem so bad right? But as we know, code tends to grow over time. If we add more expressions, add more markup to the header, or the map gets more more logic, the code will become unwieldy. Setting up this guideline, even in the most simple examples, helps set the code along the right path.
+
+See [Helper components](#helper-components) for another way to help keep `render()` lean.
+
+**[⬆ back to top](#table-of-contents)**
+
+### Hiding elements
+
+With React's optimized re-rendering via its Virtual DOM abstraction, you should never need to hide elements with CSS (except maybe with some sophisticated CSS animations). Instead, don't render the element when it shouldn't be visible, and render it when it should:
+
+```js
+// good
+export default class Togglr extends React.Component {
+    state = {visible: false}
+
+    _handleToggle() {
+        this.setState({
+            visible: !this.state.visible
+        })
+    }
+
+    render() {
+        let {visible} = this.state;
+        let message;
+
+        if (visible) {
+            message = (
+                <p>This message is toggled on/off with React not CSS!</p>
+            );
+        }
+
+        return (
+            <div>
+                <Button click={this._handleToggle.bind(this)}>Toggle!</Button>
+                {message}
+            </div>
+        );
+    }
+}
+
+// bad (uses CSS to hide element instead of not rendering)
+export default class Togglr extends React.Component {
+    state = {visible: false}
+
+    _handleToggle() {
+        this.setState({
+            visible: !this.state.visible
+        })
+    }
+
+    render() {
+        let {visible} = this.state;
+        let messageClassName;
+
+        if (!visible) {
+            messageClassName = 'hidden';
+        }
+
+        return (
+            <div>
+                <Button click={this._handleToggle.bind(this)}>Toggle!</Button>
+                <p className={messageClassName}>
+                    This message is toggled on/off with CSS 🙁!
+                </p>
+            </div>
+        );
+    }
+}
+```
+
+_Friendly reminder:_ If you want an **entire** component to be conditionally rendered, the component must return `null`. Returning `undefined` will be an error.
 
 **[⬆ back to top](#table-of-contents)**
 
