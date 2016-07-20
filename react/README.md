@@ -1389,8 +1389,9 @@ _Friendly reminder:_ If you want an **entire** component to be conditionally ren
 
 There are two ways of maintaining data in a React component: props and state.
 
-The props are used by a component's parent to configure the component and are immutable within the component.
-The component's state is internal to the component so that it can maintain data that will change over time. Whenever the state changes (via `setState`), the component will re-render. A component's state should not be manipulated outside of it.
+**Props** are used by a component's parent to configure the component and are immutable within the component.
+
+**State** is internal to the component so that it can maintain data that will change over time. Whenever the state changes (via [`setState`](https://facebook.github.io/react/docs/component-api.html#setstate)), the component will re-render. A component's state should not be manipulated outside of it.
 
 ### Initializing
 
@@ -1457,6 +1458,8 @@ export default class Togglr extends React.Component {
 ```
 
 In the "bad" example, both `props` and `state` have a property called `visible`, which is very confusing. Should you use `this.props.visible` or `this.state.visible`. The one in `props` cannot change, while the one in `state` can. Naming the prop `defaultVisible` (as shown in the "good" example) makes things clearer.
+
+As a reminder, setting the state in the `constructor` should only be used when defaulting from props.
 
 **[⬆ back to top](#table-of-contents)**
 
