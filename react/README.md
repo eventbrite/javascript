@@ -362,6 +362,149 @@ export default class Candidate extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
+### `className` prop
+
+Avoid defining a `className` prop for a component as its intent can be ambiguous. Will it overwrite the `className` set on the component's top-level node? Will it be merged in with the `className` set on the top-level node?
+
+Ideally a parent component should not be controlling the styling of a child component, so specifying a child's `className` prop should be unnecessary. The child component should be 100% in charge of its visual display.
+
+However, you may need to control the layout/positioning of a child component within a parent component. In this situation, the best solution is to wrap the child component in a `<div>` or `<span>` that the parent _does_ control so that the positioning styling can be added to that wrapper node.
+
+In the limited cases where the wrapper node solution doesn't work, the child component can expose a `__containerClassName` prop, which the parent can specify to add layout-based CSS class(es) to. The prop begins with dunder (`__`) to indicate that it is an exceptional case so that in can easily be spotted in code review.
+
+```js
+// good (parent uses wrapper `<div>` to position child)
+
+// Child.js
+export default class Child extends React.Component {
+    // code for Child component
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <div className="parent__child">
+                    <Child />
+                </div>
+            </div>
+        );
+    }
+}
+
+
+// less-than-ideal (parent uses `__containerClassName` prop)
+
+// Child.js
+export default class Child extends React.Component {
+    static propTypes = {
+        // other propTypes
+        __containerClassName: React.PropTypes.string
+    }
+
+    render() {
+        let {__containerClassName} = this.props;
+        let className = 'child';
+
+        return (
+            <div className=`${className} ${__containerClassName}`>
+
+            </div>
+        );
+    }
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <Child __containerClassName="parent__child" />
+            </div>
+        );
+    }
+}
+
+
+// bad (parent specifies visual styling with `__containerClassName` prop)
+
+// Child.js
+export default class Child extends React.Component {
+    static propTypes = {
+        // other propTypes
+        __containerClassName: React.PropTypes.string
+    }
+
+    render() {
+        let {__containerClassName} = this.props;
+        let className = 'child';
+
+        return (
+            <div className=`${className} ${__containerClassName}`>
+
+            </div>
+        );
+    }
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <Child __containerClassName="text--red" />
+            </div>
+        );
+    }
+}
+
+
+// bad (child defines `className` prop instead of `__containerClassName`)
+
+// Child.js
+export default class Child extends React.Component {
+    static propTypes = {
+        // other propTypes
+        className: React.PropTypes.string
+    }
+
+    render() {
+        let {propsClassName} = this.props;
+        let className = 'child';
+
+        return (
+            <div className=`${className} ${propsClassName}`>
+
+            </div>
+        );
+    }
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <Child className="parent__child" />
+            </div>
+        );
+    }
+}
+```
+
+By the way, instead of concatenating `className` strings yourself (as done in the examples above), use the [`classnames`](https://github.com/JedWatson/classnames) library.
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Helper components
 
 When a component contains a lot of markup or it contains significant logic that determines how its markup should appear, use helper components to keep `render()` as small as possible. Instead of using `class` declarations for these helper components, use [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions). Because these components are only useful to the main component and only exist to keep `render()` lean, these helper components shouldn't be placed in their own files, nor should they be `export`ed within the main component.
