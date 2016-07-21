@@ -1347,6 +1347,82 @@ export default class TextInput extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
+### Updating state
+
+If an event handler needs to both update its internal [state](#state) **AND** call a prop callback, update the internal state first before calling the callback:
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    state = {value: ''}
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        // update state before calling `onChange` prop callback
+        this.setState({value});
+
+        if (this.props.onChange) {
+            // only the value is passed back
+            this.props.onChange(value);
+        }
+    }
+
+    render() {
+        return (
+            <input
+                type="text"
+                value={this.state.value}
+                onChange={this._handleChange.bind(this)}
+            />
+        );
+    }
+}
+
+// bad (calls `setState` after calling `onChange` prop callback)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    state = {value: ''}
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            // only the value is passed back
+            this.props.onChange(value);
+        }
+
+        // don't setState after calling props callbacks!
+        this.setState({value});
+    }
+
+    render() {
+        return (
+            <input
+                type="text"
+                value={this.state.value}
+                onChange={this._handleChange.bind(this)}
+            />
+        );
+    }
+}
+```
+
+The vast majority of the time the order of setting the state versus calling props callbacks will not make any difference. But it is a good practice to do all the time in case you run into the unique situation where setting state afterwards can have adverse consequences.
+
+In the example above, the `TextInput` component has no control what happens when it calls `this.props.onChange`. The parent's `onChange` could do a lot of work that could occupy the main execution thread. And since JavaScript is single-threaded, it could be "a while" until execution returns to `TextInput` so that it could update its state via `this.setState({value})`. In a nutshell, we can trust what React is doing with `setState`, but not necessarily the callback props.
+
+Jump down to the [State](#state) section below for more on handling state.
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Refs
 
 Avoid using React refs. Both callback-style (eslint: [`react/jsx-no-bind`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)) and string (eslint: [`react/no-string-refs`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-string-refs.md)) refs are prohibited by default.
