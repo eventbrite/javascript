@@ -362,6 +362,150 @@ export default class Candidate extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
+### `className` prop
+
+Avoid defining a `className` prop for a component as its intent can be ambiguous. Will it overwrite the `className` set on the component's top-level node? Will it be merged in with the `className` set on the top-level node?
+
+Ideally a parent component should not be controlling the styling of a child component, so specifying a child's `className` prop should be unnecessary. The child component should be 100% in charge of its visual display.
+
+However, you may need to control the layout/positioning of a child component within a parent component. In this situation, the best solution is to wrap the child component in a `<div>` or `<span>` that the parent _does_ control so that the positioning styling can be added to that wrapper node.
+
+In the limited cases where the wrapper node solution doesn't work, the child component can expose a `__containerClassName` prop, which the parent can specify to add layout-based CSS class(es) to. The prop begins with dunder (`__`) to indicate that it is an exceptional case so that in can easily be spotted in code review.
+
+```js
+// good (parent uses wrapper `<div>` to position child)
+
+// Child.js
+export default class Child extends React.Component {
+    // code for Child component
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <div className="parent__child">
+                    <Child />
+                </div>
+            </div>
+        );
+    }
+}
+
+
+// less-than-ideal, but acceptable
+// (parent uses `__containerClassName` prop to position child)
+
+// Child.js
+export default class Child extends React.Component {
+    static propTypes = {
+        // other propTypes
+        __containerClassName: React.PropTypes.string
+    }
+
+    render() {
+        let {__containerClassName} = this.props;
+        let className = 'child';
+
+        return (
+            <div className=`${className} ${__containerClassName}`>
+
+            </div>
+        );
+    }
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <Child __containerClassName="parent__child" />
+            </div>
+        );
+    }
+}
+
+
+// bad (parent specifies VISUAL STYLING with `__containerClassName` prop)
+
+// Child.js
+export default class Child extends React.Component {
+    static propTypes = {
+        // other propTypes
+        __containerClassName: React.PropTypes.string
+    }
+
+    render() {
+        let {__containerClassName} = this.props;
+        let className = 'child';
+
+        return (
+            <div className=`${className} ${__containerClassName}`>
+
+            </div>
+        );
+    }
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <Child __containerClassName="text--red" />
+            </div>
+        );
+    }
+}
+
+
+// bad (child defines `className` prop instead of `__containerClassName`)
+
+// Child.js
+export default class Child extends React.Component {
+    static propTypes = {
+        // other propTypes
+        className: React.PropTypes.string
+    }
+
+    render() {
+        let {propsClassName} = this.props;
+        let className = 'child';
+
+        return (
+            <div className=`${className} ${propsClassName}`>
+
+            </div>
+        );
+    }
+}
+
+// Parent.js
+export default class Parent extends React.Component {
+    render() {
+        return (
+            <div className="parent">
+                <h2 className="parent__heading">Parent</h2>
+
+                <Child className="parent__child" />
+            </div>
+        );
+    }
+}
+```
+
+By the way, instead of concatenating `className` strings yourself (as done in the examples above), use the [`classnames`](https://github.com/JedWatson/classnames) library.
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Helper components
 
 When a component contains a lot of markup or it contains significant logic that determines how its markup should appear, use helper components to keep `render()` as small as possible. Instead of using `class` declarations for these helper components, use [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions). Because these components are only useful to the main component and only exist to keep `render()` lean, these helper components shouldn't be placed in their own files, nor should they be `export`ed within the main component.
@@ -1201,6 +1345,82 @@ export default class TextInput extends React.Component {
     }
 }
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Updating state
+
+If an event handler needs to both update its internal [state](#state) **AND** call a prop callback, update the internal state first before calling the callback:
+
+```js
+// good
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    state = {value: ''}
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        // update state before calling `onChange` prop callback
+        this.setState({value});
+
+        if (this.props.onChange) {
+            // only the value is passed back
+            this.props.onChange(value);
+        }
+    }
+
+    render() {
+        return (
+            <input
+                type="text"
+                value={this.state.value}
+                onChange={this._handleChange.bind(this)}
+            />
+        );
+    }
+}
+
+// bad (calls `setState` after calling `onChange` prop callback)
+export default class TextInput extends React.Component {
+    static propTypes = {
+        onChange: React.PropTypes.func
+    }
+
+    state = {value: ''}
+
+    _handleChange(e) {
+        let value = e.target.value;
+
+        if (this.props.onChange) {
+            // only the value is passed back
+            this.props.onChange(value);
+        }
+
+        // don't setState after calling props callbacks!
+        this.setState({value});
+    }
+
+    render() {
+        return (
+            <input
+                type="text"
+                value={this.state.value}
+                onChange={this._handleChange.bind(this)}
+            />
+        );
+    }
+}
+```
+
+The vast majority of the time the order of setting the state versus calling props callbacks will not make any difference. But it is a good practice to do all the time in case you run into the unique situation where setting state afterwards can have adverse consequences.
+
+In the example above, the `TextInput` component has no control of what happens when it calls `this.props.onChange`. The parent's `onChange` could do a lot of work that could occupy the main execution thread. And since JavaScript is single-threaded, it could be "a while" until execution returns to `TextInput` so that it could update its state via `this.setState({value})`. In a nutshell, we can trust what React is doing with `setState`, but not necessarily the callback props.
+
+Jump down to the [State](#state) section below for more on handling state.
 
 **[⬆ back to top](#table-of-contents)**
 
