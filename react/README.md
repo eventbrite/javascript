@@ -396,7 +396,8 @@ export default class Parent extends React.Component {
 }
 
 
-// less-than-ideal (parent uses `__containerClassName` prop)
+// less-than-ideal, but acceptable
+// (parent uses `__containerClassName` prop to position child)
 
 // Child.js
 export default class Child extends React.Component {
@@ -431,7 +432,7 @@ export default class Parent extends React.Component {
 }
 
 
-// bad (parent specifies visual styling with `__containerClassName` prop)
+// bad (parent specifies VISUAL STYLING with `__containerClassName` prop)
 
 // Child.js
 export default class Child extends React.Component {
@@ -1417,7 +1418,7 @@ export default class TextInput extends React.Component {
 
 The vast majority of the time the order of setting the state versus calling props callbacks will not make any difference. But it is a good practice to do all the time in case you run into the unique situation where setting state afterwards can have adverse consequences.
 
-In the example above, the `TextInput` component has no control what happens when it calls `this.props.onChange`. The parent's `onChange` could do a lot of work that could occupy the main execution thread. And since JavaScript is single-threaded, it could be "a while" until execution returns to `TextInput` so that it could update its state via `this.setState({value})`. In a nutshell, we can trust what React is doing with `setState`, but not necessarily the callback props.
+In the example above, the `TextInput` component has no control of what happens when it calls `this.props.onChange`. The parent's `onChange` could do a lot of work that could occupy the main execution thread. And since JavaScript is single-threaded, it could be "a while" until execution returns to `TextInput` so that it could update its state via `this.setState({value})`. In a nutshell, we can trust what React is doing with `setState`, but not necessarily the callback props.
 
 Jump down to the [State](#state) section below for more on handling state.
 
