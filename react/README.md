@@ -1432,26 +1432,27 @@ React refs are a way to get references to underlying DOM nodes after the compone
 
 - You need to pass a reference to a DOM node to a non-React library (such as jQuery)
 - You need to manually control a DOM node (such as to call `.focus()` on an input)
+- You need to manually inspect a DOM node (such as retrieve its dimensions)
 
 Generally when refs are used within React, it can be rewritten to use [state](#state) that will cause a re-render. This is a preferred approach because it keeps the code within the optimizations of React's Virtual DOM. Causing ESLint errors when React refs are used, strongly encourages the developer to rethink the approach.
 
-However, if refs are needed, use callback-style refs and temporarily disable the ESLint rules:
+However, if refs are needed, use callback-style refs to store a instance reference to it:
 
 ```js
-export default class RawContainer extends React.Component {
+export default class RefContainer extends React.Component {
     render() {
-        let innerHTML = {__html: '<span>Safe HTML</span>'};
+        let refCallback = (input) => {
+            // stores a reference to the input on the component instance
+            // to be used later
+            this._input = input;
+        };
 
         return (
-            {/* eslint-disable react/jsx-no-bind */}
-            <input type="text" ref={(input) => this._input = input} />
-            {/* eslint-enable react/jsx-no-bind */}
+            <input type="text" ref={refCallback} />
         );
     }
 }
 ```
-
-This will be a clear signal in code reviews that a special exception is happening. If refs were universally accepted, it would be harder to distinguish between valid and incorrect uses of React refs.
 
 For more info on React refs, see [Refs to Components](https://facebook.github.io/react/docs/more-about-refs.html).
 
