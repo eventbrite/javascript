@@ -19,10 +19,11 @@
 0. [JSX attribute values](#jsx-attribute-values)
 0. [React `key` prop](#react-key-prop)
 0. [Event handlers](#event-handlers)
-0. [Refs](#refs)
-0. [Dangerous props](#dangerous-props)
 0. [`render()`](#render)
 0. [State](#state)
+0. [Dangerous props](#dangerous-props)
+0. [Refs](#refs)
+0. [Mounting](#mounting)
 
 ## What is React?
 
@@ -974,6 +975,35 @@ When passing a variable to a prop, the curly braces should **not** be padded by 
 
 **[⬆ back to top](#table-of-contents)**
 
+### `children` prop
+
+Do not pass the special `children` prop to a component using a JSX attribute. Instead, pass the `children` in the contents of the JSX tag:
+
+```js
+// good
+render() {
+    return (
+        <Parent color="yellow">
+            <Child />
+        </Parent>
+    );
+}
+
+
+// bad (passes child via the `children` JSX attribute)
+render() {
+    let child = (<Child />);
+
+    return (
+        <Parent color="yellow" children={child} />
+    );
+}
+```
+
+For more on the special `children` prop, see: [Multiple Components: Children](https://facebook.github.io/react/docs/multiple-components#children).
+
+**[⬆ back to top](#table-of-contents)**
+
 ## React `key` prop
 
 ### Mandatory `key` prop
@@ -1424,68 +1454,6 @@ Jump down to the [State](#state) section below for more on handling state.
 
 **[⬆ back to top](#table-of-contents)**
 
-## Refs
-
-Avoid using React refs. Both callback-style (eslint: [`react/jsx-no-bind`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)) and string (eslint: [`react/no-string-refs`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-string-refs.md)) refs are prohibited by default.
-
-React refs are a way to get references to underlying DOM nodes after the component has been mounted. This is needed when:
-
-- You need to pass a reference to a DOM node to a non-React library (such as jQuery)
-- You need to manually control a DOM node (such as to call `.focus()` on an input)
-- You need to manually inspect a DOM node (such as retrieve its dimensions)
-
-Generally when refs are used within React, it can be rewritten to use [state](#state) that will cause a re-render. This is a preferred approach because it keeps the code within the optimizations of React's Virtual DOM. Causing ESLint errors when React refs are used, strongly encourages the developer to rethink the approach.
-
-However, if refs are needed, use callback-style refs to store a instance reference to it:
-
-```js
-export default class RefContainer extends React.Component {
-    render() {
-        let refCallback = (input) => {
-            // stores a reference to the input on the component instance
-            // to be used later
-            this._input = input;
-        };
-
-        return (
-            <input type="text" ref={refCallback} />
-        );
-    }
-}
-```
-
-For more info on React refs, see [Refs to Components](https://facebook.github.io/react/docs/more-about-refs.html).
-
-**[⬆ back to top](#table-of-contents)**
-
-## Dangerous props
-
-Avoid using `dangerouslySetInnerHTML` (eslint: [`react/no-danger`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md)). This will through an ESLint **warning** instead of an error.
-
-By default all text passed as content to HTML nodes are sanitized by React, preventing exploits. React is safe by default. However, if your text contains HTML you would like rendered, the HTML will be encoded instead of rendered.
-
-Just like with [refs](#refs), using `dangerouslySetInnerHTML` is something that should be used sparingly. When it is truly needed, you can temporarily disable rule:
-
-```js
-export default class RawContainer extends React.Component {
-    render() {
-        let innerHTML = {__html: '<span>Safe HTML</span>'};
-
-        return (
-            {/* eslint-disable react/no-danger */}
-            <div dangerouslySetInnerHTML={innerHTML} />
-            {/* eslint-enable react/no-danger */}
-        );
-    }
-}
-```
-
-Once again, this will be a clear signal in code reviews that a special exception is happening.
-
-For more info on `dangerouslySetInnerHTML`, see: [Dangerously Set innerHTML](https://facebook.github.io/react/tips/dangerously-set-inner-html.html).
-
-**[⬆ back to top](#table-of-contents)**
-
 ## `render()`
 
 In addition to `render()` being the _last_ method in a component (see [Method ordering](#method-ordering)), we have additional best practices...
@@ -1823,6 +1791,156 @@ export default class Loading extends React.Component {
 }
 ```
 
-Setting state in `componentDidMount` is a poor practice in general because it can result in unnecessary double calls to `render()`: the initial render and then the subsequent render as a result of `setState`. In fact we use the [`react/no-did-mount-set-state`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-mount-set-state.md) ESLint rule to prevent this.
+Setting state in [`componentDidMount`](#mounting) is a poor practice in general because it can result in unnecessary double calls to `render()`: the initial render and then the subsequent render as a result of `setState`. In fact we use the [`react/no-did-mount-set-state`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-mount-set-state.md) ESLint rule to prevent this.
 
 However, in the "good" example, by storing `SUPPORTS_FANCINESS` in a private static variable, once the first component tries to render, the value will be calculated and subsequently cached. And we still only have one render.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Dangerous props
+
+Avoid using `dangerouslySetInnerHTML` (eslint: [`react/no-danger`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md)). This will through an ESLint **warning** instead of an error.
+
+By default all text passed as content to HTML nodes are sanitized by React, preventing exploits. React is safe by default. However, if your text contains HTML you would like rendered, the HTML will be encoded instead of rendered.
+
+Just like with [refs](#refs), using `dangerouslySetInnerHTML` is something that should be used sparingly. When it is truly needed, you can temporarily disable rule:
+
+```js
+export default class RawContainer extends React.Component {
+    render() {
+        let innerHTML = {__html: '<span>Safe HTML</span>'};
+
+        return (
+            {/* eslint-disable react/no-danger */}
+            <div dangerouslySetInnerHTML={innerHTML} />
+            {/* eslint-enable react/no-danger */}
+        );
+    }
+}
+```
+
+Once again, this will be a clear signal in code reviews that a special exception is happening.
+
+For more info on `dangerouslySetInnerHTML`, see: [Dangerously Set innerHTML](https://facebook.github.io/react/tips/dangerously-set-inner-html.html).
+
+**[⬆ back to top](#table-of-contents)**
+
+## Refs
+
+Avoid using React refs. Both callback-style (eslint: [`react/jsx-no-bind`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md)) and string (eslint: [`react/no-string-refs`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-string-refs.md)) refs are prohibited by default.
+
+React refs are a way to get references to underlying DOM nodes after the component has been mounted. This is needed when:
+
+- You need to pass a reference to a DOM node to a non-React library (such as jQuery)
+- You need to manually control a DOM node (such as to call `.focus()` on an input)
+- You need to manually inspect a DOM node (such as retrieve its dimensions)
+
+Generally when refs are used within React, it can be rewritten to use [state](#state) that will cause a re-render. This is a preferred approach because it keeps the code within the optimizations of React's Virtual DOM. Causing ESLint errors when React refs are used, strongly encourages the developer to rethink the approach.
+
+However, if refs are needed, use callback-style refs to store a instance reference to it:
+
+```js
+export default class RefContainer extends React.Component {
+    render() {
+        let refCallback = (input) => {
+            // stores a reference to the input on the component instance
+            // to be used later
+            this._input = input;
+        };
+
+        return (
+            <input type="text" ref={refCallback} />
+        );
+    }
+}
+```
+
+For more info on React refs, see [Refs to Components](https://facebook.github.io/react/docs/more-about-refs.html).
+
+**[⬆ back to top](#table-of-contents)**
+
+## Mounting
+
+React provides abstractions that free you from touching the DOM directly in most cases, but sometimes you simply need to interact with the DOM API as we saw in the previous section on [refs](#refs).
+
+If you need to add event handlers to the `window` or `document`, there is no React component to which you can add an event handler. You're essentially breaking the default compositional nature of React, but reaching out to the global objects. But sometimes that is unavoidable.
+
+Let's take an example where you would like to make a `fetch` API request and also listen to the `resize` event on the window. You would need to make use of the `componentDidMount` & `componentWillUnmount` lifecycle methods:
+
+```
+export default class App extends React.Component {
+    state = {
+        items: [],
+        isSmall: true // mobile-first default
+    }
+
+    componentDidMount() {
+        // Here in `componentDidMount` we *know* the DOM exists so we can safely
+        // access DOM APIs
+
+        // When the component has mounted we can make an AJAX request to get our
+        // data
+        fetch('/get-data')
+            .then((resp) => resp.json())
+            .then((responseData) => {
+                this.setState({
+                    items: responseData
+                })
+            });
+
+        // store a reference to the handler we'll pass to resize so that it can
+        // be detached later
+        this._resizeHandler = () => {
+            this._handleResizeViewPort();
+        };
+
+        // actually attach the handler to be called onResize
+        // NOTE: You would probably want to throttle the resize event as it
+        // fires frequently
+        window.addEventListener('resize', this._resizeHandler);
+
+        // handle the initial state before the first resize
+        this._handleResizeViewPort();
+    }
+
+    componentWillUnmount() {
+        // detach resize handler when the component is removed from the DOM
+        window.removeEventListener('resize', this._resizeHandler);
+    }
+
+    _handleResizeViewPort() {
+        let windowWidth = getWindowWidth();
+
+        // update the state based on the window width
+        this.setState({
+            isSmall: windowWidth < 800
+        });
+    }
+
+    render() {
+        let {items, isSmall} = this.state;
+        let filteredItems = items;
+
+        // only use the first 10 items if the window is small
+        if (isSmall) {
+            filteredItems = filteredItems.slice(0, 10);
+        }
+
+        return (
+            <List items={filteredItems} />
+        );
+    }
+}
+```
+
+In the (contrived) example above, we want to limit the number of items we pass to the `<List />` component based upon the window size. And we receive those items from making an AJAX call (using the new [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)).
+
+We have to wait until the DOM exists before we can make the AJAX call or inquire the size of the window. When the component is constructed and when `render()` is called, we are not guaranteed that the DOM exists (both are called, for instance, during server-side rendering as well). However, when the `componentDidMount` lifecycle method is called, we are guaranteed that the DOM exists and the component's DOM nodes have been rendered.
+
+Finally, in `componentWillUnmount` we detach the handler we added. If the component gets removed from the DOM, we no longer need to continue watching on the resize of the window, so we need to explicitly detach the handler otherwise we'll introduce a memory leak.
+
+As a reminder, `componentDidMount` is **only** for providing a hook to interact directly for the DOM. You should not use it as a delayed hook to generate [state](#state) that could have been calculated in the constructor.
+
+For more on these lifecycle methods and others: [Component Specs and Lifecycle](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods).
+
+**[⬆ back to top](#table-of-contents)**
