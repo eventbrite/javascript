@@ -974,6 +974,35 @@ When passing a variable to a prop, the curly braces should **not** be padded by 
 
 **[⬆ back to top](#table-of-contents)**
 
+### `children` prop
+
+Do not pass the special `children` prop to a component using a JSX attribute. Instead, pass the `children` in the contents of the JSX tag:
+
+```js
+// good
+render() {
+    return (
+        <Parent color="yellow">
+            <Child />
+        </Parent>
+    );
+}
+
+
+// bad (passes child via the `children` JSX attribute)
+render() {
+    let child = (<Child />);
+
+    return (
+        <Parent color="yellow" children={child} />
+    );
+}
+```
+
+For more on the special `children` prop, see: [Multiple Components: Children](https://facebook.github.io/react/docs/multiple-components#children).
+
+**[⬆ back to top](#table-of-contents)**
+
 ## React `key` prop
 
 ### Mandatory `key` prop
