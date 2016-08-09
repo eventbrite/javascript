@@ -249,7 +249,7 @@ export default class TextInput extends React.Component {
 
 ### Required props
 
-Don't mark any of the `propTypes` as required if they are included in `defaultProps` or are boolean values that (implicitly) default to `false`:
+Don't declare any of the `propTypes` as required if they are included in `defaultProps`:
 
 ```js
 // good
@@ -323,6 +323,77 @@ export default class TextInput extends React.Component {
     static defaultProps = {
         type: 'text',
         defaultValue: '',
+    }
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Boolean `propTypes`
+
+Name boolean `propTypes` for a component such that their default value will be `false`. This way omitting a boolean value in the JSX that uses the component will be the same as specifying it as `false`. This may mean that a prop may need to be named negatively so that its default value will be `false`.
+
+Avoid declaring boolean `propTypes` as required. Instead declare the default value, which should be `false`, in `defaultProps`. A client of the component shouldn't have to specify `false` in the JSX for a prop that could just be defaulted to `false`.
+
+Use adjectives names for boolean `propTypes` that represent toggle state in the component. Ideally these adjectives will be begin with `is` or `has`. Use verb names for boolean `propTypes` that represent whether or not an action should happen within the component.
+
+```js
+// good
+export default class Banner extends React.Component {
+    static propTypes = {
+        hideIcon: React.PropTypes.bool,
+        isActive: React.PropTypes.bool,
+        showError: React.PropTypes.bool
+    }
+
+    static defaultProps = {
+        hideIcon: false,
+        isActive: false,
+        showError: false
+    }
+}
+
+// bad (icon-related prop is mis-named such that default is true)
+export default class Banner extends React.Component {
+    static propTypes = {
+        showIcon: React.PropTypes.bool,
+        isActive: React.PropTypes.bool,
+        showError: React.PropTypes.bool
+    }
+
+    static defaultProps = {
+        showIcon: true,
+        isActive: false,
+        showError: false
+    }
+}
+
+// bad (boolean prop type is declared as required)
+export default class Banner extends React.Component {
+    static propTypes = {
+        hideIcon: React.PropTypes.bool.isRequired,
+        isActive: React.PropTypes.bool,
+        showError: React.PropTypes.bool
+    }
+
+    static defaultProps = {
+        isActive: false,
+        showError: false
+    }
+}
+
+// bad (props are ambiguously named)
+export default class Banner extends React.Component {
+    static propTypes = {
+        icon: React.PropTypes.bool,
+        active: React.PropTypes.bool,
+        error: React.PropTypes.bool
+    }
+
+    static defaultProps = {
+        icon: false,
+        active: false,
+        error: false
     }
 }
 ```
