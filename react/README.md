@@ -24,6 +24,8 @@
 0. [Dangerous props](#dangerous-props)
 0. [Refs](#refs)
 0. [Mounting](#mounting)
+0. [Context](#context)
+0. [Testing](testing.md)
 
 ## What is React?
 
@@ -1449,6 +1451,12 @@ export default class TextInput extends React.Component {
 
 **[⬆ back to top](#table-of-contents)**
 
+### Event handling in loops
+
+Coming soon....
+
+**[⬆ back to top](#table-of-contents)**
+
 ### Updating state
 
 If an event handler needs to both update its internal [state](#state) **AND** call a prop callback, update the internal state first before calling the callback:
@@ -2013,5 +2021,11 @@ Finally, in `componentWillUnmount` we detach the handler we added. If the compon
 As a reminder, `componentDidMount` is **only** for providing a hook to interact directly for the DOM. You should not use it as a delayed hook to generate [state](#state) that could have been calculated in the constructor.
 
 For more on these lifecycle methods and others: [Component Specs and Lifecycle](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods).
+
+**[⬆ back to top](#table-of-contents)**
+
+## Context
+
+Coming soon...
 
 **[⬆ back to top](#table-of-contents)**
