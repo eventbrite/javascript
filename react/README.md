@@ -1453,7 +1453,94 @@ export default class TextInput extends React.Component {
 
 ### Event handling in loops
 
-Coming soon....
+Chances are that if you are passing event handlers to child components created in a loop, you're going to need some way to uniquely identify which child component caused the event handler to occur. Pass additional arguments to [`Function.prototype.bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) to include the unique identifier:
+
+```js
+// shared data
+const TEAMS = {
+    'warriors': {
+        name: 'Golden State Warriors',
+        url: 'http://www.warriors.com'
+    },
+    '49ers': {
+        name: 'San Francisco',
+        url: 'http://www.49ers.com'
+    },
+    'raiders': {
+        name: 'Oakland Raiders',
+        url: 'http://www.raiders.com'
+    },
+    'giants': {
+        name: 'San Francisco Giants',
+        url: 'http://sanfrancisco.giants.mlb.com'
+    },
+    'athletics': {
+        name: 'Oakland Athletics',
+        url: 'http://oakland.athletics.mlb.com'
+    },
+    'sharks': {
+        name: 'San Jose Sharks',
+        url: 'http://sharks.nhl.com'
+    }
+};
+
+
+// good
+export default class TeamPicker extends React.Component {
+    _handleTeamClick(teamId) {
+        location.href = TEAMS[teamId].url;
+    }
+
+    render() {
+        let teamButtons = Object.keys(TEAMS).map((teamId) => (
+            <button onClick={this._handleTeamClick.bind(this, teamId)} key={teamId}>
+                {TEAMS[team].name}
+            </button>
+        ));
+
+        return (
+            <div>
+                <h2>Pick your team</h2>
+                <div>{teamButtons}</div>
+            </div>
+        );
+    }
+}
+
+
+// bad (stores the teamId in the DOM `data-teamId`
+// in order to retrieve it onClick)
+export default class TeamPicker extends React.Component {
+    _handleTeamClick(e) {
+        let teamId = e.target.dataset.teamId;
+
+        location.href = TEAMS[teamId].url;
+    }
+
+    render() {
+        let teamButtons = Object.keys(TEAMS).map((teamId) => (
+            <button data-teamId={teamId} onClick={this._handleTeamClick.bind(this)} key={teamId}>
+                {TEAMS[team].name}
+            </button>
+        ));
+
+        return (
+            <div>
+                <h2>Pick your team</h2>
+                <div>{teamButtons}</div>
+            </div>
+        );
+    }
+}
+```
+
+While the two examples above look very similar, the differences make all the difference.
+
+In the _good_ example, we pass the `teamId` to the [`.bind()` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) such that when the `onClick` handler is invoked, the `teamId` is the first parameter in `_handleTeamClick`. This is accomplished with: `this._handleTeamClick.bind(this, teamId)`.
+
+ This prevents the need to store the identifier in the DOM using the `data-teamId` attribute in the _bad_ example. The reason that this is "bad" is because the code now has to unnecessarily touch the DOM in order to retrieve `teamId`, when JavaScript already has the value.
+
+ In this contrived example, the performance difference between _good_ and _bad_ is likely negligible, but at scale, a lot of unnecessary DOM accesses can really slow down an app. Always adhering to this good practice should prevent the need to go hunting for performance bottlenecks in an existing large app.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -2027,5 +2114,11 @@ For more on these lifecycle methods and others: [Component Specs and Lifecycle](
 ## Context
 
 Coming soon...
+
+**[⬆ back to top](#table-of-contents)**
+
+## Testing
+
+See [Eventbrite React Testing Best Practices](testing.md)
 
 **[⬆ back to top](#table-of-contents)**
