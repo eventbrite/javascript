@@ -1534,7 +1534,7 @@ export default class TeamPicker extends React.Component {
 }
 ```
 
-While the two examples above look very similar, the differences make all the difference.
+While the two examples above look very similar, the differences are very important.
 
 In the _good_ example, we pass the `teamId` to the [`.bind()` method](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) such that when the `onClick` handler is invoked, the `teamId` is the first parameter in `_handleTeamClick`. This is accomplished with: `this._handleTeamClick.bind(this, teamId)`.
 
