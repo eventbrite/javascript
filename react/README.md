@@ -1463,7 +1463,7 @@ const TEAMS = {
         url: 'http://www.nba.com/warriors'
     },
     '49ers': {
-        name: 'San Francisco',
+        name: 'San Francisco 49ers',
         url: 'http://www.49ers.com'
     },
     'raiders': {
