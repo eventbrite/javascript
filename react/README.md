@@ -1460,7 +1460,7 @@ Chances are that if you are passing event handlers to child components created i
 const TEAMS = {
     'warriors': {
         name: 'Golden State Warriors',
-        url: 'http://www.warriors.com'
+        url: 'http://www.nba.com/warriors'
     },
     '49ers': {
         name: 'San Francisco',
