@@ -2113,7 +2113,13 @@ For more on these lifecycle methods and others: [Component Specs and Lifecycle](
 
 ## Context
 
-Coming soon...
+Context is the mechanism within React to pass information automatically down through the component tree. Don't use it! If you want to use it in order to "avoid typing", still don't use it! Context in React is the equivalent of global variables in a program; using context makes it harder to track the flow of data through your React components. Instead, be explicit and specifically pass props down the component tree.
+
+You should never need to leverage context for components that are in the middle of the component hierarchy. If context does need to be used, it'll be used at the top-level container App in order to provide truly App-global data. The best use cases for context are the top-level App wanting to implicitly pass down the current language/locale, information about the logged in user, a theme, etc.
+
+When you do use context, avoid using it directly when defining, reading or updating a context property. The context API is still considered experimental and likely to change in future releases. Instead wrap your use of the component API in a higher-order component, so when the API does change it'll be easier to upgrade the single higher-order component versus all of the individual uses.
+
+For information on context, see: [React Context](https://facebook.github.io/react/docs/context.html).
 
 **[⬆ back to top](#table-of-contents)**
 
