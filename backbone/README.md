@@ -458,8 +458,8 @@ You can run them like so:
 We structure our Backbone projects like so:
 
     - js/src/require/component/feature_name/
-    						- feature_name.js
-    						- model.js
+    			    - feature_name.js
+    			    - model.js
                             - model.spec.js
                             - view.js
                             - view.spec.js
