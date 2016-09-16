@@ -36,7 +36,8 @@ Backbone and Marionette come with a rich API and also functions provided by [und
 		0. [Stores](#eb-flux-stores)
 		0. [Views](#eb-flux-views)
 		0. [Actions](#eb-flux-actions)
-0. [debugging common issues](#debugging-common-issues)
+0. [Debugging common issues](#debugging-common-issues)
+0. [Testable Modular JS with Backbone, Jasmine & Sinon](#testable-modular-js-with-backbone-jasmine-sinon)
 
 
 ## Backbone.js
@@ -366,5 +367,112 @@ return Marionette.ItemView.extend({
 	}
 });
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Testable Modular JS with Backbone, Jasmine & Sinon
+
+### Reading
+
+-   Jasmine documentation <http://jasmine.github.io/1.3/introduction.html>
+-   Sinon Documentation <http://sinonjs.org/docs/>
+-   Backbone.js documentation <http://backbonejs.org>
+-   Testing Backbone applications with Jasmine and Sinon <http://tinnedfruit.com/2011/03/03/testing-backbone-apps-with-jasmine-sinon.html>
+-   Dan North’s original BDD article: <http://dannorth.net/introducing-bdd/>
+-   BDD Wikipedia Page: <http://en.wikipedia.org/wiki/Behavior-driven_development>
+-   Overview of the state of JavaScript MVC frameworks, a little scattered, but useful <http://coding.smashingmagazine.com/2012/07/27/journey-through-the-javascript-mvc-jungle/>
+-   Overview of ‘use strict’ <http://www.nczonline.net/blog/2012/03/13/its-time-to-start-using-javascript-strict-mode/>
+
+### Examples in our code
+
+    - Backbone code: django/media/django/js/src/require/components/list_selection_builder/*
+    - Jasmine specs: django/media/django/js/src/require/components/list_selection_builder/list_selection_builder_layout.spec.js
+
+### The importance of red/green/refactor:
+
+-   Red: you write a failing spec before you write the associated code, run the spec and watch it fail with red.
+-   Green: write the code to make the spec pass, see the green for a passing test.
+-   Refactor: now you can refactor it to make the code better as neccessary
+
+The main benefit here is that you end up writing testable code, which is especailly important for JavaScript as trying to add tests later you’ll find that your code is usually not decoupled enough.
+
+Also, this means that all features have associated test cases, which is important as we strive to ship quality code.
+
+And because you fail the test first, you have more confidence when it turns green that you are testing what you think you are testing. All too often a test will pass, but you aren’t testing the correct behaviour.
+
+#### Benefits
+
+-   If you follow red/green/refactor you end up with loosely-coupled, testable code.
+-   The tests cases are readable in english, so the failure messages give you a very good idea of what actually failed- Higher code quality.
+
+### Spies, Stubs, Mocks and Fake Servers with Sinon
+
+Sinon is a testing utility that we use with our Jasmine Specs for spies, stubs and mocks. Jasmine has some similar functionality, but we have decided to Sinon’s test utilities instead.
+
+-   Spies are functions that either wrap another function or are standalone anonymous functions that you can assert have been called in some capacity.
+-   Stubs are like spies, but they have pre-programmed behaviour and if you wrap an existing function with it, the original function is not called which is often useful.
+-   Mocks are a combination of spies and stubs, but you specify the expected behaviour up front.
+-   The Fake Server allows us to test AJAX requests without a real server and supplying the different responses to test how the app responds. For the API of the Fake Server, see `fake_server.js`.
+
+I recommend reading the sinon docs for more information. <http://sinonjs.org/docs/>. Here is an example from our code using spies and the fake server:
+	
+	eb = require('eb');
+	fakeServer = require('es6!require/helpers/tests/fake_server');
+
+    it('should trigger an activated event on valid server response', function() {
+        var userIsActivatedSpy = sinon.spy();
+        this.server = eb.sinon.fakeServer.create();
+        this.user.on('activated', userIsActivatedSpy);
+        this.user.set('email', 'valid_email@example.com');
+
+        // this would normally trigger an ajax call, but it hits our fake server instead
+        this.user.fetch({
+            'url': 'get-tickets-account-status'
+        });
+        // let's return the following response from the fake server
+        fakeServer.respondWithSuccess(this.server, {
+        	user_exists: true,
+            activation_email_sent: false
+        });
+        // we can assert that our spy was called
+        expect(userIsActivatedSpy).toHaveBeenCalledOnce();
+        this.server.restore();
+    });
+
+We have extended Sinon with a few custom functions, which you can see in django/media/django/js/tests/jasmine/spec/SpecHelper.js
+
+### Running the Jasmine Tests
+
+Go to <https://www.evbdev.com/js-tests> to see the index of the JS unit test suites. Most of the modern unit tests are under require at <https://www.evbdev.com/js-tests/require>.
+
+You can also click through to an individual spec to run just the one, for example <https://www.evbdev.com/js-tests/require/?spec=LSBMainLayout>. The query param comes from the top `describe` block in the test file. This is useful when debugging, as you can run one test suite at a time and put debugger statements in your JS code, run the failing tests and you’ll get a breakpoint there.
+
+We also have all the Jasmine tests running with the Django unit tests via phantomjs (a headless WebKit).
+
+You can run them like so:
+
+    `test_eb ebapps.js_tests.tests`
+
+### Folder Structure
+
+We structure our Backbone projects like so:
+
+    - js/src/require/component/feature_name/
+    						- feature_name.js
+    						- model.js
+                            - model.spec.js
+                            - view.js
+                            - view.spec.js
+                            - sub_feature/
+                            	- feature_name.js
+                            	- model.js
+                            	- model.spec.js
+                            	- view.js
+                            	- view.spec.js
+                            - router.js
+
+feature\_name.js contains the code to initialize your module.
+
+Each model, view and the router gets it’s own file mirroring it’s JavaScript naming. eg. EB.ProjectName.FirstModel is in eb/feature\_name/first\_model.js.
 
 **[⬆ back to top](#table-of-contents)**
