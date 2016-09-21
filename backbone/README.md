@@ -37,7 +37,7 @@ Backbone and Marionette come with a rich API and also functions provided by [und
 		0. [Views](#eb-flux-views)
 		0. [Actions](#eb-flux-actions)
 0. [Debugging common issues](#debugging-common-issues)
-0. [Testable Modular JS with Backbone, Jasmine & Sinon](#testable-modular-js-with-backbone-jasmine-sinon)
+0. [Testable Modular JS with Backbone, Jasmine & Sinon](#testable-modular-js-with-backbone-jasmine--sinon)
 
 
 ## Backbone.js
