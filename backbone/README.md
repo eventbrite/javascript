@@ -11,6 +11,7 @@ Backbone and Marionette come with a rich API and also functions provided by [und
 0. [Additional plugins](#additional-plugins)
 0. [Common terminology](#common-terminology)
 0. [File structure](#file-structure)
+0. [Ordering](#ordering)
 0. [Statics](#statics)
 0. [Styling](#styling)
 0. [Context](#context)
@@ -156,6 +157,38 @@ MyItemView = Marionette.ItemView.extend({ /* do something here */ });
 
 return MyItemView;
 ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Ordering
+
+  - **Outside** `Marionette.View` definition
+
+  0. `dependencies` requirement
+  0. `static` functions
+  0. `config` objects
+
+  - Ordering for `Marionette.View`:
+
+  0. `el`
+  0. `template`
+  0. `tagName`
+  0. `itemView` *Composite View*
+  0. `itemViewContainer` *Composite View*
+  0. `className`
+  0. `ui`
+  0. `regions` *Layout*
+  0. `events`
+  0. `triggers`
+  0. `modelEvents`
+  0. `initialize`
+  0. `templateHelpers`
+  0. `onBeforeRender`
+  0. `render`
+  0. `onRender`
+  0. *all the remaining life cycle methods*
+  0. *clickHandlers or eventHandlers*
+  0. *getter methods*
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -415,7 +448,7 @@ Sinon is a testing utility that we use with our Jasmine Specs for spies, stubs a
 -   The Fake Server allows us to test AJAX requests without a real server and supplying the different responses to test how the app responds. For the API of the Fake Server, see `fake_server.js`.
 
 I recommend reading the sinon docs for more information. <http://sinonjs.org/docs/>. Here is an example from our code using spies and the fake server:
-	
+
 	eb = require('eb');
 	fakeServer = require('es6!require/helpers/tests/fake_server');
 
