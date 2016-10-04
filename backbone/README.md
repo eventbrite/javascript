@@ -476,15 +476,33 @@ We have extended Sinon with a few custom functions, which you can see in django/
 
 ### Running the Jasmine Tests
 
-Go to <https://www.evbdev.com/js-tests> to see the index of the JS unit test suites. Most of the modern unit tests are under require at <https://www.evbdev.com/js-tests/require>.
+We have several systems that coexist in our testing environment, and the version of the test runner determines how the tests are executed.
 
-You can also click through to an individual spec to run just the one, for example <https://www.evbdev.com/js-tests/require/?spec=LSBMainLayout>. The query param comes from the top `describe` block in the test file. This is useful when debugging, as you can run one test suite at a time and put debugger statements in your JS code, run the failing tests and you’ll get a breakpoint there.
+| technolgies                     | jasmine version|        how to execute them?                            |
+|:--------------------------------|:--------------:|--------------------------------------------------------|
+| `mako`, `js`, global name space |1.2.0           |  `tug attach core-web && test_eb ebapps.js_tests.tests`|
+| `handlebars`, `js`     		  |1.2.0, 2.5.0 | `tug attach core-frontend && npm run tests`               |
+|  `react`, `jsx` ,`es6`          |2.5.0           | `tug attach core-frontend && npm run tests`            |
 
-We also have all the Jasmine tests running with the Django unit tests via phantomjs (a headless WebKit).
 
-You can run them like so:
+#### debugging on the browser
 
-    `test_eb ebapps.js_tests.tests`
+Go to <https://www.evbdev.com/js-tests> to see the index of the JS unit test suites (you will find links for every test report). Most of the modern unit tests are under [require (jasmine 2.5.0)](https://www.evbdev.com/static-dj/django/js/tests/_RequireSpecs.html) and [react + es6 tests](https://www.evbdev.com/static-dj/django/js/tests/_ReactSpecs.html).
+
+You can also click through to an individual spec to run just the one, for example <https://www.evbdev.com/static-dj/django/js/tests/_RequireSpecs.html?spec=LSBMainLayout>. The query param comes from the top `describe` block in the test file. This is useful when debugging, as you can run one test suite at a time and put debugger statements in your JS code, run the failing tests and you’ll get a breakpoint there.
+
+### known issues
+
+####rendering on the Dom
+Jasmine comes with a handy setFixture function that attaches HTML to the runner so that we can render there and test our code. This often results leaks in the DOM or conflicts with the actual runner report.
+
+solution: in most cases the solution for us is just to create a fake node (not attached to the dom) ex:
+`new Marionette.ItemView(el: $(<div id=fake ></div>)`)
+
+####avoiding toBeVisible
+jQuery does several tricky things to find out whether or not an element is hidden (assuming that an element is attached to the DOM). This means that a test could successfully verify that an element is hidden even if the test itself never hid the element. This is because the test made an ancestor element hidden, so the child element also became hidden. Or worse, a previous test hid the ancestor element and the current test is implicitly relying on that element being hidden. Avoid toBeVisible helps prevent this weird test cases.
+
+solution: test either if the element is there (`expect().to.[not.]Exist()`) or check for the only class we have for hiding stuff (`expect(..).to.hasClass('is-hidden')`)
 
 ### Folder Structure
 
