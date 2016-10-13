@@ -787,10 +787,8 @@ export default class TextInput extends React.Component {
     }
 
     _handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
-            this.props.onChange(value);
+            this.props.onChange(e.target.value);
         }
     }
 
@@ -808,10 +806,8 @@ export default class TextInput extends React.Component {
     }
 
     handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
-            this.props.onChange(value);
+            this.props.onChange(e.target.value);
         }
     }
 
@@ -1205,10 +1201,8 @@ export default class TextInput extends React.Component {
     }
 
     _handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
-            this.props.onChange(value);
+            this.props.onChange(e.target.value);
         }
     }
 
@@ -1227,10 +1221,8 @@ export default class TextInput extends React.Component {
     }
 
     _handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.change) {
-            this.props.change(value);
+            this.props.change(e.target.value);
         }
     }
 
@@ -1248,10 +1240,8 @@ export default class TextInput extends React.Component {
     }
 
     _onChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
-            this.props.onChange(value);
+            this.props.onChange(e.target.value);
         }
     }
 
@@ -1358,11 +1348,9 @@ export default class TextInput extends React.Component {
     }
 
     _handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
             // only the value is passed back
-            this.props.onChange(value);
+            this.props.onChange(e.target.value);
         }
     }
 
@@ -1392,8 +1380,6 @@ export default class TextInput extends React.Component {
     }
 
     _handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
             this.props.onChange(e);
         }
@@ -1424,16 +1410,8 @@ export default class TextInput extends React.Component {
     }
 
     _handleChange(e) {
-        let value = e.target.value;
-
         if (this.props.onChange) {
-            this.props.onChange(e);
-        }
-    }
-
-    _handleBlur() {
-        if (this.props.onBlur) {
-            this.props.onBlur();
+            this.props.onChange(e.target.value);
         }
     }
 
