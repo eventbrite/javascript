@@ -5,19 +5,24 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 ## Table of Contents
 
 0. [Testing environment](#testing-environment)
+0. [Testing philosophy](#testing-philosophy)
 0. [Finding nodes](#finding-nodes)
 0. [Finding components](#finding-components)
 0. [Testing existence](#testing-existence)
 0. [Assertion helpers](#assertion-helpers)
-0. [Types of renders](#types-of-renders)
-0. [Testing re-renders](#testing-re-renders)
-0. [Testing markup](#testing-markup)
+0. [Types of renderers](#types-of-renderers)
+0. [Testing render](#testing-render)
 0. [Testing events](#testing-events)
 0. [Testing state](#testing-state)
+0. [Testing re-renders](#testing-re-renders)
 
 ## Testing environment
 
 Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.com/api/bdd/)), [`enzyme`](https://github.com/airbnb/enzyme) and [`sinon`](http://sinonjs.org/) for unit testing React components. We also leverage [`chai-enzyme`](https://github.com/producthunt/chai-enzyme) and [`sinon-chai`](https://github.com/domenic/sinon-chai) assertion helpers. Enzyme wraps [`ReactTestUtils`](https://facebook.github.io/react/docs/test-utils.html), which contains a bunch of primitives for testing components. Don't use `ReactTestUtils` directly; use Enzyme!
+
+**[⬆ back to top](#table-of-contents)**
+
+## Testing philosophy
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -251,15 +256,25 @@ The "good" example has significantly more context and should be significantly mo
 
 **[⬆ back to top](#table-of-contents)**
 
-## Types of renders
+## Types of renderers
+
+Enzyme provides three types of renderers for testing React components:
+
+- [`mount`](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md) - for components that may interact with DOM APIs, or may require the full lifecycle in order to fully test the component (i.e., `componentDidMount` etc.)
+- [`shallow`](https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md) - performant renderer because it renders only single level of children (no descendants of those children) in order to ensure that tests aren't indirectly asserting on behavior of child components
+- [`render`](https://github.com/airbnb/enzyme/blob/master/docs/api/render.md) - renders the components to traversable static HTML markup
+
+Eventbrite uses `mount` for rendering **all** components when testing.
+
+For components that just render markup ([atoms](http://bradfrost.com/blog/post/atomic-web-design/#atoms) in atomic web design), rendering with `mount` makes the most sense because they are the most likely to access the DOM API. Shallow rendering (via `shallow`) would be of little to no use.
+
+For components that are a mix of markup and small components ([molecules](http://bradfrost.com/blog/post/atomic-web-design/#molecules) in atomic web design), rendering with `mount` also makes the most sense because of all the markup that still exists. It's simpler to stay consistent without the test file and use `mount` for all tests.
+
+For components that are basically a composite of other components ([organisms](http://bradfrost.com/blog/post/atomic-web-design/#organisms) in atomic web design), we would ideally render with `shallow` because you're basically just testing that that the child components are receiving the correct props. Furthermore, it's faster to just render one level than render the entire markup tree, especially when the component is big. But in practice we make heavy use of [helper components](README.md#helper-components) in order to keep `render()` lean. As a result, what ends up being shallow rendered is not the actual child component, but an intermediary helper component. This means that if you wrote a test using `shallow` and then refactored the code to use helper components, your tests will break when the resultant render is actually still the same. Because of this nuance of when and where `shallow` can work, we've chosen to opt for `mount` because it always works. The trade-off is performance, which for now hasn't been a big enough issue.
 
 **[⬆ back to top](#table-of-contents)**
 
-## Testing re-renders
-
-**[⬆ back to top](#table-of-contents)**
-
-## Testing markup
+## Testing render
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -268,5 +283,9 @@ The "good" example has significantly more context and should be significantly mo
 **[⬆ back to top](#table-of-contents)**
 
 ## Testing state
+
+**[⬆ back to top](#table-of-contents)**
+
+## Testing re-renders
 
 **[⬆ back to top](#table-of-contents)**
