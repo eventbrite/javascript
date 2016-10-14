@@ -24,6 +24,8 @@ Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.
 
 ## Testing philosophy
 
+Unit testing React components can be a little tricky compared to testing the input/output of traditional JavaScript functions. But it's still doable! Just like with "normal" unit testing, we want to test all of the logic within the component via its public interface. The public _input_ to a component is its props. The public _output_ of a component is the combination of the elements it specifically renders (see [Testing render](#testing-render)) as well as the callback handlers it invokes (see [Testing events](#testing-events)).
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Finding nodes
