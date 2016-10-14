@@ -28,7 +28,7 @@ Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.
 
 ## Finding nodes
 
-Search for nodes within a component by adding `data-spec` attributes to them. In the past, Eventbrite used special `js-*` CSS classes for references to nodes in JavaScript code. These `js-*` classes were also used when testing as well. Now with React testing, instead of using special CSS classes, [refs](https://github.com/eventbrite/javascript/tree/master/react#refs), or attempting to traverse the DOM with Enzyme's [`find`](http://airbnb.io/enzyme/docs/api/ReactWrapper/find.html) helper, we use `data-spec` attributes.
+Search for nodes within a component by adding `data-spec` attributes to them. In the past, Eventbrite used special `js-*` CSS classes for references to nodes in JavaScript code. These `js-*` classes were used when testing as well. Now with React testing, instead of using special CSS classes, [refs](https://github.com/eventbrite/javascript/tree/master/react#refs), or attempting to traverse the DOM with Enzyme's [`find`](http://airbnb.io/enzyme/docs/api/ReactWrapper/find.html) helper, we use `data-spec` attributes.
 
 The `data-spec` attribute is specific to testing and not tied to presentation like CSS classes would be. If we decide to rename or remove a CSS class, the tests should not be impacted because there is no implicit link between styles and tests. We leverage two helpers, `getSingleSpecWrapper` & `getSpecWrappers` to find nodes with the `data-spec` attribute. Suppose we had the following (simplified) generated markup for a `Notification` component:
 
@@ -158,7 +158,7 @@ The key in the "good" example is the third parameter passed to `getSingleSpecWra
 
 To [find nodes](#finding-nodes) you use the `getSingleSpecWrapper` & `getSpecWrappers` helpers.
 
-`getSingleSpecWrapper` throws an error if a single node is not found. Therefore, in order to determine if a node exists you actually to test whether or not calling the helper throws an `Error`:
+`getSingleSpecWrapper` throws an error if a single node is not found. Therefore, in order to determine if a node exists you actually have to test whether or not calling the helper throws an `Error`:
 
 ```js
 let wrapperInstance = mount(<Spinner />);
