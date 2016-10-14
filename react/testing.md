@@ -18,7 +18,7 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 
 ## Testing environment
 
-Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.com/api/bdd/)), [`enzyme`](https://github.com/airbnb/enzyme) and [`sinon`](http://sinonjs.org/) for unit testing React components. We also leverage [`chai-enzyme`](https://github.com/producthunt/chai-enzyme) and [`sinon-chai`](https://github.com/domenic/sinon-chai) assertion helpers. Enzyme wraps [`ReactTestUtils`](https://facebook.github.io/react/docs/test-utils.html), which contains a bunch of primitives for testing components. Don't use `ReactTestUtils` directly; use Enzyme!
+Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.com/api/bdd/)), [`enzyme`](http://airbnb.io/enzyme/) and [`sinon`](http://sinonjs.org/) for unit testing React components. We also leverage [`chai-enzyme`](https://github.com/producthunt/chai-enzyme) and [`sinon-chai`](https://github.com/domenic/sinon-chai) assertion helpers. Enzyme wraps [`ReactTestUtils`](https://facebook.github.io/react/docs/test-utils.html), which contains a bunch of primitives for testing components. Don't use `ReactTestUtils` directly; use Enzyme!
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -28,7 +28,7 @@ Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.
 
 ## Finding nodes
 
-Search for nodes within a component by adding `data-spec` attributes to them. In the past, Eventbrite used special `js-*` CSS classes for references to nodes in JavaScript code. These `js-*` classes were also used when testing as well. Now with React testing, instead of using special CSS classes, [refs](https://github.com/eventbrite/javascript/tree/master/react#refs), or attempting to traverse the DOM with Enzyme's [`find`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/find.md) helper, we use `data-spec` attributes.
+Search for nodes within a component by adding `data-spec` attributes to them. In the past, Eventbrite used special `js-*` CSS classes for references to nodes in JavaScript code. These `js-*` classes were also used when testing as well. Now with React testing, instead of using special CSS classes, [refs](https://github.com/eventbrite/javascript/tree/master/react#refs), or attempting to traverse the DOM with Enzyme's [`find`](http://airbnb.io/enzyme/docs/api/ReactWrapper/find.html) helper, we use `data-spec` attributes.
 
 The `data-spec` attribute is specific to testing and not tied to presentation like CSS classes would be. If we decide to rename or remove a CSS class, the tests should not be impacted because there is no implicit link between styles and tests. We leverage two helpers, `getSingleSpecWrapper` & `getSpecWrappers` to find nodes with the `data-spec` attribute. Suppose we had the following (simplified) generated markup for a `Notification` component:
 
@@ -115,7 +115,7 @@ export const getSingleSpecWrapper = (componentWrapper, specName, typeFilter) => 
 
 ## Finding components
 
-You can find a component simply by using Enzyme's [`find`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/find.md) and passing the component class:
+You can find a component simply by using Enzyme's [`find`](http://airbnb.io/enzyme/docs/api/ReactWrapper/find.html) and passing the component class:
 
 ```js
 it('should render a checked checkbox if it is selected', () => {
@@ -260,9 +260,9 @@ The "good" example has significantly more context and should be significantly mo
 
 Enzyme provides three types of renderers for testing React components:
 
-- [`mount`](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md) - for components that may interact with DOM APIs, or may require the full lifecycle in order to fully test the component (i.e., `componentDidMount` etc.)
-- [`shallow`](https://github.com/airbnb/enzyme/blob/master/docs/api/shallow.md) - performant renderer because it renders only single level of children (no descendants of those children) in order to ensure that tests aren't indirectly asserting on behavior of child components
-- [`render`](https://github.com/airbnb/enzyme/blob/master/docs/api/render.md) - renders the components to traversable static HTML markup
+- [`mount`](http://airbnb.io/enzyme/docs/api/mount.html) - for components that may interact with DOM APIs, or may require the full lifecycle in order to fully test the component (i.e., `componentDidMount` etc.)
+- [`shallow`](http://airbnb.io/enzyme/docs/api/shallow.html) - performant renderer because it renders only single level of children (no descendants of those children) in order to ensure that tests aren't indirectly asserting on behavior of child components
+- [`render`](http://airbnb.io/enzyme/docs/api/render.html) - renders the components to traversable static HTML markup
 
 Eventbrite uses `mount` for rendering **all** components when testing.
 
