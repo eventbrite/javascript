@@ -7,6 +7,7 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 0. [Testing environment](#testing-environment)
 0. [Finding nodes](#finding-nodes)
 0. [Finding components](#finding-components)
+0. [Testing existence](#testing-existence)
 0. [Assertion helpers](#assertion-helpers)
 0. [Types of renders](#types-of-renders)
 0. [Testing re-renders](#testing-re-renders)
@@ -143,6 +144,70 @@ it('should render a checked checkbox if it is selected', () => {
 ```
 
 The key in the "good" example is the third parameter passed to `getSingleSpecWrapper`. By default `getSingleSpecWrapper` will try to find a node with the specified `data-spec`. But if you specify the component class (`Checkbox` in this case), it'll return a reference to the component wrapper.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Testing existence
+
+### Testing node existence
+
+To [find nodes](#finding-nodes) you use the `getSingleSpecWrapper` & `getSpecWrappers` helpers.
+
+`getSingleSpecWrapper` throws an error if a single node is not found. Therefore, in order to determine if a node exists you actually to test whether or not calling the helper throws an `Error`:
+
+```js
+let wrapperInstance = mount(<Spinner />);
+
+// wrap the call to retrieve the node in a function so that
+// we can test to see if calling the function throws an Error
+let findSvgWrapper = () => getSingleSpecWrapper(wrapperInstance, 'spinner-svg');
+
+// assert that node exists (doesn't throw an Error)
+expect(findSvgWrapper).to.not.throw();
+
+// assert that node doesn't exist (throws an Error)
+expect(findSvgWrapper).to.throw();
+
+// if node exists, you can retrieve it to run more assertions
+// by calling the function
+let svgWrapper = findSvgWrapper();
+```
+
+If you're not looking for a single node, you use `getSpecWrappers` which returns an Enzyme [`ReactWrapper`](https://github.com/airbnb/enzyme/tree/master/docs/api/ReactWrapper) of 0 or more node wrappers:
+
+```js
+let wrapper = mount(<Select values={dummyValues} />);
+let selectOptionWrappers = getSpecWrappers(wrapper, 'select-option');
+
+// assert that there are no found nodes
+expect(selectOptionWrappers).to.be.blank();
+
+// assert that there are more than zero found nodes
+expect(selectOptionWrappers).to.not.be.blank();
+
+// assert there to be a specific number of found nodes
+expect(selectOptionWrappers).to.have.length(dummyValues.length);
+```
+
+**[⬆ back to top](#table-of-contents)**
+
+### Testing component existence
+
+Typically, you'll [find components](#finding-components) by using Enzyme's `find` method which returns an an Enzyme [`ReactWrapper`](https://github.com/airbnb/enzyme/tree/master/docs/api/ReactWrapper):
+
+```js
+let wrapper = mount(<Select values={dummyValues} />);
+let selectOptionWrappers = wrapper.find(SelectOption);
+
+// assert that there are no found nodes
+expect(selectOptionWrappers).to.be.blank();
+
+// assert that there are more than zero found nodes
+expect(selectOptionWrappers).to.not.be.blank();
+
+// assert there to be a specific number of found nodes
+expect(selectOptionWrappers).to.have.length(dummyValues.length);
+```
 
 **[⬆ back to top](#table-of-contents)**
 
