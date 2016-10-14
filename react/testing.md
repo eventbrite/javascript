@@ -278,6 +278,68 @@ For components that are basically a composite of other components ([organisms](h
 
 ## Testing render
 
+When testing what a React component is rendering, _only test what the component itself renders_. So if a parent component renders child components, such as a `TextFormField` component rendering `Label` & `TextInput` components, only test that the parent renders those child components and passes the appropriate props to them. Do not test the markup rendered by the child components as the tests for that child component will cover that.
+
+```js
+// good
+it('displays label when `labelText` is specified', () => {
+    let wrapper = mount(<TextFormField labelText="Name" />);
+    let labelWrapper = wrapper.find(Label);
+
+    // assert that when `labelText` is specified
+    // the Label component is rendered
+    expect(labelWrapper).to.not.be.blank();
+
+    // assuming that `labelText` gets passed like:
+    // <Label>{labelText}</Label>
+    // asserts that it's properly passed
+    expect(labelWrapper).to.have.prop('children', 'Name');
+});
+
+// bad (assumes the markup the child component is rendering)
+it('displays label when `labelText` is specified', () => {
+    let wrapper = mount(<TextFormField labelText="Name" />);
+    let findLabelWrapper = () => getSingleSpecWrapper(wrapper, 'label');
+
+    // assert that node exists (doesn't throw an Error)
+    expect(findLabelWrapper).to.not.throw();
+    let labelWrapper = findLabelWrapper();
+
+    expect(labelWrapper).to.not.be.blank();
+    expect(labelWrapper).to.have.text('Name');
+});
+```
+
+The "bad" example assumes that the `Label` component is rendering a `<label>` tag, but the `TextFormField` component shouldn't really know or care what `Label` renders. It treats `Label` as a black box in its implementation so the test should do the same. Imagine if the `Label` component changed to render a `<div>` instead of a `<label>`. All of the tests for components using a `Label` component would now unnecessarily fail. On the other hand, the "good" example tests that the `TextFormField` properly renders the `<Label>` component and that the `labelText` prop is passed as its child.
+
+For HTML elements and their attributes, focus on the markup that's displayed based on logic. Static markup _can_ be tested, but has very diminishing returns.
+
+```js
+// good
+it('includes the disabled CSS class when `isDisabled` is `true`', () => {
+    let wrapper = mount(<Spinner isDisabled={true} />);
+
+    // assert that the Spinner's container/root node has
+    // "spinner--disabled" CSS class added
+    expect(wrapper).to.have.className('spinner--disabled');
+});
+
+// bad (also asserts that the container node is a <div>)
+it('includes the disabled CSS class when `isDisabled` is `true`', () => {
+    let wrapper = mount(<Spinner isDisabled={true} />);
+
+    // assert that the Spinner's container/root node
+    // is a <div>
+    expect(wrapper).to.have.tagName('div');
+
+    // assert that the Spinner's container/root node has
+    // "spinner--disabled" CSS class added
+    expect(wrapper).to.have.className('spinner--disabled');
+});
+```
+
+There's nothing fundamentally wrong with testing that the container/root node is a `<div>` as in the "bad" example, but it's unnecessary since it's static and never changes. In fact, if your test file was filled with these sorts of additional assertions, it could make your test cases more fragile because presentational changes in your component could cause your component's tests to fail.
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Testing events
