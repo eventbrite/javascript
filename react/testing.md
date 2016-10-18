@@ -49,16 +49,16 @@ Tests using `getSingleSpecWrapper` would look like:
 ```js
 // good
 it('has more link pointing to browse URL when `type` is browse', () => {
-    let wrapperInstance = mount(<Notification type="browse" />);
-    let moreLinkWrapper = getSingleSpecWrapper(wrapperInstance, 'notification-more-link');
+    let wrapper = mount(<Notification type="browse" />);
+    let moreLinkWrapper = getSingleSpecWrapper(wrapper, 'notification-more-link');
 
     expect(moreLinkWrapper).to.have.attr('href', 'https://www.eventbrite.com/d/');
 });
 
 // bad (searches by tag name and CSS class)
 it('has more link pointing to browse URL when `type` is browse', () => {
-    let wrapperInstance = mount(<Notification type="browse" />);
-    let moreLinkWrapper = wrapperInstance.find('a.notification__more-link');
+    let wrapper = mount(<Notification type="browse" />);
+    let moreLinkWrapper = wrapper.find('a.notification__more-link');
 
     expect(moreLinkWrapper).to.have.attr('href', 'https://www.eventbrite.com/d/');
 });
@@ -120,9 +120,11 @@ export const getSingleSpecWrapper = (componentWrapper, specName, typeFilter) => 
 You can find a component simply by using Enzyme's [`find`](http://airbnb.io/enzyme/docs/api/ReactWrapper/find.html) and passing the component class:
 
 ```js
+import Checkbox from '../components/Checkbox';
+
 it('should render a checked checkbox if it is selected', () => {
-    let wrapperInstance = mount(<Component isSelected={true} />);
-    let checkboxWrapper = wrapperInstance.find(Checkbox);
+    let wrapper = mount(<Component isSelected={true} />);
+    let checkboxWrapper = wrapper.find(Checkbox);
 
     expect(checkboxWrapper).to.have.prop('isChecked', true);
 });
@@ -133,18 +135,18 @@ This works as long as there's only one `Checkbox` rendered within `Component`. I
 ```js
 // good
 it('should render a checked checkbox if it is selected', () => {
-    let wrapperInstance = mount(<Component isSelected={true} />);
+    let wrapper = mount(<Component isSelected={true} />);
 
     // pass the component class as the third parameter to `getSingleSpecWrapper`
-    let selectAllCheckboxWrapper = getSingleSpecWrapper(wrapperInstance, 'component-selectAll', Checkbox);
+    let selectAllCheckboxWrapper = getSingleSpecWrapper(wrapper, 'component-selectAll', Checkbox);
 
     expect(selectAllCheckboxWrapper).to.have.prop('isChecked', true);
 });
 
 // bad (finds the appropriate Checkbox based on source order)
 it('should render a checked checkbox if it is selected', () => {
-    let wrapperInstance = mount(<Component isSelected={true} />);
-    let selectAllCheckboxWrapper = wrapperInstance.find(Checkbox).at(2);
+    let wrapper = mount(<Component isSelected={true} />);
+    let selectAllCheckboxWrapper = wrapper.find(Checkbox).at(2);
 
     expect(selectAllCheckboxWrapper).to.have.prop('isChecked', true);
 });
@@ -163,11 +165,11 @@ To [find nodes](#finding-nodes) you use the `getSingleSpecWrapper` & `getSpecWra
 `getSingleSpecWrapper` throws an error if a single node is not found. Therefore, in order to determine if a node exists you actually have to test whether or not calling the helper throws an `Error`:
 
 ```js
-let wrapperInstance = mount(<Spinner />);
+let wrapper = mount(<Spinner />);
 
 // wrap the call to retrieve the node in a function so that
 // we can test to see if calling the function throws an Error
-let findSvgWrapper = () => getSingleSpecWrapper(wrapperInstance, 'spinner-svg');
+let findSvgWrapper = () => getSingleSpecWrapper(wrapper, 'spinner-svg');
 
 // assert that node exists (doesn't throw an Error)
 expect(findSvgWrapper).to.not.throw();
@@ -225,16 +227,16 @@ Whenever possible, use `chai-enzyme` & `sinon-chai` assertion helpers in favor o
 ```js
 // good (leverages `.prop` from `chai-enzyme`)
 it('should render a checked checkbox if it is selected', () => {
-    let wrapperInstance = mount(<Component isSelected={true} />);
-    let checkboxWrapper = wrapperInstance.find(Checkbox);
+    let wrapper = mount(<Component isSelected={true} />);
+    let checkboxWrapper = wrapper.find(Checkbox);
 
     expect(checkboxWrapper).to.have.prop('isChecked', true);
 });
 
 // bad (just uses `enzyme` with vanilla `chai`)
 it('should render a checked checkbox if it is selected', () => {
-    let wrapperInstance = mount(<Component isSelected={true} />);
-    let checkboxWrapper = wrapperInstance.find(Checkbox);
+    let wrapper = mount(<Component isSelected={true} />);
+    let checkboxWrapper = wrapper.find(Checkbox);
 
     expect(checkboxWrapper.prop('isChecked')).to.equal(true);
 });
@@ -343,6 +345,82 @@ There's nothing fundamentally wrong with testing that the container/root node is
 **[⬆ back to top](#table-of-contents)**
 
 ## Testing events
+
+As mentioned in our [Testing philosophy](#testing-philosophy), part of the output of your component are the callback handlers it invokes. These event callbacks as functions passed as props to your component and need to be tested.
+
+You test event callbacks by triggering the events that in turn will invoke the callback handler. The type of event you will trigger depends on whether the component contains HTML markup or child components.
+
+### Testing events triggered by DOM
+
+If you are testing an event callback that is triggered by a DOM event (such as `onChange` of an `<input>` node), you will need to simulate that DOM event. You will also need to stub on the event callback prop to assert that it is being called with the correct arguments.
+
+Let's say that you have a `TextInput` component that wraps an `<input type="text" />` DOM node. The `TextInput` has an `onChange` prop that gets called whenever someone types in the input field. The `onChange` prop is also called with the current value that's in the input field. The test case would be set up like:
+
+```js
+import sinon from 'sinon';
+
+it('properly fires `onChange` when input changes', () => {
+    let stubbedOnChange = sinon.stub();
+
+    // pass stubbed function to component as `onChange` prop
+    let wrapper = mount(<TextInput onChange={stubbedOnChange} />);
+    let inputWrapper = getSingleSpecWrapper(wrapper, 'text-input');
+    let inputValue = 'Here is a value';
+
+    // Create a fake event with the properties needed by the component
+    let mockEvent = {
+        target: {
+            value: inputValue
+        }
+    };
+
+    // simulate onChange event on input DOM
+    inputWrapper.simulate('change', mockEvent);
+
+    // assert that the stubbed function was called with the
+    // expected value
+    expect(stubbedOnChange).to.have.been.calledWith(inputValue);
+});
+```
+
+The test case above relies on [Sinon.JS](http://sinonjs.org) for creating the stub. The stub is passed as the `TextInput` component's `onChange` prop so that we can make assertions on it at the end. After [finding a reference](#finding-nodes) to the input field, we simulate a fake `onChange` DOM event on the input field (using Enzyme's [`.simulate`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/simulate.md) helper). Because the `TextInput` implementation expects to read `e.target.value` from the actual DOM event when it's running the browser, we have to mock that event with an object of the same structure. We don't need a full mock DOM event; we only need to mock what the code is actually calling.
+
+Simulating the fake event on the input field will ultimately call our `stubbedOnChange` with its current value. Therefore, our assertion is that `stubbedOnChange` was not only called, but also called with the expected input value. This assertion leverages assertion helpers from [`sinon-chai`](https://github.com/domenic/sinon-chai).
+
+**[⬆ back to top](#table-of-contents)**
+
+### Testing events triggered by child components
+
+More than likely instead of your component adding event handlers directly to DOM nodes, it will be adding handlers to child components. Therefore instead of simulating a DOM event, you need to simulate the child component's event handler being invoked.
+
+Let's say you have an `AutocompleteField` component that has a child `TextInput`. The `AutocompleteField` has an `onChange` prop that is invoked whenever its child `TextInput`'s `onChange` event is invoked. The `AutocompleteField`'s `onChange` prop also passed the current input value. The test case would be set up like:
+
+```js
+import sinon from 'sinon';
+
+it('properly fires `onChange` when input changes', () => {
+    let stubbedOnChange = sinon.stub();
+
+    // pass stubbed function to component as `onChange` prop
+    let wrapper = mount(<AutocompleteField suggestions={[]} onChange={stubbedOnChange} />);
+    let textInputWrapper = wrapper.find(TextInput);
+    let inputValue = 'Here is a value';
+
+    // We don't want to make any assumptions about the markup of `TextInput`. The
+    // `AutocompleteField` component handles `onChange` of `TextInput`, so all we need to
+    // do is call the prop directly like `TextInput` would and ensure we get the appropriate
+    // value
+    textInputWrapper.prop('onChange')(inputValue);
+
+    // assert that the stubbed function was called with the
+    // expected value
+    expect(stubbedOnChange).to.have.been.calledWith(inputValue);
+});
+```
+
+The test case above relies on [Sinon.JS](http://sinonjs.org) for creating the stub. The stub is passed as the `AutocompleteField` component's `onChange` prop so that we can make assertions on it at the end. After [finding a reference](#finding-components) to the `TextInput`, we simulate how `TextInput` would invoke its `onChange` callback prop. We get a reference to the prop using Enzyme's [`.prop`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/prop.md) helper and call the function with the `inputValue`. This exactly how `TextInput` would call it when its DOM input field changes. However, because we don't want to make any assumptions about the markup of `TextInput` we simulate its `onChange` prop instead of digging into it, to simulate its DOM.
+
+Invoking the `onChange` prop will ultimately call our `stubbedOnChange` with the value. Therefore, our assertion is that `stubbedOnChange` was not only called, but also called with the expected input value. This assertion leverages assertion helpers from [`sinon-chai`](https://github.com/domenic/sinon-chai).
 
 **[⬆ back to top](#table-of-contents)**
 
