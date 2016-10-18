@@ -24,7 +24,7 @@ Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.
 
 ## Testing philosophy
 
-Unit testing React components can be a little tricky compared to testing the input/output of traditional JavaScript functions. But it's still doable! Just like with "normal" unit testing, we want to test all of the logic within the component via its public interface. The public _input_ to a component is its props. The public _output_ of a component is the combination of the elements it specifically renders (see [Testing render](#testing-render)) as well as the callback handlers it invokes (see [Testing events](#testing-events)).
+Unit testing React components can be a little tricky compared to testing the input/output of traditional JavaScript functions. But it's still doable! Just like with "normal" unit testing, we want to test all of the logic within the component via its public interface. The public _input_ to a component is its props. The public _output_ of a component is the combination of the elements it specifically renders (see [Testing render](#testing-render)) as well as the callback handlers it invokes (see [Testing events](#testing-events)). The goal is to render components with various configurations of their props, so that we can assert that what is rendered and what callbacks are invoked is as expected.
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -120,8 +120,6 @@ export const getSingleSpecWrapper = (componentWrapper, specName, typeFilter) => 
 You can find a component simply by using Enzyme's [`find`](http://airbnb.io/enzyme/docs/api/ReactWrapper/find.html) and passing the component class:
 
 ```js
-import Checkbox from '../components/Checkbox';
-
 it('should render a checked checkbox if it is selected', () => {
     let wrapper = mount(<Component isSelected={true} />);
     let checkboxWrapper = wrapper.find(Checkbox);
@@ -280,7 +278,7 @@ For components that are basically a composite of other components ([organisms](h
 
 ## Testing render
 
-When testing what a React component is rendering, _only test what the component itself renders_. So if a parent component renders child components, such as a `TextFormField` component rendering `Label` & `TextInput` components, only test that the parent renders those child components and passes the appropriate props to them. Do not test the markup rendered by the child components as the tests for that child component will cover that.
+When testing what a React component is rendering, _only test what the component itself renders_. Therefore if a parent component renders child components, such as a `TextFormField` component rendering `Label` & `TextInput` components, only test that the parent renders those child components and passes the appropriate props to them. **Do not** test the markup rendered by the child components because the tests for that child component will cover that.
 
 ```js
 // good
@@ -312,7 +310,7 @@ it('displays label when `labelText` is specified', () => {
 });
 ```
 
-The "bad" example assumes that the `Label` component is rendering a `<label>` tag, but the `TextFormField` component shouldn't really know or care what `Label` renders. It treats `Label` as a black box in its implementation so the test should do the same. Imagine if the `Label` component changed to render a `<div>` instead of a `<label>`. All of the tests for components using a `Label` component would now unnecessarily fail. On the other hand, the "good" example tests that the `TextFormField` properly renders the `<Label>` component and that the `labelText` prop is passed as its child.
+The "bad" example assumes that the `Label` component is rendering a `<label>` tag, but the `TextFormField` component shouldn't really know or care what `Label` renders. It treats `Label` as a black box in its implementation so the test should do the same. Imagine if the `Label` component changed to render a `<div>` instead of a `<label>`. All of the tests for components using a `Label` component would now unnecessarily fail. On the other hand, the "good" example tests that the `TextFormField` properly renders the `<Label>` component and that the `labelText` prop is passed as its content (the `children` prop).
 
 For HTML elements and their attributes, focus on the markup that's displayed based on logic. Static markup _can_ be tested, but has very diminishing returns.
 
@@ -340,25 +338,23 @@ it('includes the disabled CSS class when `isDisabled` is `true`', () => {
 });
 ```
 
-There's nothing fundamentally wrong with testing that the container/root node is a `<div>` as in the "bad" example, but it's unnecessary since it's static and never changes. In fact, if your test file was filled with these sorts of additional assertions, it could make your test cases more fragile because presentational changes in your component could cause your component's tests to fail.
+There's nothing fundamentally wrong with testing that the container/root node is a `<div>` in the "bad" example, but it os unnecessary since it's static and never changes. In fact, if your test file was filled with these sorts of additional assertions, it could make your test cases more fragile because presentational changes in your component could cause your component's tests to fail.
 
 **[⬆ back to top](#table-of-contents)**
 
 ## Testing events
 
-As mentioned in our [Testing philosophy](#testing-philosophy), part of the output of your component are the callback handlers it invokes. These event callbacks as functions passed as props to your component and need to be tested.
+As mentioned in our [Testing philosophy](#testing-philosophy), part of the output of your component are the callback handlers it invokes. These event callbacks are functions passed as props to your component and need to be tested.
 
-You test event callbacks by triggering the events that in turn will invoke the callback handler. The type of event you will trigger depends on whether the component contains HTML markup or child components.
+Test event callbacks by triggering the events that in turn will invoke the callback handler. The type of event triggered depends on whether the component contains HTML markup or child components.
 
 ### Testing events triggered by DOM
 
-If you are testing an event callback that is triggered by a DOM event (such as `onChange` of an `<input>` node), you will need to simulate that DOM event. You will also need to stub on the event callback prop to assert that it is being called with the correct arguments.
+If you are testing an event callback that is triggered by a DOM event (such as `onClick` of an `<button>` node), you will need to simulate that DOM event. You will also need to stub the event callback prop to assert that it is being called with the correct arguments.
 
-Let's say that you have a `TextInput` component that wraps an `<input type="text" />` DOM node. The `TextInput` has an `onChange` prop that gets called whenever someone types in the input field. The `onChange` prop is also called with the current value that's in the input field. The test case would be set up like:
+Let's say that there is a `TextInput` component that wraps an `<input type="text" />` DOM node. The `TextInput` has an `onChange` prop that gets called whenever the input field value changes. The `onChange` prop is also called with the current value that's in the input field. The test case would be set up like:
 
 ```js
-import sinon from 'sinon';
-
 it('properly fires `onChange` when input changes', () => {
     let stubbedOnChange = sinon.stub();
 
@@ -383,21 +379,19 @@ it('properly fires `onChange` when input changes', () => {
 });
 ```
 
-The test case above relies on [Sinon.JS](http://sinonjs.org) for creating the stub. The stub is passed as the `TextInput` component's `onChange` prop so that we can make assertions on it at the end. After [finding a reference](#finding-nodes) to the input field, we simulate a fake `onChange` DOM event on the input field (using Enzyme's [`.simulate`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/simulate.md) helper). Because the `TextInput` implementation expects to read `e.target.value` from the actual DOM event when it's running the browser, we have to mock that event with an object of the same structure. We don't need a full mock DOM event; we only need to mock what the code is actually calling.
+The test case above relies on [Sinon.JS](http://sinonjs.org) for creating the stub. The stub is passed as the `TextInput` component's `onChange` prop so that we can make assertions on it at the end. After [finding a reference](#finding-nodes) to the input field, we simulate a fake `onChange` DOM event on the input field (using Enzyme's [`.simulate`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/simulate.md) helper). Because the `TextInput` implementation expects to read `e.target.value` from an actual DOM event when it's running the browser, we have to mock that event with an object of the same structure. We don't need a full mock DOM event; we only need to mock what the code is actually calling.
 
-Simulating the fake event on the input field will ultimately call our `stubbedOnChange` with its current value. Therefore, our assertion is that `stubbedOnChange` was not only called, but also called with the expected input value. This assertion leverages assertion helpers from [`sinon-chai`](https://github.com/domenic/sinon-chai).
+Simulating the fake event on the input field will ultimately call our `stubbedOnChange` with its current value. Therefore, our assertion is that `stubbedOnChange` was not only called, but also called with the expected input value. This assertion leverages the `.calledWith` assertion helper from [`sinon-chai`](https://github.com/domenic/sinon-chai).
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Testing events triggered by child components
 
-More than likely instead of your component adding event handlers directly to DOM nodes, it will be adding handlers to child components. Therefore instead of simulating a DOM event, you need to simulate the child component's event handler being invoked.
+More than likely instead of your component adding event handlers directly to DOM nodes, it will be adding handlers to child components. Therefore instead of simulating a DOM event, simulate the child component's event handler being invoked.
 
-Let's say you have an `AutocompleteField` component that has a child `TextInput`. The `AutocompleteField` has an `onChange` prop that is invoked whenever its child `TextInput`'s `onChange` event is invoked. The `AutocompleteField`'s `onChange` prop also passed the current input value. The test case would be set up like:
+Let's say you have an `AutocompleteField` component that has a child `TextInput`. The `AutocompleteField` has an `onChange` prop that is invoked whenever its child `TextInput`'s `onChange` event is invoked. The `AutocompleteField`'s `onChange` prop also passes the current input value. The test case would be set up like:
 
 ```js
-import sinon from 'sinon';
-
 it('properly fires `onChange` when input changes', () => {
     let stubbedOnChange = sinon.stub();
 
@@ -418,9 +412,9 @@ it('properly fires `onChange` when input changes', () => {
 });
 ```
 
-The test case above relies on [Sinon.JS](http://sinonjs.org) for creating the stub. The stub is passed as the `AutocompleteField` component's `onChange` prop so that we can make assertions on it at the end. After [finding a reference](#finding-components) to the `TextInput`, we simulate how `TextInput` would invoke its `onChange` callback prop. We get a reference to the prop using Enzyme's [`.prop`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/prop.md) helper and call the function with the `inputValue`. This exactly how `TextInput` would call it when its DOM input field changes. However, because we don't want to make any assumptions about the markup of `TextInput` we simulate its `onChange` prop instead of digging into it, to simulate its DOM.
+The test case above relies on [Sinon.JS](http://sinonjs.org) for creating the stub. The stub is passed as the `AutocompleteField` component's `onChange` prop so that we can make assertions on it at the end. After [finding a reference](#finding-components) to the `TextInput`, we simulate how `TextInput` would invoke its `onChange` callback prop. We get a reference to the prop using Enzyme's [`.prop`](https://github.com/airbnb/enzyme/blob/master/docs/api/ReactWrapper/prop.md) helper and call the function with the `inputValue`. This exactly how `TextInput` would call it when its DOM input field changes. However, because we don't want to make any assumptions about the markup of `TextInput` we simulate its `onChange` prop instead of digging into it in order to simulate its DOM.
 
-Invoking the `onChange` prop will ultimately call our `stubbedOnChange` with the value. Therefore, our assertion is that `stubbedOnChange` was not only called, but also called with the expected input value. This assertion leverages assertion helpers from [`sinon-chai`](https://github.com/domenic/sinon-chai).
+Invoking the `onChange` prop will ultimately call our `stubbedOnChange` with the value. Therefore, our assertion is that `stubbedOnChange` was not only called, but also called with the expected input value. This assertion leverages the `.calledWith` assertion helper from [`sinon-chai`](https://github.com/domenic/sinon-chai).
 
 **[⬆ back to top](#table-of-contents)**
 
