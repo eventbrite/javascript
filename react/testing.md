@@ -513,4 +513,54 @@ See [Testing events triggered by child components](#testing-events-triggered-by-
 
 ## Testing re-renders
 
+Typically components are stateless meaning that what is rendered by the component is 100% based upon the props that are based in. In these cases creating a component with initial props when [testing render](#testing-render) and [testing events](#testing-events) as explained above should suffice. There shouldn't be a need to test the re-render of a component receiving new props.
+
+However, when a component leverages internal state and its props are changed, what will be rendered will be based on a combination of those updated props and the existing state. In this case, test that the new markup is as it should be, indirectly verifying that the updated prop(s) either have or have not overridden the existing state.
+
+Let's say we have a `TextInput` component. It has `initialValue` & `value` props (among many others). The `initialValue` prop will initialize the `TextInput` component's underlying `<input>` node's value, but won't override the node if the prop is later updated. However, the `value` prop will both initialize the `<input>` as well as override its value.
+
+To test the `initialValue` prop behavior:
+
+```js
+it('does NOT allow `initialValue` to override existing <input> value', () => {
+    let initialValue = 'react';
+    let newValue = 'enzyme';
+    let wrapper = mount(<TextInput initialValue={initialValue} />);
+    let inputWrapper = getSingleSpecWrapper(wrapper, 'text-input');
+
+    // ensure that the `initialValue` is properly reflected
+    // by checking the <input> node
+    expect(inputWrapper).to.have.value(initialValue);
+
+    // update the TextInput's props
+    wrapper.setProps({value: newValue});
+
+    // ensure that the <input> node's value hasn't changed
+    expect(inputWrapper).to.have.value(initialValue);
+});
+```
+
+To test the `value` prop behavior:
+
+```js
+it('DOES allow `value` to override existing <input> value', () => {
+    let initialValue = 'react';
+    let newValue = 'enzyme';
+    let wrapper = mount(<TextInput initialValue={initialValue} />);
+    let inputWrapper = getSingleSpecWrapper(wrapper, 'text-input');
+
+    // ensure that the `initialValue` is properly reflected
+    // by checking the <input> node
+    expect(inputWrapper).to.have.value(initialValue);
+
+    // update the TextInput's props
+    wrapper.setProps({value: newValue});
+
+    // ensure that the <input> node's value has changed
+    expect(inputWrapper).to.have.value(newValue);
+});
+```
+
+The key to passing new props to the existing `TextInput` component is the [`setProps`](https://github.com/airbnb/enzyme/blob/master/docs/api/mount.md#setpropsnextprops--reactwrapper) helper method. It will cause a re-render, which will allow us to assert that the new markup is as it should be.
+
 **[⬆ back to top](#table-of-contents)**
