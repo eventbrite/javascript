@@ -15,7 +15,7 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 0. [Testing render](#testing-render)
 0. [Testing events](#testing-events)
 0. [Testing state](#testing-state)
-0. [Testing re-renders](#testing-re-renders)
+0. [Testing updated props](#testing-updated-props)
 
 ## Testing environment
 
@@ -511,7 +511,7 @@ See [Testing events triggered by child components](#testing-events-triggered-by-
 
 **[⬆ back to top](#table-of-contents)**
 
-## Testing re-renders
+## Testing updated props
 
 Typically components are stateless meaning that what is rendered by the component is 100% based upon the props that are based in. In these cases creating a component with initial props when [testing render](#testing-render) and [testing events](#testing-events) as explained above should suffice. There shouldn't be a need to test the re-render of a component receiving new props.
 
