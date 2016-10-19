@@ -31,6 +31,28 @@ Unit testing React components can be a little tricky compared to testing the inp
 
 ## Writing a test case
 
+Use [arrow functions](https://www.eventbrite.com/engineering/learning-es6-arrow-functions/) to force functional test cases:
+
+```js
+it('does what it is supposed to do', () => {
+
+});
+```
+
+Using arrow functions prevents being able to use `beforeEach` & `afterEach` because `this` is now lexically scoped. In the past, data common to each test case was stored on `this` in `beforeEach` (and cleaned up in `afterEach`) so that each individual test case didn't have to generate the data itself. However, `beforeEach` devolved into a dumping ground for _anything_ that _may_ get used by more than one test case. As such way more data was generated than was needed, unnecessarily slowing down test execution.
+
+Instead, factor out helper data generation functions and call them as needed in the test cases:
+
+```js
+const generateComponent = (additionalProps={}) => (
+    <Component {...additionalProps} />
+);
+
+it('does what it is supposed to do', () => {
+    let wrapper = mount(generateComponent());
+});
+```
+
 **[⬆ back to top](#table-of-contents)**
 
 ## Finding nodes
