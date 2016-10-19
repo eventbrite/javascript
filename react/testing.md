@@ -6,6 +6,7 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 
 0. [Testing environment](#testing-environment)
 0. [Testing philosophy](#testing-philosophy)
+0. [Writing a test case](#writing-a-test-case)
 0. [Finding nodes](#finding-nodes)
 0. [Finding components](#finding-components)
 0. [Testing existence](#testing-existence)
@@ -25,6 +26,10 @@ Eventbrite uses [`chai`](http://chaijs.com) (`expect` [BDD style](http://chaijs.
 ## Testing philosophy
 
 Unit testing React components can be a little tricky compared to testing the input/output of traditional JavaScript functions. But it's still doable! Just like with "normal" unit testing, we want to test all of the logic within the component via its public interface. The public _input_ to a component is its props. The public _output_ of a component is the combination of the elements it specifically renders (see [Testing render](#testing-render)) as well as the callback handlers it invokes (see [Testing events](#testing-events)). The goal is to render components with various configurations of their props, so that we can assert that what is rendered and what callbacks are invoked is as expected.
+
+**[⬆ back to top](#table-of-contents)**
+
+## Writing a test case
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -419,6 +424,68 @@ Invoking the `onChange` prop will ultimately call our `stubbedOnChange` with the
 **[⬆ back to top](#table-of-contents)**
 
 ## Testing state
+
+Although `chai-enzyme` provides a [`.state()`](https://github.com/producthunt/chai-enzyme#statekey-val) helper method for asserting component state, it shouldn't be used in tests because the component's state is internal (and shouldn't be tested). Based on our [testing philosophy](#testing-philosophy), we only want to test the public API of the component.
+
+When a component's state changes, the component is re-rendered, resulting in a change in markup. By testing only the changed markup (part of the component's public output), instead of the component's internal state, we can refactor the component's internals and have all of our test cases still pass. In sum, our test cases are a little less fragile.
+
+Let's say for instance we had a component that has a `Checkbox` child component that toggles the component between inactive and active states. The active state is publicly represented by an `isActive` class added to the root DOM node. The test case could look something like:
+
+```js
+// good (tests internal state *indirectly* via re-rendered markup)
+it('toggles active state when checkbox is toggled', () => {
+    let wrapper = mount(<Component />);
+    let checkboxWrapper = wrapper.find(Checkbox);
+
+    // first assert that by default the active class is *not* present
+    expect(wrapper).to.not.have.className('component--isActive');
+
+    // simulate toggling the checkbox on by calling its
+    // onChange callback handler passing `true` for
+    // checked state
+    checkboxWrapper.prop('onChange')(true);
+
+    // now assert that the active class *is* present
+    expect(wrapper).to.have.className('component--isActive');
+
+    // simulate toggling the checkbox back off
+    checkboxWrapper.prop('onChange')(false);
+
+    // finally assert once again that active class is *not*
+    // present
+    expect(wrapper).to.not.have.className('component--isActive');
+});
+
+// bad (tests internal state directly)
+it('toggles active state when checkbox is toggled', () => {
+    let wrapper = mount(<Component />);
+    let checkboxWrapper = wrapper.find(Checkbox);
+
+    // assert that component's `isActive` internal state is
+    // initially false
+    expect(wrapper).to.have.state('isActive', false);
+
+    // simulate toggling the checkbox on by calling its
+    // onChange callback handler passing `true` for
+    // checked state
+    checkboxWrapper.prop('onChange')(true);
+
+    // now assert that the `isActive` internal state is
+    // true
+    expect(wrapper).to.have.state('isActive', true);
+
+    // simulate toggling the checkbox back off
+    checkboxWrapper.prop('onChange')(false);
+
+    // finally assert once again that `isActive` internal
+    // state is false
+    expect(wrapper).to.have.state('isActive', false);
+});
+```
+
+Both the "good" and "bad" test cases are basically the same. The only difference is what is asserted. Ultimately, what we care about is that the root node has the appropriate CSS class; the changing of the internal `isActive` state just happens to be the mechanism that we accomplish it. This is what makes the "good" example better.
+
+See [Testing events triggered by child components](#testing-events-triggered-by-child-components) for more on simulating child component events.
 
 **[⬆ back to top](#table-of-contents)**
 
