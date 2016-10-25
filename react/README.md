@@ -2011,7 +2011,7 @@ If you need to add event handlers to the `window` or `document`, there is no Rea
 
 Let's take an example where you would like to make a `fetch` API request and also listen to the `resize` event on the window. You would need to make use of the `componentDidMount` & `componentWillUnmount` lifecycle methods:
 
-```
+```js
 export default class App extends React.Component {
     state = {
         items: [],
