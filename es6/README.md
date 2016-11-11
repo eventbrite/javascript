@@ -57,7 +57,7 @@ const generateGreeting = (name=DEFAULT_NAME) => {
 let DEFAULT_NAME = 'Eventbrite';
 
 let generateGreeting = (name=DEFAULT_NAME) => {
-    let formattedNow = (new Date()).toString();
+    let formattedNow = new Date();
 
     return `Hi, ${name} on ${formattedNow}`;
 }
@@ -107,14 +107,14 @@ Avoid using `const` for local variables (eslint: [`prefer-const`](http://eslint.
 ```js
 // good
 const generateGreeting = (name=DEFAULT_NAME) => {
-    let formattedNow = (new Date()).toString();
+    let formattedNow = new Date();
 
     return `Hi, ${name} on ${formattedNow}`;
 }
 
 // bad (uses `const` for `formattedNow` local variable)
 const generateGreeting = (name=DEFAULT_NAME) => {
-    const formattedNow = (new Date()).toString();
+    const formattedNow = new Date();
 
     return `Hi, ${name} on ${formattedNow}`;
 }
@@ -135,21 +135,21 @@ When building up a string, use a template literal instead of string concatenatio
 ```js
 // good
 const generateGreeting = (name=DEFAULT_NAME) => {
-    const formattedNow = (new Date()).toString();
+    const formattedNow = new Date();
 
     return `Hi, ${name} on ${formattedNow}`;
 }
 
 // bad (uses string concatenation)
 const generateGreeting = (name=DEFAULT_NAME) => {
-    const formattedNow = (new Date()).toString();
+    const formattedNow = new Date();
 
     return 'Hi, ' + name + ' on ' + formattedNow;
 }
 
 // bad (uses array join)
 const generateGreeting = (name=DEFAULT_NAME) => {
-    const formattedNow = (new Date()).toString();
+    const formattedNow = new Date();
 
     return ['Hi, ', name, ' on ', formattedNow].join();
 }
@@ -160,14 +160,14 @@ When using template literals, tokens should **not** be padded by spaces (eslint:
 ```js
 // good
 const generateGreeting = (name=DEFAULT_NAME) => {
-    const formattedNow = (new Date()).toString();
+    const formattedNow = new Date();
 
     return `Hi, ${name} on ${formattedNow}`;
 }
 
 // bad (has extra padding around the curlies)
 const generateGreeting = (name=DEFAULT_NAME) => {
-    const formattedNow = (new Date()).toString();
+    const formattedNow = new Date();
 
     return `Hi, ${ name } on ${ formattedNow }`;
 }
