@@ -48,7 +48,7 @@ Use `const` for the following:
 const DEFAULT_NAME = 'Eventbrite';
 
 const generateGreeting = (name=DEFAULT_NAME) => {
-    let formattedNow = (new Date()).toString();
+    let formattedNow = new Date();
 
     return `Hi, ${name} on ${formattedNow}`;
 }
@@ -80,10 +80,11 @@ const MaxAllowed = 7;
 const maxAllowed = 7;
 ```
 
-Factor out constants into a constants file if a given [module](#modules) has more than 3 constants:
+Factor out constants into a separate constants module if a given [module](#modules) has more than 3 constants, importing the constants module as an object:
 
 ```js
-// good (imports constants from constants file)
+// good (imports constants as an object from
+// constants module)
 import * as constants from './constants';
 
 // bad (has more than 3 constants w/in module)
@@ -95,7 +96,7 @@ const FIFTH_CONSTANT = 'quux';
 const SIXTH_CONSTANT = 'corge';
 ```
 
-However, if you are using 3 or fewer constants from a file, you can import them individually:
+However, if you are using 3 or fewer constants from a file, you can use individual named imports instead importing the entire module as an object:
 
 ```js
 import {FIRST_CONSTANT, FIFTH_CONSTANT} from './constants';
@@ -185,6 +186,16 @@ let message = 'He\'s the one!';
 let message = "He's the one!";
 ```
 
+Don't use template literals when there is nothing to interpolate (eslint: [`no-useless-escape`](http://eslint.org/docs/rules/no-useless-concat)):
+
+```js
+// good
+const COMPANY_NAME = 'Eventbrite';
+
+// bad (uses template literal unnecessarily)
+const COMPANY_NAME = `Eventbrite`;
+```
+
 For more on template literals, read [_Learning ES6: Template literals & tagged templates_](http://www.eventbrite.com/engineering/learning-es6-template-literals-tagged-templates/).
 
 **[⬆ back to top](#table-of-contents)**
@@ -193,7 +204,7 @@ For more on template literals, read [_Learning ES6: Template literals & tagged t
 
 ### Array + spread operator
 
-Use the spread operator (`...`) to copy an array:
+Use the spread operator (`...`) to create a shallow copy of an array:
 
 ```js
 // good
@@ -226,11 +237,26 @@ let scale = start.concat(['fa', 'so']).concat(end);
 Use the spread operator (`...`) to convert an array-like object into an `Array`:
 
 ```js
+// good
+
 // NodeList object
 let nodeList = document.querySelectorAll('p');
 
 // Array
 let nodes = [...nodeList];
+
+
+// bad (uses a loop convert to an array)
+
+// NodeList object
+let nodeList = document.querySelectorAll('p');
+
+// Array
+let nodes = [];
+
+for (let i = 0; i < nodeList.length; i++) {
+    nodes.push(nodeList[i]);
+}
 ```
 
 For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/).
