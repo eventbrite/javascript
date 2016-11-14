@@ -173,19 +173,6 @@ const generateGreeting = (name=DEFAULT_NAME) => {
 }
 ```
 
-Use template literals instead of escape single quotes (eslint: [`no-useless-escape`](http://eslint.org/docs/rules/no-useless-escape)):
-
-```js
-// good
-let message = `He's the one!`;
-
-// bad (escapes the single quote)
-let message = 'He\'s the one!';
-
-// bad (uses double quotes to avoid quoting)
-let message = "He's the one!";
-```
-
 Don't use template literals when there is nothing to interpolate (eslint: [`no-useless-escape`](http://eslint.org/docs/rules/no-useless-concat)):
 
 ```js
@@ -271,13 +258,69 @@ Coming soon...
 
 ## Functions
 
-Coming soon...
-
-**[⬆ back to top](#table-of-contents)**
-
 ### Arrow Functions
 
-Coming soon...
+When an arrow function expression is needed, use an arrow function in place of an anonymous function (eslint: [`prefer-arrow-callback`](http://eslint.org/docs/rules/prefer-arrow-callback)):
+
+```js
+// good
+[1, 2, 3].map((x) => x * x);
+
+// bad (uses anonymous function)
+[1, 2, 3].map(function(x) {
+    return x * x;
+})
+```
+
+Include a single space around the arrow (`=>`) in an arrow function (eslint: [`arrow-spacing`](http://eslint.org/docs/rules/arrow-spacing)):
+
+```js
+// good
+[1, 2, 3].map((x) => x * x);
+
+// bad (missing spaces around arrow)
+[1, 2, 3].map((x)=>x * x);
+```
+
+Always surround the parameters of an arrow function with parentheses (eslint: [`arrow-parens`](http://eslint.org/docs/rules/arrow-parens)):
+
+```js
+// good
+[1, 2, 3].map((x) => x * x);
+
+// bad (missing parentheses surrounding parameters)
+[1, 2, 3].map(x => x * x);
+```
+
+When the function body is a single expression, omit the curly braces and use the implicit return syntax (eslint: [`arrow-body-style`](http://eslint.org/docs/rules/arrow-body-style)):
+
+```js
+// good (uses implicit return for single expression)
+[1, 2, 3].map((x) => x * x);
+
+// bad (doesn't use implicit return for single expression)
+[1, 2, 3].map((x) => {
+    return x * x;
+});
+```
+
+When the function body is a single expression, but spans multiple lines, surround the function body in parentheses:
+
+```js
+// good
+eventIds.forEach((eventId) => (
+    fetch(`EVENT_SAVE_URL/${eventId}`, {
+        method: 'POST'
+    })
+));
+
+// bad (missing parentheses surrounding function body)
+eventIds.forEach((eventId) => fetch(`EVENT_SAVE_URL/${eventId}`, {
+    method: 'POST'
+}));
+```
+
+For more on arrow functions, read [_Learning ES6: Arrow Functions_](http://www.eventbrite.com/engineering/learning-es6-arrow-functions/).
 
 **[⬆ back to top](#table-of-contents)**
 
