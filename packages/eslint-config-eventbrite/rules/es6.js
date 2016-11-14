@@ -9,6 +9,10 @@ module.exports = {
         }
     },
     rules: {
+        // require no braces where they can be omitted
+        // http://eslint.org/docs/rules/arrow-body-style
+        'arrow-body-style': 'error',
+
         // require parentheses around arrow function parameters
         // http://eslint.org/docs/rules/arrow-parens
         'arrow-parens': 'error',
