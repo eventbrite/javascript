@@ -252,7 +252,124 @@ For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](
 
 ## Objects
 
-Coming soon...
+When a variable name matches the name of the object key in an object literal, use [property value shorthand](http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/#property-value-shorthand) (eslint: [`object-shorthand`](http://eslint.org/docs/rules/object-shorthand)):
+
+```js
+let name = 'Eventbrite';
+
+// good
+let data = {
+    name
+};
+
+// bad (duplicates key and variable name)
+let data = {
+    name: name
+};
+```
+
+Group any object literal property value shorthands at the beginning of the object literal so that it's easier to see which properties are using the shorthand:
+
+```js
+let name = 'Eventbrite';
+let location = 'San Francisco, CA';
+
+// good
+let data = {
+    name,
+    location,
+    ceo: 'Julia Hartz',
+    founders: ['Julia Hartz', 'Kevin Hartz', 'Renaud Visage']
+};
+
+// bad (shorthands aren't at the top)
+let data = {
+    name,
+    ceo: 'Julia Hartz',
+    founders: ['Julia Hartz', 'Kevin Hartz', 'Renaud Visage'],
+    location
+};
+```
+
+When creating object literals with dynamic property names, use [computed property keys](http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/#computed-property-keys) (eslint: [`object-shorthand`](http://eslint.org/docs/rules/object-shorthand)):
+
+```js
+let name = 'Eventbrite';
+let location = 'San Francisco, CA';
+let leaderName = 'ceo';
+
+// good
+let data = {
+    name,
+    location,
+    [leaderName]: 'Julia Hartz',
+    founders: ['Julia Hartz', 'Kevin Hartz', 'Renaud Visage']
+};
+
+// bad (doesn't leverage computed property keys)
+let data = {
+    name,
+    location,
+    founders: ['Julia Hartz', 'Kevin Hartz', 'Renaud Visage']
+};
+
+data[leaderName] = 'Julia Hartz';
+```
+
+When defining methods on an object literal, use [method definition shorthand](http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/#method-definition-shorthand) (eslint: [`object-shorthand`](http://eslint.org/docs/rules/object-shorthand)):
+
+```js
+let name = 'Eventbrite';
+let location = 'San Francisco, CA';
+let leaderName = 'ceo';
+
+// good
+let data = {
+    name,
+    location,
+    [leaderName]: 'Julia Hartz',
+    founders: ['Julia Hartz', 'Kevin Hartz', 'Renaud Visage'],
+    getDisplay() {
+        return `${this.name} in ${this.location}`;
+    }
+};
+
+// bad (doesn't leverage method definition shorthand)
+let data = {
+    name,
+    location,
+    [leaderName]: 'Julia Hartz',
+    founders: ['Julia Hartz', 'Kevin Hartz', 'Renaud Visage'],
+    getDisplay: function() {
+        return `${this.name} in ${this.location}`;
+    }
+};
+```
+
+Use the [object spread operator](https://github.com/sebmarkbage/ecmascript-rest-spread/blob/master/Spread.md) instead of [`Object.assign`](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) to create a shallow copy with source object properties merged in:
+
+```js
+// good
+let warriors = {Steph: 95, Klay: 82, Draymond: 79};
+let newWarriors = {
+    ...warriors,
+    Kevin: 97
+};
+
+// bad (uses Object.assign instead)
+let warriors = {Steph: 95, Klay: 82, Draymond: 79};
+let newWarriors = Object.assign({}, warriors, {
+    Kevin: 97
+});
+
+// terrible (mutates `warriors` variable)
+let warriors = {Steph: 95, Klay: 82, Draymond: 79};
+let newWarriors = Object.assign(warriors, {
+    Kevin: 97
+});
+```
+
+For more on enhanced object literals, read [_Learning ES6: Enhanced object literals_](http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/).
 
 **[⬆ back to top](#table-of-contents)**
 
