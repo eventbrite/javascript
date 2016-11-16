@@ -565,7 +565,21 @@ For more on default parameters, read [_Learning ES6: Default parameters_](http:/
 
 ### Spread Operator
 
-Coming soon...
+Use the spread operator (`...`) instead of [`Function.prototype.apply`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) when needing to pass elements of an array as arguments to a function call (eslint: [`prefer-spread`](http://eslint.org/docs/rules/prefer-spread)):
+
+```js
+// good
+let maxValue = Math.max(...[3, 41, 17]);
+let today = new Date(...[2016, 11, 16]);
+
+// bad (uses `apply`)
+let maxValue = Math.max.apply(null, [3, 41, 17]);
+let today = new (Function.prototype.bind.apply(Date, [null, 2016, 11, 16]));
+```
+
+Using the spread operator is cleaner because you don't have to specify a context (first example). Furthermore you cannot easily combine `new` with `apply` (second example).
+
+For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#spread-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
