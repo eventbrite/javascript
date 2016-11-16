@@ -497,7 +497,7 @@ const getData = (options, useCache = true) => {
     // get data based on whether we're using the
     // cache or not
 
-	return data;
+    return data;
 }
 
 // bad (defaults the parameter in function body)
@@ -508,10 +508,10 @@ const getData = (options, useCache) => {
         useCache = true;
     }
 
-	// get data based on whether we're using the
+    // get data based on whether we're using the
     // cache or not
 
-	return data;
+    return data;
 }
 ```
 
@@ -522,7 +522,7 @@ Put all default parameters at the end of the function header:
 const getData = (options, useCache = true) => {
     let data;
 
-	// get data based on whether we're using the
+    // get data based on whether we're using the
     // cache or not
 
     return data;
@@ -532,7 +532,7 @@ const getData = (options, useCache = true) => {
 const getData = (useCache = true, options) => {
     let data;
 
-	// get data based on whether we're using the
+    // get data based on whether we're using the
     // cache or not
 
     return data;
