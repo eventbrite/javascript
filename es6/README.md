@@ -369,6 +369,22 @@ let newWarriors = Object.assign(warriors, {
 });
 ```
 
+The object spread operator (as well as `Object.assign`) only make shallow copies. As such they only work on a single level of nesting at a time. However, you need to merge into a level deeper than the top level, you can still make use of the object spread operator:
+
+```js
+let teams = {
+    warriors: {Steph: 95, Klay: 82, Draymond: 79},
+    cavs: {Lebron: 98, Kyrie: 87, Kevin: 80}
+};
+let updatedTeams = {
+    ...teams,
+    warriors: {
+        ...updatedTeams.warriors,
+        Kevin: 97
+    }
+};
+```
+
 For more on enhanced object literals, read [_Learning ES6: Enhanced object literals_](http://www.eventbrite.com/engineering/learning-es6-enhanced-object-literals/).
 
 **[⬆ back to top](#table-of-contents)**
