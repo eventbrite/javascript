@@ -487,6 +487,84 @@ For more on rest parameters, read [_Learning ES6: Rest & Spread Operators_](http
 
 ### Default Parameters
 
+Use default parameters in the function header instead of mutating parameters in the function body:
+
+```js
+// good
+const getData = (options, useCache=true) => {
+    let data;
+
+	if (useCache) {
+		// get data from cache
+	}
+
+    if (!data) {
+        // calculate data
+    }
+
+	return data;
+}
+
+// bad (defaults the parameter in function body)
+const getData = (options, useCache) => {
+    let data;
+
+    if (useCache === undefined) {
+        useCache = true;
+    }
+
+	if (useCache) {
+		// get data from cache
+	}
+
+    if (!data) {
+        // calculate data
+    }
+
+	return data;
+}
+```
+
+Put all default parameters at the end of the function header:
+
+```js
+// good
+const getData = (options, useCache=true) => {
+    let data;
+
+	if (useCache) {
+		// get data from cache
+	}
+
+    if (!data) {
+        // calculate data
+    }
+
+	return data;
+}
+
+// bad (default parameter isn't at the end)
+const getData = (useCache=true, options) => {
+    let data;
+
+	if (useCache) {
+		// get data from cache
+	}
+
+    if (!data) {
+        // calculate data
+    }
+
+	return data;
+}
+```
+
+For more on default parameters, read [_Learning ES6: Default parameters_](http://www.eventbrite.com/engineering/learning-es6-default-parameters/).
+
+**[⬆ back to top](#table-of-contents)**
+
+### Spread Operator
+
 Coming soon...
 
 **[⬆ back to top](#table-of-contents)**
