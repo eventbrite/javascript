@@ -491,16 +491,11 @@ Use default parameters in the function header instead of mutating parameters in 
 
 ```js
 // good
-const getData = (options, useCache=true) => {
+const getData = (options, useCache = true) => {
     let data;
 
-	if (useCache) {
-		// get data from cache
-	}
-
-    if (!data) {
-        // calculate data
-    }
+    // get data based on whether we're using the
+    // cache or not
 
 	return data;
 }
@@ -513,13 +508,8 @@ const getData = (options, useCache) => {
         useCache = true;
     }
 
-	if (useCache) {
-		// get data from cache
-	}
-
-    if (!data) {
-        // calculate data
-    }
+	// get data based on whether we're using the
+    // cache or not
 
 	return data;
 }
@@ -529,33 +519,23 @@ Put all default parameters at the end of the function header:
 
 ```js
 // good
-const getData = (options, useCache=true) => {
+const getData = (options, useCache = true) => {
     let data;
 
-	if (useCache) {
-		// get data from cache
-	}
+	// get data based on whether we're using the
+    // cache or not
 
-    if (!data) {
-        // calculate data
-    }
-
-	return data;
+    return data;
 }
 
 // bad (default parameter isn't at the end)
-const getData = (useCache=true, options) => {
+const getData = (useCache = true, options) => {
     let data;
 
-	if (useCache) {
-		// get data from cache
-	}
+	// get data based on whether we're using the
+    // cache or not
 
-    if (!data) {
-        // calculate data
-    }
-
-	return data;
+    return data;
 }
 ```
 
