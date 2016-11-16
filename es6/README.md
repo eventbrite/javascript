@@ -246,7 +246,7 @@ for (let i = 0; i < nodeList.length; i++) {
 }
 ```
 
-For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/).
+For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#spread-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -459,13 +459,107 @@ For more on arrow functions, read [_Learning ES6: Arrow Functions_](http://www.e
 
 ### Rest Parameters
 
-Coming soon...
+Use the rest operator (`...`) instead of the `arguments` object to handle an arbitrary number of function parameters (eslint [`prefer-rest-params`](http://eslint.org/docs/rules/prefer-rest-params)):
+
+```js
+// good
+const join = (separator, ...values) => (
+    values.join(separator);
+);
+
+// bad (uses arguments object)
+function join(separator) {
+	var values = [];
+
+	for (var argNo = 1; argNo < arguments.length; argNo++) {
+		values.push(arguments[argNo]);
+	}
+
+	return values.join(separator);
+};
+```
+
+The `arguments` object is problematic for many reasons. It's not an actual `Array` object, so methods like `slice` are unavailable to use. Because we have the `separator` parameter, we have to start at index `1` of `arguments`, which is pretty annoying.  Also, just looking at our `join` function, it's not immediately discoverable that it actually takes more than one parameter, let alone that it supports an infinite number of them. Lastly `arguments` doesn't work with [arrow functions](#arrow-functions).
+
+For more on rest parameters, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#rest-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Default Parameters
 
-Coming soon...
+Use default parameters in the function header instead of mutating parameters in the function body:
+
+```js
+// good
+const getData = (options, useCache = true) => {
+    let data;
+
+    // get data based on whether we're using the
+    // cache or not
+
+    return data;
+}
+
+// bad (defaults the parameter in function body)
+const getData = (options, useCache) => {
+    let data;
+
+    if (useCache === undefined) {
+        useCache = true;
+    }
+
+    // get data based on whether we're using the
+    // cache or not
+
+    return data;
+}
+```
+
+Put all default parameters at the end of the function header:
+
+```js
+// good
+const getData = (options, useCache = true) => {
+    let data;
+
+    // get data based on whether we're using the
+    // cache or not
+
+    return data;
+}
+
+// bad (default parameter isn't at the end)
+const getData = (useCache = true, options) => {
+    let data;
+
+    // get data based on whether we're using the
+    // cache or not
+
+    return data;
+}
+```
+
+For more on default parameters, read [_Learning ES6: Default parameters_](http://www.eventbrite.com/engineering/learning-es6-default-parameters/).
+
+**[⬆ back to top](#table-of-contents)**
+
+### Spread Operator
+
+Use the spread operator (`...`) instead of [`Function.prototype.apply`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) when needing to pass elements of an array as arguments to a function call (eslint: [`prefer-spread`](http://eslint.org/docs/rules/prefer-spread)):
+
+```js
+// good
+let maxValue = Math.max(...[3, 41, 17]);
+let today = new Date(...[2016, 11, 16]);
+
+// bad (uses `apply`)
+let maxValue = Math.max.apply(null, [3, 41, 17]);
+let today = new (Function.prototype.bind.apply(Date, [null, 2016, 11, 16]));
+```
+
+Using the spread operator is cleaner because you don't have to specify a context (first example). Furthermore you cannot easily combine `new` with `apply` (second example).
+
+For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#spread-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
