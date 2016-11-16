@@ -7,6 +7,10 @@ module.exports = {
 
         // enforce that `let` & `const` declarations are declared together
         // http://eslint.org/docs/rules/one-var
-        'one-var': ['error', 'never']
+        'one-var': ['error', 'never'],
+
+        // enforce spacing around infix operators
+        // http://eslint.org/docs/rules/space-infix-ops
+        'space-infix-ops': 'error'
     }
 };
