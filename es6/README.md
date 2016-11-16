@@ -246,7 +246,7 @@ for (let i = 0; i < nodeList.length; i++) {
 }
 ```
 
-For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/).
+For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#spread-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -459,7 +459,29 @@ For more on arrow functions, read [_Learning ES6: Arrow Functions_](http://www.e
 
 ### Rest Parameters
 
-Coming soon...
+Use the rest operator (`...`) instead of the `arguments` object to handle an arbitrary number of function parameters (eslint [`prefer-rest-params`](http://eslint.org/docs/rules/prefer-rest-params)):
+
+```js
+// good
+const join = (separator, ...values) => (
+    values.join(separator);
+);
+
+// bad (uses arguments object)
+function join(separator) {
+	var values = [];
+
+	for (var argNo = 1; argNo < arguments.length; argNo++) {
+		values.push(arguments[argNo]);
+	}
+
+	return values.join(separator);
+};
+```
+
+The `arguments` object is problematic for many reasons. It's not an actual `Array` object, so methods like `slice` are unavailable to use. Because we have the `separator` parameter, we have to start at index `1` of `arguments`, which is pretty annoying.  Also, just looking at our `join` function, it's not immediately discoverable that it actually takes more than one parameter, let alone that it supports an infinite number of them. Lastly `arguments` doesn't work with [arrow functions](#arrow-functions).
+
+For more on rest parameters, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#rest-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
