@@ -481,6 +481,21 @@ function join(separator) {
 
 The `arguments` object is problematic for many reasons. It's not an actual `Array` object, so methods like `slice` are unavailable to use. Because we have the `separator` parameter, we have to start at index `1` of `arguments`, which is pretty annoying.  Also, just looking at our `join` function, it's not immediately discoverable that it actually takes more than one parameter, let alone that it supports an infinite number of them. Lastly `arguments` doesn't work with [arrow functions](#arrow-functions).
 
+There should be no spacing between the rest operator and its parameter (eslint: [`rest-spread-spacing`](http://eslint.org/docs/rules/rest-spread-spacing)):
+
+```js
+
+// good
+const join = (separator, ...values) => (
+    values.join(separator);
+);
+
+// bad (space between rest operator and param)
+const join = (separator, ... values) => (
+    values.join(separator);
+);
+```
+
 For more on rest parameters, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#rest-operator).
 
 **[⬆ back to top](#table-of-contents)**
@@ -559,13 +574,137 @@ let today = new (Function.prototype.bind.apply(Date, [null, 2016, 11, 16]));
 
 Using the spread operator is cleaner because you don't have to specify a context (first example). Furthermore you cannot easily combine `new` with `apply` (second example).
 
+There should be no spacing between the spread operator and its expression (eslint: [`rest-spread-spacing`](http://eslint.org/docs/rules/rest-spread-spacing)):
+
+```js
+// good
+let maxValue = Math.max(...[3, 41, 17]);
+
+// bad (space between spread operator and
+// array literal)
+let maxValue = Math.max(... [3, 41, 17]);
+```
+
 For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](http://www.eventbrite.com/engineering/learning-es6-rest-spread-operators/#spread-operator).
 
 **[⬆ back to top](#table-of-contents)**
 
 ## Classes
 
-Coming soon...
+Avoid classes with an empty constructor or one that just calls `super()` because classes have a default constructor if one isn't specified (eslint: [`no-useless-constructor`](http://eslint.org/docs/rules/no-useless-constructor)):
+
+```js
+// good
+class Person {
+    speak(phrase) {
+
+    }
+}
+class Child extends Person {
+    speak(phrase) {
+
+    }
+}
+
+// bad (has empty/unnecessary constructors)
+class Person {
+    constructor() {
+
+    }
+    speak(phrase) {
+
+    }
+}
+class Child extends Person {
+    constructor() {
+        super();
+    }
+    speak(phrase) {
+
+    }
+}
+```
+
+Avoid duplicate class members because the interpreter will (silently) use the last one (eslint [`no-dupe-class-members`](http://eslint.org/docs/rules/no-dupe-class-members)):
+
+```js
+// good
+class Person {
+    speak(phrase) {
+
+    }
+}
+
+// bad (has duplicate methods)
+class Person {
+    speak(phrase) {
+
+    }
+    speak(phrase, lang) {
+
+    }
+}
+```
+
+Set default values for class properties using declarative syntax instead of defaulting within the `constructor`:
+
+```js
+// good
+class TextInput extends React.Component {
+    state = {
+        value: ''
+    }
+
+    render() {
+        return (<div />);
+    }
+}
+
+// bad (defaults `state` within constructor instead
+// of using declarative syntax)
+class TextInput extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            value: ''
+        };
+    }
+
+    render() {
+        return (<div />);
+    }
+}
+```
+
+Initialize static class properties using declarative syntax instead of assigning to the class after the class declaration:
+
+```js
+// good
+class Button extends React.Component {
+    static propTypes = {
+        type: React.PropTypes.string.isRequired
+    }
+
+    render() {
+        return (<button />);
+    }
+}
+
+// bad (assigns static properties on the class declaration)
+class Button extends React.Component {
+    render() {
+        return (<button />);
+    }
+}
+Button.propTypes = {
+    type: React.PropTypes.string.isRequired
+};
+```
+
+Both declarative property syntaxes are not a part of the ES2015 specification and are a in the midst of the ECMAScript proposal approval process. Currently they are sitting in Stage 3. For details, check out [ECMAScript Class Fields and Static Properties](https://github.com/jeffmo/es-class-fields-and-static-properties).
+
+For more on classes, read [_Learning ES6: Classes_](http://www.eventbrite.com/engineering/learning-es6-classes/).
 
 **[⬆ back to top](#table-of-contents)**
 

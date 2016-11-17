@@ -215,7 +215,7 @@ TextInput.defaultProps = {
 export default TextInput;
 ```
 
-_NOTE:_ [Static class properties](https://github.com/jeffmo/es-class-fields-and-static-properties) are not a part of the ES2015 specification and are a in the midst of the ECMAScript proposal approval process. Currently they are sitting in Stage 1. For all proposed features, check out [ECMAScript proposals](https://github.com/tc39/ecma262#current-proposals).
+_NOTE:_ [Static class properties](https://github.com/jeffmo/es-class-fields-and-static-properties) are not a part of the ES2015 specification and are a in the midst of the ECMAScript proposal approval process. Currently they are sitting in Stage 3. For all proposed features, check out [ECMAScript proposals](https://github.com/tc39/ecma262#current-proposals).
 
 **[⬆ back to top](#table-of-contents)**
 
