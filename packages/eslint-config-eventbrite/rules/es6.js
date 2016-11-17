@@ -74,6 +74,11 @@ module.exports = {
         // http://eslint.org/docs/rules/require-yield
         'require-yield': 'error',
 
+        // prevents spacing between rest/spread operator (...)
+        // and the expression
+        // http://eslint.org/docs/rules/rest-spread-spacing
+        'rest-spread-spacing': 'error',
+
         // do not enforce any sorting of imports
         // http://eslint.org/docs/rules/sort-imports
         'sort-imports': 'off',
