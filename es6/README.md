@@ -710,6 +710,62 @@ For more on classes, read [_Learning ES6: Classes_](http://www.eventbrite.com/en
 
 ## Modules
 
-Coming soon...
+Avoid importing from the same module in separate statements for better maintainability (eslint: [`no-duplicate-imports`](http://eslint.org/docs/rules/no-duplicate-imports)):
+
+```js
+// good
+import React, {Component, PropTypes} from 'react';
+
+// bad (imports from same module are in
+// separate statements)
+import React from 'react';
+import {Component, PropTypes} from 'react';
+```
+
+Only export constants (eslint: [`import/no-mutable-exports`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-mutable-exports.md)):
+
+```js
+// good
+export const DEFAULT_LENGTH = 10;
+
+// bad (exports a `let` variable)
+export let DEFAULT_LENGTH = 10;
+```
+
+Place all `import` statements at the beginning of a module (eslint: [`import/first`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md)):
+
+```js
+// good
+import React from 'react';
+import classNames from 'classnames';
+import {connect} form 'react-redux';
+
+const DEFAULT_LENGTH = 10;
+
+
+// bad (imports aren't all at the top)
+import React from 'react';
+
+const DEFAULT_LENGTH = 10;
+
+import classNames from 'classnames';
+import {connect} from 'react-redux';
+```
+
+Avoid using webpack loader syntax in module `import` statements in order to decouple code from the module bundler (eslint: [`import/no-webpack-loader-syntax`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-webpack-loader-syntax.md)):
+
+```js
+// good
+import someCss from 'some.css';
+import otherSass from 'other.scss';
+
+// bad (uses webpack loader syntax)
+import someCss from 'style!css!some.css';
+import otherSass from 'css!sass!other.scss';
+```
+
+In order to avoid the webpack loader syntax in `import` statements, configure the loaders in `webpack.config.js`.
+
+For more on modules, read [_ES6 Modules (Final)_](http://www.2ality.com/2014/09/es6-modules-final.html).
 
 **[⬆ back to top](#table-of-contents)**
