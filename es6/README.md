@@ -591,7 +591,7 @@ For more on the spread operator, read [_Learning ES6: Rest & Spread Operators_](
 
 ## Classes
 
-Avoid classes with an empty constructor or one that just calls `super()` because classes have a default constructor if one isn't specified (eslint: [`no-useless-constructor`](http://eslint.org/docs/rules/no-useless-constructor)):
+Avoid classes with an empty constructor because classes have a default constructor when one isn't specified (eslint: [`no-useless-constructor`](http://eslint.org/docs/rules/no-useless-constructor)):
 
 ```js
 // good
@@ -646,7 +646,7 @@ class Person {
 }
 ```
 
-Set default values for class properties using declarative syntax instead of defaulting within the `constructor`:
+Set default values for class properties using declarative syntax instead of defaulting within the `constructor` so that it's clear which properties the class supports instead of being hidden in code:
 
 ```js
 // good
@@ -677,7 +677,7 @@ class TextInput extends React.Component {
 }
 ```
 
-Initialize static class properties using declarative syntax instead of assigning to the class after the class declaration:
+Initialize static class properties using declarative syntax instead of assigning to the class after the class declaration in order to keep everything within the class declaration:
 
 ```js
 // good
