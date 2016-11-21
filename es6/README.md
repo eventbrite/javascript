@@ -1,6 +1,6 @@
 # Eventbrite ES6+ Coding Style Guide
 
-[ESLint](http://eslint.org/) rules and guidelines used by Eventbrite to provide consistency and prevent errors in JavaScript code written in ES6 (and later).
+Eventbrite’s [ESLint](http://eslint.org/) guidelines to ensure consistency in JavaScript code written in ES6 and later.
 
 ## Table of Contents
 
@@ -24,7 +24,7 @@ For browser, server, and compiler ES6 support, check out [kangax](https://twitte
 
 ### `let` vs. `var`
 
-Avoid using `var` for declaring local variables, but instead use `let` which provides [block scoping](https://www.eventbrite.com/engineering/learning-es6-block-level-scoping-with-let-and-const/) (eslint: [`no-var`](http://eslint.org/docs/rules/no-var)):
+Avoid using var for declaring local variables; instead use `let`, which provides  [block scoping](https://www.eventbrite.com/engineering/learning-es6-block-level-scoping-with-let-and-const/) (eslint: [`no-var`](http://eslint.org/docs/rules/no-var)):
 
 ```js
 // good
@@ -40,7 +40,7 @@ var x = 'y'
 
 Use `const` for the following:
 
-- Actual [constants](#constants), i.e. variables that remain the same through out entire execution
+- Actual [constants](#constants); i.e., variables that remain the same throughout the entire execution
 - [Arrow function](#arrow-functions) references
 
 ```js
@@ -64,7 +64,7 @@ let generateGreeting = (name=DEFAULT_NAME) => {
 
 ```
 
-Use `UPPER_SNAKE_CASE` for the naming of constants to help easily identify them:
+Name constants using `UPPER_SNAKE_CASE` for easy identification:
 
 ```js
 // good
@@ -80,7 +80,7 @@ const MaxAllowed = 7;
 const maxAllowed = 7;
 ```
 
-Factor out constants into a separate constants module if a given [module](#modules) has more than 3 constants, importing the constants module as an object:
+If a given [module](#modules) has more than three constants, factor them out into a separate constants module, and then import that constants module as an object:
 
 ```js
 // good (imports constants as an object from
@@ -96,7 +96,7 @@ const FIFTH_CONSTANT = 'quux';
 const SIXTH_CONSTANT = 'corge';
 ```
 
-However, if you are using 3 or fewer constants from a file, you can use individual named imports instead importing the entire module as an object:
+However, if a given module uses three or fewer constants, use individual named imports instead:
 
 ```js
 import {FIRST_CONSTANT, FIFTH_CONSTANT} from './constants';

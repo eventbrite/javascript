@@ -1,6 +1,6 @@
 # Eventbrite JavaScript Coding Style Guide
 
-Guidelines and best practices used by Eventbrite to provide consistency and prevent errors in any environment where JavaScript code is written.
+Eventbrite’s guidelines to ensure consistency in JavaScript code in any environment.
 
 ## Table of Contents
 
@@ -13,7 +13,7 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 
 ### Complex conditional expressions
 
-Complex conditional expressions within conditional statements can make understanding code challenging because you need to fully understand the expression in order to be able to process the overall code flow. In addition, in code reviews (or revisiting old code), it's difficult to know if the logic is correct without knowing what state the conditional expression is trying to represent.
+Avoid complex conditional expressions within conditional statements. Simplification is necessary because you must fully understand an expression to process the overall code flow. Simplification also comes into play during the subsequent tasks of conducting code reviews or revisiting old code: you must understand what state the conditional expression represents to evaluate the logic in the code.
 
 To make things easier, store complex conditional expressions in state variables:
 
@@ -100,7 +100,8 @@ var getType = function(model) {
 };
 ```
 
-**_Second iteration_**: A lookup map helps avoid using more than one return statement inside a given function and abstracts away the conditional logic. This makes it easier for maintainability and readability, as well as helping with performance by using `.find`.
+**_Second iteration_**: Use a lookup map to avoid multiple return statements inside a single function and to abstract conditional logic. This enables maintainability and readability, and boosts performance by using `.find`.
+
 ```js
 // good (use a lookup map)
 var helpers = {
@@ -131,15 +132,13 @@ _getType = function(types, model) {
 ```
 
 NOTE: We are using Underscore's .find method here, but with ES6, we can use find natively.
-For more info, visit https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find.
+For more info, visit [`Array.prototype.find`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find).
 
 **[⬆ back to top](#table-of-contents)**
 
 ### Ternary statements
 
-Simple ternary expressions can be handy when we need to conditionally assign a value to a variable when the condition is both true and false. However, when we only want to assign the variable when the condition is true, we may be tempted to still use a ternary and return `undefined, null, ''` for the false case.
-
-In this case, the preferred approach is to declare the value without assigning it (the default value is `undefined`) and then using an `if` statement to assign to it when the condition is met:
+Simple ternary expressions are handy when conditionally assigning a value to a variable, when the condition is both `true` and `false`. However, for assigning the variable when the condition is `true`, avoid the temptation to use that ternary, returning `undefined`, `null`, `''` for the `false` case. Instead, declare the value without assigning it (the default value is `undefined`), and then use an `if` statement to assign to it when the condition is met:
 
 ```js
 // good
@@ -156,9 +155,7 @@ var options.isSomethingTrue ? 'hey there' : undefined;
 
 ```
 
-Applying this pattern provides more robust maintenance and traceability (in debugging) over time and uses the basic structures of the language in a more formal way (ternaries are used under the assumption that we need a value).
-
-This correlates as well with a defined state and later on if needed altering such state instead of having an default state that is dynamic.
+This pattern uses the basic structures of the language in a more formal way, because the use of ternaries presumes that a value is required. Our suggested approach enables traceability when debugging and more robust maintenance over time. It also correlates with a defined state and lends itself to future alteration if required, instead of having a default state that is dynamic.
 
 #### Case study
 
@@ -173,7 +170,7 @@ var isAllowed = hasParent && isOwner,
 /* some use of these 2 variables later on... */
 ```
 
-**_Second iteration_**: another developer comes around and adds yet another condition following the current style given that a refactor is not really needed, and probably out of scope:
+**_Second iteration_**: a different developer comes around to add yet another condition following the current style, because a refactor is out of scope:
 
 ```js
 var isAllowed = hasParent && isOwner,
@@ -195,9 +192,9 @@ var isAllowed = hasParent && isOwner,
 /* some use of these 5 variables later on... */
 ```
 
-At this point, telling what is the base state for this method is quite hard, given that all the possible states are based on ternaries. Furthermore, because we use the same `isAllowed` four times, we have to know how all the state variables work in order to try optimize the code. The code is too fragile.
+At this point, with all the possible states based on ternaries, determining the base state for this method is now much harder. Furthermore, having used the same `isAllowed` four times, we must now understand how all the state variables work before we can optimize the code. The code is too fragile.
 
-However, if this code would have followed the initial recommendation, the code wouldn't degrade as more functionality is added.
+However, had this code adhered to our initial recommendation, it would not have degraded with added functionality.
 
 **_First iteration (revisited)_**:
 
@@ -289,7 +286,7 @@ change or extend.
 
 ### Variable indirection
 
-Avoid variable indirection when possible. Reassigning variables when no transformation is needed creates unnecessary indirection, which is prone to introduce future errors.
+Avoid generic names; instead, assign names that explain the content. If data must be changed as part of a process, create methods to produce these changes on demand whenever possible.
 
 ```js
 // good
@@ -405,7 +402,7 @@ var propsObject = {},
 
 ### Method: Private
 
-Prefix private method names with an underscore (_):
+Prefix private method names with an underscore (`_`):
 
 ```js
 
@@ -414,38 +411,37 @@ var _getInternalValue = function() {
     // code here.
 };
 
-// bad
+// bad (does not begin with underscore)
 var getInternalValuePleaseDonot = function() {
     // code here.
 };
 ```
 
-Using the underscore prefix naming convention for private methods allows us to easily identify which methods are not part of the component's public API. As a result, future developers can easily know which methods can be refactored or even removed without affecting any users of the component. This makes upgrading to new technologies/tools/idioms simpler.
+The underscore prefix naming convention for private methods emphasizes the methods that are not part of the component's public API. This makes it easy for future developers to identify the methods they can refactor or even remove without affecting any users of the component. Upgrading to new technologies/tools/idioms is now simpler.
 
-The naming convention also helps code reviewers to quickly understand which methods have been added by us versus which are a part of the framework's lifecycle methods (see: [react](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods) or [Marionette](https://marionette.gitbooks.io/marionette-guides/content/en/views/triggers.html)).
+The naming convention also helps code reviewers distinguish the methods we have added from those belonging to the framework's lifecycle (see: [React](https://facebook.github.io/react/docs/component-specs.html#lifecycle-methods) or [Marionette](https://marionette.gitbooks.io/marionette-guides/content/en/views/triggers.html)).
 
-### Method: public
+### Method: Public
 
-should always begin with a [lowerCase](http://c2.com/cgi/wiki?LowerCamelCase)
+Should always begin with [camcelCase](http://c2.com/cgi/wiki?LowerCamelCase).
 
 ```js
 
-//good
+// good
 getNode: function() {
-        //code here.
-    },
+    //code here.
+},
 setAttr: function() {
-        // code here.
-    };
+    // code here.
+};
 
-//bad
-
+// bad (not camelCase)
 _superComplextName: function() {
     // code here.
 }
 
 UpdateAll: function() {
-    / /code here
+    // code here
 }
 
 ```

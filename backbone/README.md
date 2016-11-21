@@ -1,8 +1,10 @@
 # Eventbrite Backbone & Marionette Coding Style Guide
 
-Guidelines used by Eventbrite to provide consistency and prevent errors in JavaScript code written for [Backbone.js](backbonejs.org) and [Marionette.js](marionettejs.com).
+Eventbrite's [Backbone.js](backbonejs.org) and [Marionette.js](marionettejs.com) guidelines to ensure consistency in JavaScript code.
 
 Backbone and Marionette come with a rich API and also functions provided by [underscore](http://underscorejs.org/) (`_`) and [jquery]((http://api.jquery.com/category/version/1.7/)) (`$`). Although good and fast to use, these utilities can be hard to navigate or even challenging when building large-scale applications. Many times midway through development, we find that were used the tools incorrectly and have to change course, resulting in Frankenstein code. This guide will attempt to ease some of these problems.
+
+Backbone and Marionette come with rich APIs as well as functions provided by [underscore](http://underscorejs.org/) (`_`) and [jquery]((http://api.jquery.com/category/version/1.7/)) (`$`). Although good and fast to use, these utilities can be hard to navigate or even challenging when building large-scale applications. Many times, we have found midway through development that we had used the tools incorrectly and must change course, resulting in Frankenstein code. This guide aims to ease some of these problems.
 
 ## Table of Contents
 
@@ -17,26 +19,13 @@ Backbone and Marionette come with a rich API and also functions provided by [und
 0. [Context](#context)
 0. [Function](#good-practices-functions)
 0. [Hydrating apps](#good-practices-hydrating-apps)
-	0. [Static or on Bootstrap](#good-practices-static-hydration)
-	0. [dynamic](#good-practices-dynamic-hydration-apps)
 0. [Marionette.Layout](#marionette-layout)
-	0. [Regions](#marionette-regions)
 0. [Marionette.Views](#marionette-views)
 0. [Backbone.Model](#backbonemodel)
-	0. 	[Handling errors](#handling-errors-on-models)
 0. [Backbone.Collection](#marionette-collection)
-	0. [Handling errors](#handling-errors-on-collections)
 0. [Marionette Artifacts Life Cycle](#marionette-artifacts-life-cycle)
 0. [Backbone Life Cycle](#)
 0. [Architecting JS Apps at Eventbrite](#architecting-js-apps-at-eventbrite)
-	0. [app.js](#app.js)
-	0. [Templates](#templates)
-	0. [File structure](#file-structure)
-	0. [File name conventions](#file-name-conventions)
-	0. [Eb Flux](#eb-flux-architecture)
-		0. [Stores](#eb-flux-stores)
-		0. [Views](#eb-flux-views)
-		0. [Actions](#eb-flux-actions)
 0. [Debugging common issues](#debugging-common-issues)
 0. [Testable Modular JS with Backbone, Jasmine & Sinon](#testable-modular-js-with-backbone-jasmine--sinon)
 
@@ -116,13 +105,13 @@ We structure our Backbone projects like so:
                             	- view.spec.js
                             - router.js
 
-feature\_name.js contains the code to initialize your module.
+`feature\_name.js` contains the code to initialize your module.
 
-Each model, view and the router gets it’s own file mirroring it’s JavaScript naming. eg. EB.ProjectName.FirstModel is in eb/feature\_name/first\_model.js.
+Each model, each view, and the router gets its own file mirroring its JavaScript naming. For example, `EB.ProjectName.FirstModel` is in `eb/feature_name/first_model.js`.
 
 ## File structure
 
-A reference to `Marionette` can actually be retrieved from a reference to `Backbone`. However, we recommend requiring `Marionette` separately so that if we try to simply our stack, we don't have to change a considerable amount of code to remove the `Backbone` dependency/namespace:
+A reference to `Marionette` can actually be retrieved from a reference to `Backbone`. However, we recommend requiring `Marionette` separately, so that if we try to simplify our stack, we don't have to change a considerable amount of code to remove the `Backbone` dependency/namespace:
 
 ```js
 // good
@@ -394,9 +383,9 @@ return Marionette.ItemView.extend({
 
 ### Data
 
-Storing derived/calculated data on the `this` context of a view can be fragile and error prone because nothing prevents that data from being modified. Furthermore, it makes quality code review (aka static analysis) more challenging as the reviewer needs to first investigate where the instance property originates.
+Don't store derived/calculated data on the `this` context of a view. Doing so makes it fragile and error-prone, because nothing prevents that data from being modified. Furthermore, it complicates quality code review (AKA static analysis) because the reviewer must first investigate the origin of the instance property.
 
-Whenever possible, calculate the data on demand either in the model or in the view:
+Whenever possible, calculate the data on demand, either in the model or in the view:
 
 ```js
 // good

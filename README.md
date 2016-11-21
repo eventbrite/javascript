@@ -1,6 +1,6 @@
 # Eventbrite JavaScript Coding Style Guide
 
-[ESLint](http://eslint.org/) rules and best practices used by Eventbrite to provide consistency and prevent errors in JavaScript code.
+Eventbrite's [ESLint](http://eslint.org/) guidelines to ensure consistency in JavaScript code.
 
 ## Intended Audience
 

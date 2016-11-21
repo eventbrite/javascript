@@ -1,6 +1,6 @@
 # Eventbrite React & JSX Coding Style Guide
 
-[ESLint](http://eslint.org/) rules, guidelines and best practices used by Eventbrite to provide consistency and prevent errors in React and JSX code.
+Eventbrite’s [ESLint](http://eslint.org/) guidelines to ensure consistency in React and JSX code.
 
 ## Table of Contents
 
@@ -292,7 +292,7 @@ export default class TextInput extends React.Component {
 
 ### `propTypes` Ordering
 
-Define required `propTypes` first to make it clear what the set of minimum props are needed to use the component:
+Define required `propTypes` first, so that minimum props required to use this component are immediately obvious:
 
 ```js
 // good
@@ -333,11 +333,11 @@ export default class TextInput extends React.Component {
 
 ### Boolean `propTypes`
 
-Name boolean `propTypes` for a component such that their default value will be `false`. This way omitting a boolean value in the JSX that uses the component will be the same as specifying it as `false`. This may mean that a prop may need to be named negatively so that its default value will be `false`.
+Name boolean `propTypes` for a component so that their default value is `false`. This way, omitting a boolean value in the JSX using the component is the same as specifying the boolean value as `false`. This means that you may need to name a prop negatively so that its default value will be `false`.
 
-Avoid declaring boolean `propTypes` as required. Instead declare the default value, which should be `false`, in `defaultProps`. A client of the component shouldn't have to specify `false` in the JSX for a prop that could just be defaulted to `false`.
+Avoid declaring boolean `propTypes` as required. Instead, declare the default value (which should be `false`) in `defaultProps`. A client of the component shouldn't have to specify `false` in the JSX for a prop that can just be defaulted to `false`.
 
-Use adjectives names for boolean `propTypes` that represent toggle state in the component. Ideally these adjectives will be begin with `is` or `has`. Use verb names for boolean `propTypes` that represent whether or not an action should happen within the component.
+Use descriptives to name boolean `propTypes` representing toggle states in the component. Ideally these adjectives begin with `is` or `has`. Use actions (verbs) to name boolean `propTypes` that represent whether an action should happen within the component.
 
 ```js
 // good
@@ -404,7 +404,7 @@ export default class Banner extends React.Component {
 
 ### Vague `propTypes`
 
-Don't use the vague prop types, `React.PropTypes.any`, `React.PropTypes.array`, and `React.PropTypes.object`, and instead be more explicit using, `React.PropTypes.oneOfType`, `React.PropTypes.arrayOf`, and `React.PropTypes.shape` (eslint [`react/forbid-prop-types`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md)):
+Don't use the vague prop types, `React.PropTypes.any`, `React.PropTypes.array`, and `React.PropTypes.object`; instead be more explicit using, `React.PropTypes.oneOfType`, `React.PropTypes.arrayOf`, and `React.PropTypes.shape` (eslint [`react/forbid-prop-types`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/forbid-prop-types.md)):
 
 ```js
 // good
@@ -438,13 +438,13 @@ export default class Candidate extends React.Component {
 
 ### `className` prop
 
-Avoid defining a `className` prop for a component as its intent can be ambiguous. Will it overwrite the `className` set on the component's top-level node? Will it be merged in with the `className` set on the top-level node?
+Avoid defining a `className` prop for a component because its intent can be ambiguous. Will it overwrite the `className` set on the component's top-level node or be merged with it?
 
-Ideally a parent component should not be controlling the styling of a child component, so specifying a child's `className` prop should be unnecessary. The child component should be 100% in charge of its visual display.
+Ideally, a parent component does not control a child component’s styling, so don’t specify a child's `className` prop. The child component should be 100% in charge of its visual display.
 
-However, you may need to control the layout/positioning of a child component within a parent component. In this situation, the best solution is to wrap the child component in a `<div>` or `<span>` that the parent _does_ control so that the positioning styling can be added to that wrapper node.
+However, you may need to control the layout/positioning of a child component within a parent component. If so, wrap the child component in a `<div>` or `<span>` that the parent _does_ control, and add the positioning styling to that wrapper node.
 
-In the limited cases where the wrapper node solution doesn't work, the child component can expose a `__containerClassName` prop, which the parent can specify to add layout-based CSS class(es) to. The prop begins with dunder (`__`) to indicate that it is an exceptional case so that in can easily be spotted in code review.
+In the limited cases where the wrapper node solution doesn't work, the child component can expose a `__containerClassName` prop, which the parent can specify to add layout-based CSS class(es) to. The prop begins with dunder (`__`) to indicate that it is an exceptional case, so that in can easily be spotted in code review.
 
 ```js
 // good (parent uses wrapper `<div>` to position child)
@@ -582,11 +582,11 @@ By the way, instead of concatenating `className` strings yourself (as done in th
 
 ## Helper components
 
-When a component contains a lot of markup or it contains significant logic that determines how its markup should appear, use helper components to keep `render()` as small as possible. Instead of using `class` declarations for these helper components, use [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions). Because these components are only useful to the main component and only exist to keep `render()` lean, these helper components shouldn't be placed in their own files, nor should they be `export`ed within the main component.
+When a component contains either a lot of markup or significant logic describing its markup, use helper components to keep `render()` as small as possible. Use [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions) instead of class declarations for these helper components. Because they are only useful to the main component and only exist to keep `render()` lean, don’t place these helper components in their own files, nor `export` them within the main component.
 
-Let's look at a simple example. Let's say you had a global footer that contained a section with links to important top-level pages, another section with a bunch of links for SEO (😐), a section of links to all of  your top-level domains (.com, .co.uk, etc), and a final section of links to all of your social media accounts.
+Let's look at a simple example. Say you have a global footer containing a section with links to important top-level pages, another section with links for SEO (😐), a section of links to all of your top-level domains (e.g., .com, .co.uk, etc.), and a final section of links to all of your social media accounts.
 
-Properly using helper components, this would look like:
+If you are using helper components properly, this will look like:
 
 ```js
 // good (clean render w/ help of helper components)
@@ -765,11 +765,12 @@ export default class GlobalFooter extends React.Component {
 }
 ```
 
-So why is this code "bad" when it looks like _less_ code? In it's current state, there's actually nothing inherently wrong with the code. If the `GlobalFooter` was going to remain in this state _forever_, then this code would be just fine. The use of BEM-style CSS classes plus [separating logic from of the JSX](#logic-and-jsx) make `render()` pretty readable in its current state.
+So why is this code "bad" when it looks like _less_ code? In its current state, there's actually nothing inherently wrong with the code. If the `GlobalFooter` were to remain in this state _forever_, then this code would be just fine. The use of BEM-style CSS classes plus [separating logic from of the JSX](#logic-and-jsx) make `render()` pretty readable in its current state.
 
-However, as we all know code has entropy; over time it'll change as new functionality is added and other is removed. If the markup becomes more than a simple unordered list or the logic determining what should be rendered becomes more complicated, having everything mixed together in `render()` will slowly become unwieldy. A code refactor would be needed, but with everything intertwined that could prove to be a big challenge.
+However, as we all know, code has entropy; over time it'll change as functionality is added and removed. If the markup becomes more than a simple unordered list, or the logic determining what should be rendered becomes more complicated, having everything mixed together in `render()` will slowly become unwieldy. You’d need to refactor the code, but with everything intertwined, that could prove to be a big challenge.
 
-Better to start the code on the right foot.
+Better to start the code off on the right foot.
+
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -777,7 +778,7 @@ Better to start the code on the right foot.
 
 ### Private helper methods
 
-JavaScript doesn't (yet) have a mechanism for declaring a method as `private`, which would only allow the class to call the method. As a quick signal that a React component method helper is private prefix it with underscore (`_`):
+JavaScript doesn't (yet) have a mechanism for declaring a method as `private`, which would only allow the class to call the method. As a quick signal that a React component method helper is private, prefix it with an underscore (`_`):
 
 ```js
 // good
@@ -823,7 +824,7 @@ export default class TextInput extends React.Component {
 
 ### Method ordering
 
-For consistency and ease of finding methods within a React component, the order of methods should be as follows (eslint [`react/sort-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md)):
+To make methods within a React component easy to find, order them as follows (eslint [`react/sort-comp`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md)):
 
   0. `propTypes`
   0. `contextTypes`
@@ -924,7 +925,7 @@ However, if the props are too long or there are more than three props, the JSX a
 
 ### Indentation
 
-JSX attributes must be indented four spaces (eslint: [`react/jsx-indent`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md)):
+Indent JSX attributes four spaces (eslint: [`react/jsx-indent`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-indent-props.md)):
 
 
 ```js
@@ -949,7 +950,7 @@ placeholder="Enter in your email"
 
 ### Closing bracket
 
-The closing bracket should be aligned with the opening tag (eslint: [`react/jsx-closing-bracket-location`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md)):
+Align the closing bracket with the opening tag (eslint: [`react/jsx-closing-bracket-location`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-closing-bracket-location.md)):
 
 ```js
 // good
@@ -1029,7 +1030,7 @@ A `true` prop value must be explicitly specified as the attribute value (eslint 
 
 ### Curly brace padding
 
-When passing a variable to a prop, the curly braces should **not** be padded by spaces (eslint: [`react/jsx-curly-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md)) and neither should the equals (eslint: [`react/jsx-equals-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md)):
+When passing a variable to a prop, do **not** pad the curly braces or equal signs with spaces (eslint: [`react/jsx-curly-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-curly-spacing.md)) & [`react/jsx-equals-spacing`](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-equals-spacing.md)):
 
 ```js
 // good
@@ -1127,7 +1128,7 @@ export default class NamesList extends React.Component {
 }
 ```
 
-Not specifying `key` will not only be an ESLint error, but React will also display a warning messaging in the console complaining that it's missing. It really is critical for performance. For more info, see: [Multiple Components | Dynamic Children](https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
+Failing to specify `key` yields both an ESLint error and a React warning message in the console. It is truly critical for performance. For more info, see: [Multiple Components | Dynamic Children](https://facebook.github.io/react/docs/multiple-components.html#dynamic-children).
 
 **[⬆ back to top](#table-of-contents)**
 
@@ -1257,11 +1258,11 @@ export default class TextInput extends React.Component {
 
 ### Semantic event handler names
 
-If you are defining an event handler prop that is wrapping a DOM event, you should name your prop semantically without tying it to the underlying DOM event that triggered it.
+When you define an event handler prop that is wrapping a DOM event, name your prop semantically without tying it to the underlying DOM event that triggers it.
 
-For example, let's say you have a pagination component (`Pagination`) that contains a bunch child `Button` components for each page (1, 2, 3, etc). When clicking a `Button`, in the `_handleClick` handler within the `Pagination`, it updates the components [state](#state) to reflect the current page.
+For example, say you have a pagination component (`Pagination`) that contains several child `Button` components for each page (1, 2, 3, etc.). When a `Button` is clicked, in the `_handleClick` handler within the `Pagination`, the component’s [state](#state) is updated to reflect the current page.
 
-The component wants to also notify the parent component in `_handleClick` that the page has changed. That prop should be called something semantic like `onPageChange` instead of `onPageClick`. This way if the DOM interaction that triggers the page changes (such as a hover), the event handler name doesn't have to change as well.
+The component also wants to notify the parent component in `_handleClick` that the page has changed. Name that prop something semantic, like `onPageChange`, instead of `onPageClick`. This way, if the DOM interaction that triggers the page changes (such as a hover), the event handler name doesn't have to change as well.
 
 ```js
 // good (uses semantic onPageChange event handler name)
@@ -1329,13 +1330,13 @@ export default class Pagination React.Component {
 
 ### DOM event handling
 
-When handling a DOM event that will be passed to the parent via a callback, avoid passing the entire DOM event object. Instead, narrow the component's API by only passing the minimal data that's needed.
+When handling a DOM event that will be passed to the parent via a callback, avoid passing the entire DOM event object. Instead, narrow the component's API by passing only the minimal data required.
 
 If you pass the entire DOM event object:
 
-- It's a leaky interface. The parent now has access to `event.taget` (among other properties) that gives it access to DOM nodes that it shouldn't have access to. At worst, it could manipulate or even remove those DOM nodes.
-- It's a poor interface. Instead of being passed the data it will need directly, it now has to navigate within the event object to get the data it wants.
-- It's a fragile interface. If you later want to change how the event is triggered, maybe another type of DOM event can also trigger it, the parents may now have to check the _type_ of event object it
+- It's a leaky interface. The parent now has access to `event.taget` (among other properties), which, in turn gives the parent access to DOM nodes that it should not access. At worst, the parent can manipulate or even remove those DOM nodes.
+- It's a poor interface. Instead of directly receiving the required data, the parent now has to navigate within the event object to get the data it wants.
+- It's a fragile interface. If you later want to change how the event is triggered, maybe by adding another type of DOM event that can also trigger it, a parent may now have to check the _type_ of event object it receives
 
 As a result, this means that you must **always** handle DOM events it within the component even if it's just a wrapper. Otherwise the event object will still be implicitly returned:
 
@@ -1431,7 +1432,7 @@ export default class TextInput extends React.Component {
 
 ### Event handling in loops
 
-Chances are that if you are passing event handlers to child components created in a loop, you're going to need some way to uniquely identify which child component caused the event handler to occur. Pass additional arguments to [`Function.prototype.bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) to include the unique identifier:
+If you pass event handlers to child components created in a loop, chances are you will need a way to uniquely identify which child component caused the event handler to occur. Pass additional arguments to [`Function.prototype.bind`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) to include the unique identifier:
 
 ```js
 // shared data
