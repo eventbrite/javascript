@@ -1,3 +1,8 @@
+## v2.0.0 (November 30, 2016)
+- (patch) Bump `eslint-config-eventbrite` dependency to 3.0.0
+- (major) Bump to eslint 3
+- (patch) Bump to latest versions of `babel-eslint`, `eslint-plugin-react` & `eslint-plugin-jsx-a11y`
+
 ## v1.2.0 (July 12, 2016)
 - (minor) Change `react/jsx-handler-names` `eventHandlerPrefix` to `_handle` from `handle`
 - (patch) Bump `eslint-config-eventbrite` dependency to 2.1.1
