@@ -1,8 +1,5 @@
 module.exports = {
-    plugins: [
-        'react',
-        'jsx-a11y'
-    ],
+    plugins: 'jsx-a11y',
 
     // View link below for docs on react a11y rules
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/
