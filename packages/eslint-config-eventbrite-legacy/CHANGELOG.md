@@ -1,3 +1,6 @@
+## v2.0.0 (November 30, 2016)
+- (major) bump to eslint 3
+
 ## v1.1.1 (July 12, 2016)
 - (patch) `indent` allows for indentation of `switch` statements
 - (patch) turning off `operator-linebreak`
