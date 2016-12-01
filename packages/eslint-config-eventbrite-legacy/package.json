@@ -33,14 +33,14 @@
   },
   "homepage": "https://github.com/eventbrite/javascript#readme",
   "devDependencies": {
-    "eslint": "^2.11.1",
+    "eslint": "^3.11.1",
     "pre-commit": "^1.1.2"
   },
   "peerDependencies": {
-    "eslint": "^2.11.1"
+    "eslint": "^3.0.0"
   },
   "engines": {
-    "node": ">=0.10"
+    "node": ">=4"
   },
   "pre-commit": [
     "test"
