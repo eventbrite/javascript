@@ -1,3 +1,8 @@
+## v3.0.0 (November 30, 2016)
+- (patch) bump `eslint-config-eventbrite-legacy` to 2.0.0
+- (major) added `arrow-body-style`, `space-infix-ops`, `rest-spread-spacing`, and `import/*` rules
+- (major) bump to eslint 3
+
 ## v2.1.1 (July 12, 2016)
 - (patch) bump `eslint-config-eventbrite-legacy` to 1.1.1
 
