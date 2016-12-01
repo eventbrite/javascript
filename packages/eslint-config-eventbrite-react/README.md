@@ -9,12 +9,12 @@ Eventbrite's ESLint config that lints React & JSX, adhering to the [Eventbrite J
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`babel-eslint`](https://github.com/babel/babel-eslint).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`babel-eslint`](https://github.com/babel/babel-eslint).
 
-Install `eslint`, `eslint-plugin-react`, `eslint-plugin-jsx-a11y`, `babel-eslint` & `eslint-config-eventbrite-react` dependencies:
+Install `eslint`, `eslint-plugin-import`, `eslint-plugin-react`, `eslint-plugin-jsx-a11y`, `babel-eslint` & `eslint-config-eventbrite-react` dependencies:
 
 ```sh
-npm install --save-dev eslint eslint-plugin-react eslint-plugin-jsx-a11y babel-eslint eslint-config-eventbrite-react
+npm install --save-dev eslint eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y babel-eslint eslint-config-eventbrite-react
 ```
 
 Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):

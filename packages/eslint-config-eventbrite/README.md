@@ -9,12 +9,12 @@ Eventbrite's base ESLint config that lints ES6+/ES2015+ and adheres to the [Even
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint) and [`babel-eslint`](https://github.com/babel/babel-eslint).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), and [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import).
 
-Install `eslint`, `babel-eslint` & `eslint-config-eventbrite` dependencies:
+Install `eslint`, `babel-eslint`, `eslint-plugin-import` & `eslint-config-eventbrite` dependencies:
 
 ```sh
-npm install --save-dev eslint babel-eslint eslint-config-eventbrite
+npm install --save-dev eslint babel-eslint eslint-plugin-import eslint-config-eventbrite
 ```
 
 Extend `eslint-config-eventbrite` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
@@ -25,7 +25,7 @@ Extend `eslint-config-eventbrite` in your [`.eslintrc.json`](http://eslint.org/d
 }
 ```
 
-_NOTE:_ This configuration extends [`eslint-config-eventbrite-legacy`](../eslint-config-eventbrite-legacy).
+_NOTE:_ This configuration extends [`eslint-config-eventbrite-legacy`](../eslint-config-eventbrite-legacy) and `plugin:import/errors`.
 
 ## Contributing
 
