@@ -1,5 +1,5 @@
 module.exports = {
-    plugins: 'jsx-a11y',
+    plugins: ['jsx-a11y'],
 
     // View link below for docs on react a11y rules
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/
@@ -35,7 +35,7 @@ module.exports = {
 
         // Enforce that `<label>` & (custom) <Label> elements have the `htmlFor` prop
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-for.md
-        'jsx-a11y/label-has-for': ['error', 'Label'],
+        'jsx-a11y/label-has-for': ['error', {components: ['Label']}],
 
         // Enforce that onMouseOver/onMouseOut are accompanied by onFocus/onBlur
         // for keyboard-only users

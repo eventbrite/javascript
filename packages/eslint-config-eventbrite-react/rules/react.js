@@ -86,6 +86,10 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md
         'react/jsx-space-before-closing': 'error',
 
+        // Enforce multi-line JSX is wrapped in parentheses
+        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-wrap-multilines.md
+        'react/jsx-wrap-multilines': 'error',
+
         // Warn when using "dangerous" JSX properties
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-danger.md
         'react/no-danger': 'warn',
@@ -124,10 +128,6 @@ module.exports = {
 
         // Enforce default component methods order
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/sort-comp.md
-        'react/sort-comp': 'error',
-
-        // Enforce multi-line JSX is wrapped in parentheses
-        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/wrap-multilines.md
-        'react/wrap-multilines': 'error'
+        'react/sort-comp': 'error'
     }
 };
