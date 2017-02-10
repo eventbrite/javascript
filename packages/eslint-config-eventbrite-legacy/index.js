@@ -5,13 +5,5 @@ module.exports = {
         './rules/node',
         './rules/style',
         './rules/variables'
-    ].map(require.resolve)),
-    env: {
-        'amd': true,
-        'browser': true,
-        'jasmine': true
-    },
-    globals: {
-        'sinon': 1
-    }
+    ].map(require.resolve))
 };
