@@ -19,7 +19,9 @@ Guidelines and best practices used by Eventbrite to provide consistency and prev
 
 ## Testing environment
 
-Eventbrite uses [Jest](http://facebook.github.io/jest/) and [`enzyme`](http://airbnb.io/enzyme/) for unit testing React components. We also leverage [`jest-enzyme`](https://github.com/blainekasten/enzyme-matchers) assertion helpers. Enzyme wraps [`ReactTestUtils`](https://facebook.github.io/react/docs/test-utils.html), which contains a bunch of primitives for testing components. Don't use `ReactTestUtils` directly; use Enzyme!
+Eventbrite uses [Jest](http://facebook.github.io/jest/) and [`enzyme`](http://airbnb.io/enzyme/) for unit testing React components. We also leverage [`jest-enzyme`](https://github.com/blainekasten/enzyme-matchers) assertion helpers. Enzyme wraps [`ReactTestUtils`](https://facebook.github.io/react/docs/test-utils.html), which contains a bunch of primitives for testing components.
+
+Don't use `ReactTestUtils` directly; use Enzyme!
 
 **[⬆ back to top](#table-of-contents)**
 
