@@ -171,10 +171,9 @@ module.exports = {
         // http://eslint.org/docs/rules/no-unmodified-loop-condition
         'no-unmodified-loop-condition': 'error',
 
-        // (temporarily) Allow usage of expressions in statement position
-        // TODO: Reenable once we can figure out a workaround with Chai expect()
+        // disallow usage of expressions in statement position
         // http://eslint.org/docs/rules/no-unused-expressions
-        'no-unused-expressions': 'off',
+        'no-unused-expressions': 'error',
 
         // disallow unnecessary .call() and .apply()
         // http://eslint.org/docs/rules/no-useless-call
