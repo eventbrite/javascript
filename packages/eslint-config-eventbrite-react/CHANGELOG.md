@@ -1,3 +1,6 @@
+## v3.0.0 (February 10, 2017)
+- (major) bump `eslint-config-eventbrite` to 4.0.0
+
 ## v2.0.1 (December 1, 2016)
 - (patch) Bump `eslint-config-eventbrite` dependency to 3.0.1
 - (dev-ops) Add `eslint-plugin-import` as a peer dependency

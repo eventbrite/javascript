@@ -1,3 +1,7 @@
+## v3.0.0 (February 10, 2017)
+- (major) remove `env` & `globals` directives
+- (major) reenable `no-unused-expressions` to be an error
+
 ## v2.0.0 (November 30, 2016)
 - (major) bump to eslint 3
 

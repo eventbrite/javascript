@@ -1,3 +1,6 @@
+## v4.0.0 (February 10, 2017)
+- (major) bump `eslint-config-eventbrite-legacy` to 3.0.0
+
 ## v3.0.1 (December 1, 2016)
 - (patch) Bug fix: Need `babel-eslint@7` peer dependency
 
