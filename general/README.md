@@ -364,7 +364,7 @@ var request = fetch('http://some/url'),
 
 ### Constants
 
-Constats should be all written in capital letters and in snake_case. (except config object.)
+Constants should be all written in capital letters and in snake_case. (except config object.)
 
 ```js
 //good
@@ -423,7 +423,7 @@ The naming convention also helps code reviewers distinguish the methods we have 
 
 ### Method: Public
 
-Should always begin with [camcelCase](http://c2.com/cgi/wiki?LowerCamelCase).
+Should always begin with [camelCase](http://c2.com/cgi/wiki?LowerCamelCase).
 
 ```js
 
