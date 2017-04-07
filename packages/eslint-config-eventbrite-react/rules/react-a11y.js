@@ -21,9 +21,6 @@ module.exports = {
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/heading-has-content.md
         'jsx-a11y/heading-has-content': 'error',
 
-        // Enforce <html> element has lang prop.
-        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/html-has-lang.md
-        'jsx-a11y/html-has-lang': 'warn',
 
          // Enforce iframe elements have a title attribute.
          // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/iframe-has-title.md
@@ -31,11 +28,7 @@ module.exports = {
 
          // Enforce lang attribute has a valid value.
          // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/lang.md
-        'jsx-a11y/lang': 'warn',
-
-         // Enforce autoFocus prop is not used.
-         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-autofocus.md
-        'jsx-a11y/no-autofocus': 'error',
+        'jsx-a11y/lang': 'error',
 
          // Enforce distracting elements are not used.
          // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-distracting-elements.md
@@ -51,7 +44,7 @@ module.exports = {
 
          // Enforce scope prop is only used on <th> elements.
          // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/scope.md
-        'jsx-a11y/scope': 'warn',
+        'jsx-a11y/scope': 'error',
 
         // Enforce all `aria-*` props are valid
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/aria-props.md
