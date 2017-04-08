@@ -5,10 +5,6 @@ module.exports = {
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/
     rules: {
 
-        // Enforce emojis are wrapped in and provide screenreader access.
-        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/accessible-emoji.md
-        'jsx-a11y/accessible-emoji': 'error',
-
         // Enforce all anchors to contain accessible content.
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md
         'jsx-a11y/anchor-has-content': 'error',
@@ -20,11 +16,6 @@ module.exports = {
         // Enforce heading (h1, h2, etc) elements contain accessible content.
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/heading-has-content.md
         'jsx-a11y/heading-has-content': 'error',
-
-
-         // Enforce iframe elements have a title attribute.
-         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/iframe-has-title.md
-        'jsx-a11y/iframe-has-title': 'error',
 
          // Enforce lang attribute has a valid value.
          // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/lang.md
