@@ -4,6 +4,39 @@ module.exports = {
     // View link below for docs on react a11y rules
     // https://github.com/evcohen/eslint-plugin-jsx-a11y/
     rules: {
+
+        // Enforce all anchors to contain accessible content.
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md
+        'jsx-a11y/anchor-has-content': 'error',
+
+        // Enforce a clickable non-interactive element has at least one keyboard event listener.
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/click-events-have-key-events.md
+        'jsx-a11y/click-events-have-key-events': 'error',
+
+        // Enforce heading (h1, h2, etc) elements contain accessible content.
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/heading-has-content.md
+        'jsx-a11y/heading-has-content': 'error',
+
+         // Enforce lang attribute has a valid value.
+         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/lang.md
+        'jsx-a11y/lang': 'error',
+
+         // Enforce distracting elements are not used.
+         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-distracting-elements.md
+        'jsx-a11y/no-distracting-elements': 'error',
+
+         // Enforce explicit role property is not the same as implicit/default role property on element.
+         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-redundant-roles.md
+        'jsx-a11y/no-redundant-roles': 'error',
+
+         // Enforce non-interactive elements have no interactive handlers.
+         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-static-element-interactions.md
+        'jsx-a11y/no-static-element-interactions': 'error',
+
+         // Enforce scope prop is only used on <th> elements.
+         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/scope.md
+        'jsx-a11y/scope': 'error',
+
         // Enforce all `aria-*` props are valid
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/aria-props.md
         'jsx-a11y/aria-props': 'error',
