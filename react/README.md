@@ -1763,7 +1763,7 @@ export default class Togglr extends React.Component {
 
 ### Defaulting from props
 
-In general, using props to generate state is an anti-pattern because it results in duplicate "sources of truth" (see [Props in getInitialState as an anti-pattern](https://facebook.github.io/react/tips/props-in-getInitialState-as-anti-pattern.html)). But if your props is properly named to indicate that it's only used as seed data for the component's internally-controlled state, it's no longer an anti-pattern.
+In general, using props to generate state is an anti-pattern because it results in duplicate "sources of truth" (see [Props in getInitialState as an anti-pattern](https://github.com/facebook/react/blob/8cac523beaaacfeae179ca14a1d8a46d82892016/docs/tips/10-props-in-getInitialState-as-anti-pattern.md)). But if your props is properly named to indicate that it's only used as seed data for the component's internally-controlled state, it's no longer an anti-pattern.
 
 We tend to prefix these types of props with `default*` to match the `defaultValue` prop React uses for input elements. `initial*` is also a good prefix.
 
