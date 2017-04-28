@@ -1,3 +1,6 @@
+## v4.0.0 (April 28, 2017)
+- (major) Add new `jsx-a11y` rules
+
 ## v3.0.0 (February 10, 2017)
 - (major) bump `eslint-config-eventbrite` to 4.0.0
 
