@@ -85,7 +85,7 @@ Prefer ES6 classes over `React.createClass` (eslint: [`react/prefer-es6-class`](
 
 ```js
 // good
-export default class MainComponent extends React.Component {
+export default class MainComponent extends React.PureComponent {
 
 }
 
@@ -104,13 +104,20 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 
 **[⬆ back to top](#table-of-contents)**
 
+### PureComponent vs. Component
+
+Using `PureComponent` is preferred over `Component` because React provides optimizations in how it checks for changes. Instead of doing a deep comparison of what has changed from the previous state of the component, `PureComponent` implements a `shouldComponentUpdate` that performs simple equality checks for props and state. 
+
+NOTE: In rare cases where you are using changing context or deeply nested/mutated objects, `PureComponent` may not detect the changes you need.
+
+
 #### `displayName`
 
 Do not use `displayName` for naming components. Instead, name the `class` expression. React will infer the `displayName` from the reference name:
 
 ```jsx
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
 }
 
 // ok (uses class expression assigned to a named const reference)
