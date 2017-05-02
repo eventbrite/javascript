@@ -106,7 +106,9 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 
 ### PureComponent vs. Component
 
-Using `PureComponent` is preferred over `Component` because React provides optimizations in how it checks for changes. Instead of doing a deep comparison of what has changed from the previous state of the component, `PureComponent` implements a `shouldComponentUpdate` that performs simple equality checks for props and state. 
+Using [PureComponent](https://facebook.github.io/react/docs/react-api.html#react.purecomponent)
+ is preferred over `Component` because React provides optimizations in how it checks for changes. Instead of doing a deep comparison of what has changed from the previous state of the component, `PureComponent` implements a `shouldComponentUpdate` that performs simple equality checks for props and state.
+
 
 NOTE: In rare cases where you are using changing context or deeply nested/mutated objects, `PureComponent` may not detect the changes you need.
 
