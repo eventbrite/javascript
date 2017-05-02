@@ -106,9 +106,20 @@ _NOTE:_ There is a common practice to use stateless/pure functions over ES6 clas
 
 ### PureComponent vs. Component
 
-Using [PureComponent](https://facebook.github.io/react/docs/react-api.html#react.purecomponent)
+Using [`PureComponent`](https://facebook.github.io/react/docs/react-api.html#react.purecomponent)
  is preferred over `Component` because React provides optimizations in how it checks for changes. Instead of doing a deep comparison of what has changed from the previous state of the component, `PureComponent` implements a `shouldComponentUpdate` that performs simple equality checks for props and state.
 
+```js
+// good
+export default class MainComponent extends React.PureComponent {
+
+}
+
+// bad (uses React.Component)
+export default class MainComponent extends React.Component {
+
+}
+```
 
 NOTE: In rare cases where you are using changing context or deeply nested/mutated objects, `PureComponent` may not detect the changes you need.
 
@@ -123,15 +134,15 @@ export default class TextInput extends React.PureComponent {
 }
 
 // ok (uses class expression assigned to a named const reference)
-const TextInput = class extends React.Component {
+const TextInput = class extends React.PureComponent {
 };
 
 // bad (missing name of `class` expression)
-export default class extends React.Component {
+export default class extends React.PureComponent {
 }
 
 // bad (uses `displayName` instead of `class` name)
-export default class extends React.Component {
+export default class extends React.PureComponent {
     static displayName = 'TextInput';
 }
 ```
@@ -144,16 +155,16 @@ Export only one component per file as the default (eslint: [`react/no-multi-comp
 // MainComponent.js
 
 // good
-export default class MainComponent extends React.Component {
+export default class MainComponent extends React.PureComponent {
 
 }
 
 
 // bad (exports multiple components)
-export class MainComponent extends React.Component {
+export class MainComponent extends React.PureComponent {
 
 }
-export class OtherComponent extends React.Component {
+export class OtherComponent extends React.PureComponent {
 
 }
 ```
@@ -192,7 +203,7 @@ Use `static` class property syntax to define `propTypes` and `defaultProps`:
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         type: React.PropTypes.string,
         defaultValue: React.PropTypes.string
@@ -205,7 +216,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (adds `propTypes` & `defaultProps` after class definition)
-const TextInput = class extends React.Component {
+const TextInput = class extends React.PureComponent {
     static propTypes = {
         type: React.PropTypes.string,
         defaultValue: React.PropTypes.string
@@ -234,7 +245,7 @@ Use camelCase for `propTypes` (eslint: [`camelcase`](http://eslint.org/docs/rule
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         type: React.PropTypes.string,
         defaultValue: React.PropTypes.string,
@@ -245,7 +256,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (uses non-camelCase)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         type: React.PropTypes.string,
         default_value: React.PropTypes.string,
@@ -264,7 +275,7 @@ Don't declare any of the `propTypes` as required if they are included in `defaul
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func.isRequired,
         type: React.PropTypes.string,
@@ -281,7 +292,7 @@ export default class TextInput extends React.Component {
 
 // bad (`type` is marked as required even though it's defaulted &
 // `required` is marked as required even though it's boolean w/ `false` default)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func.isRequired,
         type: React.PropTypes.string.isRequired,
@@ -305,7 +316,7 @@ Define required `propTypes` first, so that minimum props required to use this co
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         role: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired,
@@ -322,7 +333,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (required props are not first)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         type: React.PropTypes.string,
         required: React.PropTypes.bool,
@@ -350,7 +361,7 @@ Use descriptives to name boolean `propTypes` representing toggle states in the c
 
 ```js
 // good
-export default class Banner extends React.Component {
+export default class Banner extends React.PureComponent {
     static propTypes = {
         hideIcon: React.PropTypes.bool,
         isActive: React.PropTypes.bool,
@@ -365,7 +376,7 @@ export default class Banner extends React.Component {
 }
 
 // bad (icon-related prop is mis-named such that default is true)
-export default class Banner extends React.Component {
+export default class Banner extends React.PureComponent {
     static propTypes = {
         showIcon: React.PropTypes.bool,
         isActive: React.PropTypes.bool,
@@ -380,7 +391,7 @@ export default class Banner extends React.Component {
 }
 
 // bad (boolean prop type is declared as required)
-export default class Banner extends React.Component {
+export default class Banner extends React.PureComponent {
     static propTypes = {
         hideIcon: React.PropTypes.bool.isRequired,
         isActive: React.PropTypes.bool,
@@ -394,7 +405,7 @@ export default class Banner extends React.Component {
 }
 
 // bad (props are ambiguously named)
-export default class Banner extends React.Component {
+export default class Banner extends React.PureComponent {
     static propTypes = {
         icon: React.PropTypes.bool,
         active: React.PropTypes.bool,
@@ -417,7 +428,7 @@ Don't use the vague prop types, `React.PropTypes.any`, `React.PropTypes.array`, 
 
 ```js
 // good
-export default class Candidate extends React.Component {
+export default class Candidate extends React.PureComponent {
     static propTypes = {
         id: React.PropTypes.oneOfType([
             React.PropTypes.number,
@@ -434,7 +445,7 @@ export default class Candidate extends React.Component {
 }
 
 // bad (uses vague prop types)
-export default class Candidate extends React.Component {
+export default class Candidate extends React.PureComponent {
     static propTypes = {
         id: React.PropTypes.any,
         names: React.PropTypes.array,
@@ -459,12 +470,12 @@ In the limited cases where the wrapper node solution doesn't work, the child com
 // good (parent uses wrapper `<div>` to position child)
 
 // Child.js
-export default class Child extends React.Component {
+export default class Child extends React.PureComponent {
     // code for Child component
 }
 
 // Parent.js
-export default class Parent extends React.Component {
+export default class Parent extends React.PureComponent {
     render() {
         return (
             <div className="parent">
@@ -483,7 +494,7 @@ export default class Parent extends React.Component {
 // (parent uses `__containerClassName` prop to position child)
 
 // Child.js
-export default class Child extends React.Component {
+export default class Child extends React.PureComponent {
     static propTypes = {
         // other propTypes
         __containerClassName: React.PropTypes.string
@@ -502,7 +513,7 @@ export default class Child extends React.Component {
 }
 
 // Parent.js
-export default class Parent extends React.Component {
+export default class Parent extends React.PureComponent {
     render() {
         return (
             <div className="parent">
@@ -518,7 +529,7 @@ export default class Parent extends React.Component {
 // bad (parent specifies VISUAL STYLING with `__containerClassName` prop)
 
 // Child.js
-export default class Child extends React.Component {
+export default class Child extends React.PureComponent {
     static propTypes = {
         // other propTypes
         __containerClassName: React.PropTypes.string
@@ -537,7 +548,7 @@ export default class Child extends React.Component {
 }
 
 // Parent.js
-export default class Parent extends React.Component {
+export default class Parent extends React.PureComponent {
     render() {
         return (
             <div className="parent">
@@ -553,7 +564,7 @@ export default class Parent extends React.Component {
 // bad (child defines `className` prop instead of `__containerClassName`)
 
 // Child.js
-export default class Child extends React.Component {
+export default class Child extends React.PureComponent {
     static propTypes = {
         // other propTypes
         className: React.PropTypes.string
@@ -572,7 +583,7 @@ export default class Child extends React.Component {
 }
 
 // Parent.js
-export default class Parent extends React.Component {
+export default class Parent extends React.PureComponent {
     render() {
         return (
             <div className="parent">
@@ -660,7 +671,7 @@ const SocialLinks = ({links}) => {
     );
 };
 
-export default class GlobalFooter extends React.Component {
+export default class GlobalFooter extends React.PureComponent {
     static propType = {
         allTlds: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -707,7 +718,7 @@ Let's take a look at the "bad" approach:
 
 ```js
 // bad (longer, less maintainable render)
-export default class GlobalFooter extends React.Component {
+export default class GlobalFooter extends React.PureComponent {
     static propType = {
         allTlds: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -791,7 +802,7 @@ JavaScript doesn't (yet) have a mechanism for declaring a method as `private`, w
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func
     }
@@ -810,7 +821,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (private method does not start with `_`)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func
     }
@@ -1091,7 +1102,7 @@ When rendering an array of React components, specify the `key` prop for each com
 
 ```js
 // good
-export default class NamesList extends React.Component {
+export default class NamesList extends React.PureComponent {
     static propTypes = {
         names: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -1114,7 +1125,7 @@ export default class NamesList extends React.Component {
 }
 
 // bad (fails to specify `key` prop in loop)
-export default class NamesList extends React.Component {
+export default class NamesList extends React.PureComponent {
     static propTypes = {
         names: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -1147,7 +1158,7 @@ Avoid passing the loop iteration index as the `key` prop, as this ends up confus
 
 ```js
 // good
-export default class NamesList extends React.Component {
+export default class NamesList extends React.PureComponent {
     static propTypes = {
         names: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -1170,7 +1181,7 @@ export default class NamesList extends React.Component {
 }
 
 // bad (uses array index as a key)
-export default class NamesList extends React.Component {
+export default class NamesList extends React.PureComponent {
     static propTypes = {
         names: React.PropTypes.arrayOf(
             React.PropTypes.shape({
@@ -1205,7 +1216,7 @@ React doesn't support two-way binding. Parent components can update their childr
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func
     }
@@ -1224,7 +1235,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (callback prop is not prefixed with `on`)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         // this should be named `onChange`
         change: React.PropTypes.func
@@ -1244,7 +1255,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (event handler is not prefixed with `_handle`)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func
     }
@@ -1275,7 +1286,7 @@ The component also wants to notify the parent component in `_handleClick` that t
 
 ```js
 // good (uses semantic onPageChange event handler name)
-export default class Pagination React.Component {
+export default class Pagination React.PureComponent {
     static propTypes = {
         onPageChange: React.PropTypes.func
     }
@@ -1305,7 +1316,7 @@ export default class Pagination React.Component {
 }
 
 // bad (event handler name is DOM-specific)
-export default class Pagination React.Component {
+export default class Pagination React.PureComponent {
     static propTypes = {
         onPageClick: React.PropTypes.func
     }
@@ -1351,7 +1362,7 @@ As a result, this means that you must **always** handle DOM events it within the
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func,
         onBlur: React.PropTypes.func
@@ -1383,7 +1394,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (_handleChange passes entire event object back)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func,
         onBlur: React.PropTypes.func
@@ -1413,7 +1424,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (blur event isn't wrapped, which implicitly passed back event object)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func,
         onBlur: React.PropTypes.func
@@ -1474,7 +1485,7 @@ const TEAMS = {
 
 
 // good
-export default class TeamPicker extends React.Component {
+export default class TeamPicker extends React.PureComponent {
     _handleTeamClick(teamId) {
         location.href = TEAMS[teamId].url;
     }
@@ -1498,7 +1509,7 @@ export default class TeamPicker extends React.Component {
 
 // bad (stores the teamId in the DOM `data-teamId`
 // in order to retrieve it onClick)
-export default class TeamPicker extends React.Component {
+export default class TeamPicker extends React.PureComponent {
     _handleTeamClick(e) {
         let teamId = e.target.dataset.teamId;
 
@@ -1538,7 +1549,7 @@ If an event handler needs to both update its internal [state](#state) **AND** ca
 
 ```js
 // good
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func
     }
@@ -1569,7 +1580,7 @@ export default class TextInput extends React.Component {
 }
 
 // bad (calls `setState` after calling `onChange` prop callback)
-export default class TextInput extends React.Component {
+export default class TextInput extends React.PureComponent {
     static propTypes = {
         onChange: React.PropTypes.func
     }
@@ -1666,7 +1677,7 @@ With React's optimized re-rendering via its Virtual DOM abstraction, you should 
 
 ```js
 // good
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     state = {visible: false}
 
     _handleToggle() {
@@ -1695,7 +1706,7 @@ export default class Togglr extends React.Component {
 }
 
 // bad (uses CSS to hide element instead of not rendering)
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     state = {visible: false}
 
     _handleToggle() {
@@ -1742,14 +1753,14 @@ We rely on the [Class fields proposal](https://github.com/jeffmo/es-class-fields
 
 ```js
 // good
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     state = {visible: false}
 
     // rest of the component
 }
 
 // bad (assigns `this.state` unnecessarily in constructor)
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     constructor(props, context) {
         super(props, context);
         this.state = {visible: false};
@@ -1759,7 +1770,7 @@ export default class Togglr extends React.Component {
 }
 
 // bad (uses ES5 `getInitialState`)
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     getInitialState() {
         return {visible: false};
     }
@@ -1780,7 +1791,7 @@ When defaulting from props, using the declarative class field no longer works as
 
 ```js
 // good
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     constructor(props, context) {
         super(prop, context);
         this.state = {visible: props.defaultVisible};
@@ -1790,7 +1801,7 @@ export default class Togglr extends React.Component {
 }
 
 // bad (confusingly-named prop)
-export default class Togglr extends React.Component {
+export default class Togglr extends React.PureComponent {
     constructor(props, context) {
         super(prop, context);
         this.state = {visible: props.visible};
@@ -1817,7 +1828,7 @@ const INITIAL_STATE = {
     message: ''
 }
 
-export default ContactForm extends React.Component {
+export default ContactForm extends React.PureComponent {
     state = {
         name: '',
         message: ''
@@ -1836,7 +1847,7 @@ export default ContactForm extends React.Component {
 }
 
 // bad (duplicate initial state)
-export default ContactForm extends React.Component {
+export default ContactForm extends React.PureComponent {
     state = {name: '', message: ''}
 
     _handleFormSubmit() {
@@ -1883,7 +1894,7 @@ const FallbackLoading = () => {
     // code for a fallback/image loading display
 };
 
-export default class Loading extends React.Component {
+export default class Loading extends React.PureComponent {
     _supportsFanciness() {
         if (SUPPORTS_FANCINESS === undefined && /* determine presence of DOM APIs */) {
             SUPPORTS_FANCINESS = true;
@@ -1917,7 +1928,7 @@ const FallbackLoading = () => {
     // code for a fallback/image loading display
 };
 
-export default class Loading extends React.Component {
+export default class Loading extends React.PureComponent {
     state = {
         supportsFanciness: false
     }
@@ -1960,7 +1971,7 @@ By default all text passed as content to HTML nodes are sanitized by React, prev
 Just like with [refs](#refs), using `dangerouslySetInnerHTML` is something that should be used sparingly. When it is truly needed, you can temporarily disable rule:
 
 ```js
-export default class RawContainer extends React.Component {
+export default class RawContainer extends React.PureComponent {
     render() {
         let innerHTML = {__html: '<span>Safe HTML</span>'};
 
@@ -1994,7 +2005,7 @@ Generally when refs are used within React, it can be rewritten to use [state](#s
 However, if refs are needed, use callback-style refs to store a instance reference to it:
 
 ```js
-export default class RefContainer extends React.Component {
+export default class RefContainer extends React.PureComponent {
     render() {
         let refCallback = (input) => {
             // stores a reference to the input on the component instance
@@ -2022,7 +2033,7 @@ If you need to add event handlers to the `window` or `document`, there is no Rea
 Let's take an example where you would like to make a `fetch` API request and also listen to the `resize` event on the window. You would need to make use of the `componentDidMount` & `componentWillUnmount` lifecycle methods:
 
 ```js
-export default class App extends React.Component {
+export default class App extends React.PureComponent {
     state = {
         items: [],
         isSmall: true // mobile-first default
