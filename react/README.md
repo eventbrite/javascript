@@ -217,10 +217,7 @@ export default class TextInput extends React.PureComponent {
 
 // bad (adds `propTypes` & `defaultProps` after class definition)
 const TextInput = class extends React.PureComponent {
-    static propTypes = {
-        type: React.PropTypes.string,
-        defaultValue: React.PropTypes.string
-    }
+
 };
 
 TextInput.propTypes = {
@@ -778,7 +775,6 @@ export default class GlobalFooter extends React.PureComponent {
                 <ul className="global-footer__social-links">
                     {socialItems}
                 </ul>
-            );
             </div>
         );
     }
@@ -1683,7 +1679,7 @@ export default class Togglr extends React.PureComponent {
     _handleToggle() {
         this.setState({
             visible: !this.state.visible
-        })
+        });
     }
 
     render() {
@@ -1712,7 +1708,7 @@ export default class Togglr extends React.PureComponent {
     _handleToggle() {
         this.setState({
             visible: !this.state.visible
-        })
+        });
     }
 
     render() {
