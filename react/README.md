@@ -461,7 +461,7 @@ Ideally, a parent component does not control a child component’s styling, so d
 
 However, you may need to control the layout/positioning of a child component within a parent component. If so, wrap the child component in a `<div>` or `<span>` that the parent _does_ control, and add the positioning styling to that wrapper node.
 
-In the limited cases where the wrapper node solution doesn't work, the child component can expose a `__containerClassName` prop, which the parent can specify to add layout-based CSS class(es) to. The prop begins with dunder (`__`) to indicate that it is an exceptional case, so that in can easily be spotted in code review.
+In the limited cases where the wrapper node solution doesn't work, the child component can expose a `__containerClassName` prop, which the parent can specify to add layout-based CSS class(es) to. The prop begins with dunder (`__`) to indicate that it is an exceptional case, so that it can easily be spotted in code review.
 
 ```js
 // good (parent uses wrapper `<div>` to position child)
