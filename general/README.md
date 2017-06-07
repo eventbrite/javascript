@@ -126,7 +126,7 @@ _getType = function(types, model) {
     var type = _.find(types, function(value, key) {
         // will return the first value of the key that evaluates to true;
         return helpers[key](model);
-    }
+    });
     return type || 'default';
 }
 ```
@@ -251,7 +251,7 @@ if (isAllowed) {
 
 ### Immediately-invoked function expressions
 
-Avoid using IFFEs (immediately-invoked function expressions) if possible. The `bind` function is preferred when dealing with variable scope in closures (note that `bind` is only available in ES5+,
+Avoid using IIFEs (immediately-invoked function expressions) if possible. The `bind` function is preferred when dealing with variable scope in closures (note that `bind` is only available in ES5+,
 though we use `es5-shim` so `bind` should always be in our codebase by default).
 
 ```js
@@ -264,7 +264,7 @@ buyTicketFunction = function(options) {
 
 $(purchaseTicketButtonSelector).click(buyTicketFunction.bind(null, options));
 
-// bad (using IFFEs)
+// bad (using IIFEs)
 buyTicketFunction = (function(options) {
     return function() {
         buyTickets(_.pick(options, 'eventId', 'ticketId'));
@@ -276,7 +276,7 @@ $(purchaseTicketButtonSelector).click(function() {
 });
 ```
 
-IFFEs tend to add unnecessary complexity (note that the "bad" IFFE example
+IIFEs tend to add unnecessary complexity (note that the "bad" IIFE example
 has three nested functions, while the "good" example has one) and is harder to
 change or extend.
 
@@ -308,7 +308,7 @@ _handleEvent = function(e) {
 > There are only two hard things in Computer Science: cache invalidation and naming things. *Phil Karlton*
 
 ### Variables: Classes or newable functions
-Classes or newable functions (meant to be factories) should be singular, camelCase, and begin with a capital letter:
+Classes or newable functions (meant to be factories) should be PascalCase:
 
 ```js
 var groupTicket = new Ticket(id: 555);
@@ -390,7 +390,7 @@ Avoid names that are generic and instead, try to make your best effort to find a
 
 //good
 var attendeeNames = {},
-    translatedGreeting 'hola!',
+    translatedGreeting = 'hola!',
     getDefaultPrice = parseInt(5, 10);
 
 //bad
