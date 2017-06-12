@@ -7,6 +7,7 @@ Eventbrite’s guidelines to ensure consistency in JavaScript code in any enviro
 0. [Conditionals](#conditionals)
 0. [Assignments](#assignments)
 0. [Functions](#functions)
+0. [Iterators](#iterators)
 0. [Naming Conventions](#naming-conventions)
 
 ## Conditionals
@@ -304,6 +305,65 @@ _handleEvent = function(e) {
 
 **[⬆ back to top](#table-of-contents)**
 
+## Iterators
+
+It is best not to use iterators. It is preferred to leverage JavaScript's higher-order functions when looping.
+
+This enforces our [immutability](https://www.sitepoint.com/immutability-javascript/) rule.
+It is easier to deal with pure functions that return values than dealing with there side effects.
+
+Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... to iterate over arrays, and `Object.keys()` / `Object.values()` / `Object.entries()` to produce arrays so you can iterate over objects.
+
+```js
+const numbers = [1, 2, 3, 4, 5];
+
+// good (use the functional force) ES6
+const sum = numbers.reduce((total, num) => total + num, 0);
+sum === 15;
+
+// good (use the functional force) ES5
+var sum = numbers.reduce(function (total, num) {
+  return total + num;
+}, 0);
+sum === 15;
+
+// bad
+var sum = 0;
+numbers.forEach(function (num) {
+  return sum += num;
+});
+sum === 15;
+
+// very bad
+let sum = 0;
+for (let num of numbers) {
+  sum += num;
+}
+sum === 15;
+
+// good (keeping it functional) ES6
+const increasedByOne = numbers.map(num => num + 1);
+
+// good (keeping it functional) ES5
+var increasedByOne = numbers.map(function (num) {
+  return num + 1;
+});
+
+// bad
+var increasedByOne = [];
+numbers.forEach(function (num) {
+  return increasedByOne.push(num + 1);
+});
+
+// very bad
+var increasedByOne = [];
+for (var i = 0; i < numbers.length; i++) {
+  increasedByOne.push(numbers[i] + 1);
+}
+```
+
+**[⬆ back to top](#table-of-contents)**
+
 ## Naming Conventions
 > There are only two hard things in Computer Science: cache invalidation and naming things. *Phil Karlton*
 
@@ -443,7 +503,6 @@ _superComplextName: function() {
 UpdateAll: function() {
     // code here
 }
-
 ```
 
 **[⬆ back to top](#table-of-contents)**

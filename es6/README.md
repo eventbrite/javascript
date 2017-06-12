@@ -12,7 +12,7 @@ Eventbrite’s [ESLint](http://eslint.org/) guidelines to ensure consistency in 
 0. [Functions](#functions)
 0. [Classes](#classes)
 0. [Modules](#modules)
-0. [Destructuring](#destructuring)
+<!-- 0. [Destructuring](#destructuring) // We don't have a section on destructuring yet-->
 
 ## ES6 compatibility
 
