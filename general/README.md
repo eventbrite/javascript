@@ -307,7 +307,8 @@ _handleEvent = function(e) {
 
 ## Iterators
 
-It is best not to use iterators. It is preferred to leverage JavaScript's higher-order functions when looping.
+we particularly try to avoid iterations that don't have any output as a result of their iteration.
+Any need for an external element to store an operation (or transform an pre existent element as a result) to produce a valuable output, is frowned upon (forEach and for-loops and while).
 
 This enforces our [immutability](https://www.sitepoint.com/immutability-javascript/) rule.
 It is easier to deal with pure functions that return values than dealing with there side effects.
@@ -317,11 +318,11 @@ Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `
 ```js
 const numbers = [1, 2, 3, 4, 5];
 
-// good (use the functional force) ES6
+// good (use a functional approach) ES6
 const sum = numbers.reduce((total, num) => total + num, 0);
 sum === 15;
 
-// good (use the functional force) ES5
+// good (use a functional approach) ES5
 var sum = numbers.reduce(function (total, num) {
   return total + num;
 }, 0);
