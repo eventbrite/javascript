@@ -8,6 +8,7 @@ Eventbrite’s guidelines to ensure consistency in JavaScript code in any enviro
 0. [Assignments](#assignments)
 0. [Functions](#functions)
 0. [Naming Conventions](#naming-conventions)
+0. [Comments](#comments)
 
 ## Conditionals
 
@@ -443,7 +444,53 @@ _superComplextName: function() {
 UpdateAll: function() {
     // code here
 }
+```
+## comments
 
+### commented code
+
+*We recommend not to leave commented code lingering around. If the code is meant to be used in the future, either save the code on a branch or in our internal paste bin via phabricator. (arc paste).*
+
+### when the comment has multiple lines we use the block form (i.e: JSDocs)
+
+```js
+ 
+/**
+* returns the calculated offset for lower bound range. (from)
+* @example
+* // returns 2
+* scenario:
+* Viewport Large
+* skiping first and applying corrections
+* @returns {integer} lower bound range
+*/
+
+const getMinBound = (pageSize = constants.DEFAULT_PAGE_SIZE) => (
+    pageSize === constants.DEFAULT_PAGE_SIZE ? constants.MIN_BOUND_SMALL : constants.MIN_BOUND_DEFAULT
+);
+```
+
+### when the comment has a single line we instead one liner comments: 
+
+```js
+const getToOffset = (pageNumber, middleRangeOffset, maxPagesShown, maxBound) => {
+    // default -> page is in the middle, and we have enough pages in both sides.
+    let to = pageNumber + middleRangeOffset;
+
+    // are we too close to the bottom? if so, we need to adjust the split
+    // relative checks where the split doesn't work (sorry van damme)
+    if (to < maxPagesShown + 1) {
+        to = pageNumber + maxPagesShown;
+    }
+
+    // hard bound to the top
+    if (to > maxBound) {
+        // on small + 1
+        to = maxBound;
+    }
+
+    return to;
+};
 ```
 
 **[⬆ back to top](#table-of-contents)**
