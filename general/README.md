@@ -307,15 +307,46 @@ _handleEvent = function(e) {
 
 ## Iterators
 
-we particularly try to avoid iterations that don't have any output as a result of their iteration.
-Any need for an external element to store an operation (or transform an pre existent element as a result) to produce a valuable output, is frowned upon (forEach and for-loops and while).
+We particularly try to avoid iterations that don't have output predictable output e.g. `forEach`, `for` and `while` loops.
+Any need for an external element to store or transform the result of an output, is frowned upon.
 
-This enforces our [immutability](https://www.sitepoint.com/immutability-javascript/) rule.
+This enforces our [immutability](https://www.sitepoint.com/immutability-javascript/) rule and limits the temptation of putting logic inside a loop.
 It is easier to deal with pure functions that return values than dealing with there side effects.
 
 Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... to iterate over arrays, and `Object.keys()` / `Object.values()` / `Object.entries()` to produce arrays so you can iterate over objects.
 
 ```js
+
+/// Objects
+
+const peoplesFavoriteFruits = {
+    'vivian': 'mango',
+    'alby': 'banana',
+    'gago': 'tomato'
+};
+
+// good (use a functional approach) ES6
+const fruits = Object.keys(peoplesFavoriteFruits).map((key, index) => key[index]);
+
+// good (use a functional approach) ES5
+var fruits = Object.keys(peoplesFavoriteFruits).map(function(key, index) {
+    return key[index]
+});
+
+// bad
+var fruits = [];
+Object.keys(peoplesFavoriteFruits).forEach(function (index) {
+  return fruits.push(peoplesFavoriteFruits[index]);
+});
+
+// very bad
+var fruits = [];
+for (var key in peoplesFavoriteFruits) {
+   fruits.push(peoplesFavoriteFruits[index]);
+}
+
+/// Arrays
+
 const numbers = [1, 2, 3, 4, 5];
 
 // good (use a functional approach) ES6
