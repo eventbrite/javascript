@@ -9,6 +9,7 @@ Eventbrite’s guidelines to ensure consistency in JavaScript code in any enviro
 0. [Functions](#functions)
 0. [Iterators](#iterators)
 0. [Naming Conventions](#naming-conventions)
+0. [Commas](#commas)
 
 ## Conditionals
 
@@ -537,4 +538,44 @@ UpdateAll: function() {
 }
 ```
 
+**[⬆ back to top](#table-of-contents)**
+
+## Commas
+
+Trailing Commas are only enforced for multi-line objects and arrays (we'll be running a codemod to fix previous issues, for now you can add them if they're multiline).
+
+```js
+
+// good
+const brunch = [
+    eggs,
+    chicken,
+    spinach,
+    hashbrowns,
+];
+
+// bad
+const brunch = [
+    eggs,
+    chicken,
+    spinach,
+    hashbrowns
+];
+
+// good
+const eventbrite = {
+    age: 11,
+    marketplace: 'global',
+    color: 'sunrise-orange-500',
+    hq: 'San Francisco',
+};
+
+// bad
+const eventbrite = {
+    age: 11,
+    marketplace: 'global',
+    color: 'sunrise-orange-500',
+    hq: 'San Francisco'
+};
+```
 **[⬆ back to top](#table-of-contents)**
