@@ -542,7 +542,7 @@ UpdateAll: function() {
 
 ## Commas
 
-(ES6) Trailing Commas are only enforced for multi-line objects and arrays. (see: [comma-dangle](http://eslint.org/docs/rules/comma-dangle#always-multiline.))
+(ES6) Trailing Commas are only enforced for multi-line objects and arrays. (see: [comma-dangle](http://eslint.org/docs/rules/comma-dangle#always-multiline))
 
 ```js
 
