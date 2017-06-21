@@ -480,7 +480,7 @@ it('does NOT allow `initialValue` to override existing <input> value', () => {
     expect(wrapper).toMatchSnapshot();
 
     // update the TextInput's props
-    wrapper.setProps({value: newValue});
+    wrapper.setProps({initialValue: newValue});
 
     // ensure that the <input> node's value hasn't changed
     expect(wrapper).toMatchSnapshot();
