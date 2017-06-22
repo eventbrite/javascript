@@ -3,11 +3,11 @@ module.exports = {
     rules: {
         // http://eslint.org/docs/rules/comma-dangle
         'comma-dangle': ['error', {
-            "arrays": "always-multiline",
-            "objects": "always-multiline",
-            "imports": "never",
-            "exports": "never",
-            "functions": "ignore"
+            'arrays': 'always-multiline',
+            'objects': 'always-multiline',
+            'imports': 'never',
+            'exports': 'never',
+            'functions': 'ignore'
         }]
     }
 };
