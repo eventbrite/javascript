@@ -31,4 +31,4 @@ Coming soon...
 
 ## License
 
-[MIT](LICENSE). Copyright (c) 2016 Eventbrite.
+[MIT](LICENSE). Copyright (c) 2017 Eventbrite.
