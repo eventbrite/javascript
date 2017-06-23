@@ -1,20 +1,19 @@
 language: node_js
 node_js:
-  - "4"
-  - "5"
-  - "6"
-  - "7"
-install: npm install
+- '4'
+- '5'
+- '6'
+- '7'
 env:
-  - PACKAGE=packages/eslint-config-eventbrite
-  - PACKAGE=packages/eslint-config-eventbrite-react
-  - PACKAGE=packages/eslint-config-eventbrite-legacy
-script: npm test
-#deploy:
-#  provider: npm
-#  email: npmjs+eng@eventbrite.com
-#  api_key:
-#    secure: wMUBDaHRvdJFPaJphyV9tLR1jYwZcViCqlO94Zid9G/9iH6IkA9c+CjCKjc6gi54rRCPcTVf3TMDIM8dV5pbqJUxR0ouXV7mxX3psO0O2yik+BdMDly1qmeet/96ohGy2Z0SaBSvoXqJ0m7IQ9Rpi3pTZRYjWiZ4uoWIj/18l71OfGAK5FzdhO/G/OS/HVlUwz2RcBHaZ6TQjY21BnBq2jqKEBssQz+UTmGKCZJJmzywcOIf+xgLU8BBjtSwXrHAD6opFs80kAxuxJw517mVYH+dvegsLVwOcoBZGTUewEoRsQ5nuqU1jC6n9jKKGPap8aFiEL5F3x0Z90Lm6yb9cJVwuzzkX8FHYEuFYWfyfO6a9pdJRyvXWUQZ5CfxE7kzFkX5H84pL6CMgUwB80WqaCEPKW0i0xxXWZxbhnlOMJ4yNOoSmwtpnaNnFWa6IwY0amYRXryEBUXUmzKRiUFA/9cfaoN2+Ly9L51E1837l05EE7c1LDDbsyG7G1MNVrh5pT7YTd05grg6E24nn/AwbOj7PxIyNM0FLKaESY6btBQMFazIpAaBi2qnYJrTNiki1M16klNewx0hx4cUuJShe8pmWXwJE3w5wV7sO9c0Fl5RXFurZPXfUfNZUr5dalVPeDo2Y1E9kao/Sw8272ijmKO1IwY52qm3tY3VnIPWNA8=
-#  on:
-#    tags: true
-#    repo: eventbrite/javascript
+- PACKAGE=packages/eslint-config-eventbrite
+- PACKAGE=packages/eslint-config-eventbrite-react
+- PACKAGE=packages/eslint-config-eventbrite-legacy
+script: cd $PACKAGE && npm install && npm test
+deploy:
+  provider: npm
+  email: npmjs+eng@eventbrite.com
+  api_key:
+    secure: WhYIjJQQBvZktOxQL2vbkP7WJ+l1o5lsRYcEXYvAjXXgJAgk6D8OCzUKt1ef8zbgAHimI4CIqw5aQO5Ok6aUDNhJOHZaFOQ5FC1hzj6mdOB8Dv9Bulx/nPdJOTlpOGJ0dCyfnlXlPUfMFdcOGdNc6v469uvG/V+zmZo0ZpH14XwFvLb76XVVsBKLRwz47dAPXYF9mfp0l2biaw33hJXrLvnQBtuADpzk7vvVHVSSu/mDuCxW2f3eQS5kPFOOysmJOLeISAhUN3RGG/XEruxaEfUGASosZxIMU7DWAmgbf1ItlA2ifPOUYcs9nGBfufz7mIXE4OnBlI3YPa+baapqfOlPjgRqI2DGWfnRiLXzRNY4F7Q49e/WB/IJvX4qVL04wHYSa4SYKkLKGYEP+CBNgsVrZZK+Eb8NhCn7RUBdhcvn8vXyB/136gTXJapetD5Dol8S5NuFBLd7nXxga9arqZb3sVdjLOlrz24QRfBROgaCHsx+rtKRuVO32NbWYz4WF8s0cO2W+RLsKQu2HRq767HCAIEC7ua2BZAKqO5pEypgdZOR0AbHp3IA99mkjNMSFfu6u0SN+Dc3T8wggFlkWL8S2UOOhNjTzotAoKAPyIEhlVpln378IjtPJWjMuE4WJ3AoFC46rcb+4sLXhNxQS38T4e8PNki6qXY5vnrjBJ4=
+  on:
+    tags: true
+    repo: eventbrite/javascript
