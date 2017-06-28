@@ -812,6 +812,7 @@ to handle a variety of use cases.
 ```javascript
 //good (defaults northernKingdom to empty object if undefined)
 let {northernKingdom = {}} = westerosFamilies;
+
 console.log(northernKingdom);
 
 //bad (doesn't take advantage of destructuring)
@@ -831,6 +832,7 @@ let {
     northernKingdom: familiesInTheNorth,
     southernKingdom: familiesInTheSouth
 } = westerosFamilies;
+
 console.log(`${familiesInTheNorth}, ${familiesInTheSouth}`);
 
 //bad (multiple lets, duplication of code)
