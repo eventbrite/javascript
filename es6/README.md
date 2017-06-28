@@ -12,7 +12,7 @@ Eventbrite’s [ESLint](http://eslint.org/) guidelines to ensure consistency in 
 0. [Functions](#functions)
 0. [Classes](#classes)
 0. [Modules](#modules)
-<!-- 0. [Destructuring](#destructuring) // We don't have a section on destructuring yet-->
+0. [Destructuring](#destructuring)
 
 ## ES6 compatibility
 
@@ -768,4 +768,163 @@ In order to avoid the webpack loader syntax in `import` statements, configure th
 
 For more on modules, read [_ES6 Modules (Final)_](http://www.2ality.com/2014/09/es6-modules-final.html).
 
+**[⬆ back to top](#table-of-contents)**
+
+## Destructuring
+
+The unpacking of values from arrays or properties from objects, into distinct variables.
+
+In general whenever possible, it is strongly encouraged to use destructuring when accessing
+values. It allows for easier to maintain code, less if statements, and smaller margin
+of error.
+
+### Objects
+
+Always destructure as far as you are able when accessing multiple properties of an object.
+
+*Why do we do this?*:
+It prevents the need for creating temporary references to those properties, and creates easier to maintain code.
+
+*Exception*:
+If the object represents empty values with something other than undefined (such as `null`), then use
+destructuring with caution as defaulting values will not work.
+
+```javascript
+// good
+let {c137, c186} = ricks;
+
+console.log(`${c137}, ${c186}`);
+
+
+// bad (adds unnecessary references)
+let c137 = ricks.c137;
+let c186 = ricks.c186;
+
+console.log(`${c137}, ${c186}`);
+```
+
+#### Object Destructuring Examples
+
+Examples showcasing all the different ways we can utilize destructuring
+to handle a variety of use cases.
+
+##### Defaulting Parameters
+```javascript
+//good (defaults northernKingdom to empty object if undefined)
+let {northernKingdom = {}} = westerosFamilies;
+console.log(northernKingdom);
+
+//bad (doesn't take advantage of destructuring)
+let northernKingdom = westerosFamilies.northernKingdom;
+
+if (typeof northernKingdom === 'undefined') {
+    northernKingdom = {};
+}
+
+console.log(northernKingdom);
+```
+
+##### Renaming Parameters
+```javascript
+//good (rename multiple properties in one go)
+let {
+    northernKingdom: familiesInTheNorth,
+    southernKingdom: familiesInTheSouth
+} = westerosFamilies;
+console.log(`${familiesInTheNorth}, ${familiesInTheSouth}`);
+
+//bad (multiple lets, duplication of code)
+let familiesInTheNorth = westerosFamilies.northernKingdom;
+let familiesInTheSouth = westerosFamilies.southernKingdom;
+
+console.log(`${familiesInTheNorth}, ${familiesInTheSouth}`);
+```
+
+##### Accessing Nested Parameters
+```javascript
+//good (allows for easy handling of undefined, renaming)
+let {
+    northernKingdom: {
+        stark: {
+            robb
+        }
+    }
+} = westerosFamilies;
+
+console.log(`${robb}`);
+
+//bad (difficult to handle objects that may be undefined)
+let robb = westerosFamilies.northernKingdom.stark.robb;
+
+console.log(`${robb}`);
+```
+
+Each of the examples above individually don't stand out too heavily
+from their "bad" counterparts; however, where destructuring is incredibly
+useful is how it allows you to combine all of these together seamlessly.
+
+##### Combination Example
+```javascript
+//good
+let {
+    northernKingdom: {
+        stark: {
+            robb: kingInTheNorth
+        } = {}
+    }
+} = westerosFamilies;
+
+console.log(`${kingInTheNorth}`);
+
+//bad (adds unnecessary code, multiple extra references)
+let stark = westerosFamilies.northernKingdom.stark;
+
+if (typeof stark === 'undefined') {
+    stark = {};
+}
+
+let kingInTheNorth = stark.robb;
+
+console.log(`${kingInTheNorth}`);
+```
+
+##### Accessing Functional Parameters
+It is also possible to do any of the examples listed above in the function call itself. However, in general it is only recommended to do so when the desstructuring would be relatively simple. If complex functional parameter destructuring is necessary, it may be worthwhile investigating the API of the function itself such that it could consume a simpler object.
+
+```javascript
+//good (destructures the incoming object argument in the function call)
+const familyParser = ({northernKingdom, southernKingdom}) => {
+    return `${northernKingdom}, ${southernKingdom}`;
+}
+
+//bad (adds unnecessary references)
+const familyParser = (westerosFamilies) => {
+    let northernKingdom = westerosFamilies.northernKingdom;
+    let southernKingdom = westerosFamilies.southernKingdom;
+
+    return `${northernKingdom}, ${southernKingdom}`;
+}
+```
+
+### Arrays
+
+It is also possible to use destructuring to access values within arrays.
+
+```javascript
+let characters = ['Mr PoopyButthole', 'Bird Person', 'Ants in My Eyes Johnson', 'Shrimply Pibbles'];
+
+// good
+let [mrPoopy, birdPerson] = characters;
+
+// bad (adds unnecessary code)
+let mrPoopy = characters[0];
+let birdPerson = characters[1];
+
+//good
+let [mrPoopy, _, antsInMyEyes] = characters;
+
+//bad
+let mrPoopy = characters[0];
+let antsInMyEyes = characters[2];
+```
 **[⬆ back to top](#table-of-contents)**
