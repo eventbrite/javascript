@@ -808,7 +808,7 @@ console.log(`${c137}, ${c186}`);
 Examples showcasing all the different ways we can utilize destructuring
 to handle a variety of use cases.
 
-##### Defaulting Parameters
+##### Defaulting Properties
 ```javascript
 //good (defaults northernKingdom to empty object if undefined)
 let {northernKingdom = {}} = westerosFamilies;
@@ -825,7 +825,7 @@ if (typeof northernKingdom === 'undefined') {
 console.log(northernKingdom);
 ```
 
-##### Renaming Parameters
+##### Renaming Properties
 ```javascript
 //good (rename multiple properties in one go)
 let {
@@ -842,7 +842,7 @@ let familiesInTheSouth = westerosFamilies.southernKingdom;
 console.log(`${familiesInTheNorth}, ${familiesInTheSouth}`);
 ```
 
-##### Accessing Nested Parameters
+##### Accessing Nested Properties
 ```javascript
 //good (allows for easy handling of undefined, renaming)
 let {
@@ -853,12 +853,12 @@ let {
     }
 } = westerosFamilies;
 
-console.log(`${robb}`);
+console.log(robb);
 
 //bad (difficult to handle objects that may be undefined)
 let robb = westerosFamilies.northernKingdom.stark.robb;
 
-console.log(`${robb}`);
+console.log(robb);
 ```
 
 Each of the examples above individually don't stand out too heavily
@@ -876,7 +876,7 @@ let {
     }
 } = westerosFamilies;
 
-console.log(`${kingInTheNorth}`);
+console.log(kingInTheNorth);
 
 //bad (adds unnecessary code, multiple extra references)
 let stark = westerosFamilies.northernKingdom.stark;
@@ -887,8 +887,9 @@ if (typeof stark === 'undefined') {
 
 let kingInTheNorth = stark.robb;
 
-console.log(`${kingInTheNorth}`);
+console.log(kingInTheNorth);
 ```
+For additional reading on object destructuring, check out our [blog post](https://www.eventbrite.com/engineering/learning-es6-destructuring/#object-destructurin) on the topic!
 
 ##### Accessing Functional Parameters
 It is also possible to do any of the examples listed above in the function call itself. However, in general it is only recommended to do so when the desstructuring would be relatively simple. If complex functional parameter destructuring is necessary, it may be worthwhile investigating the API of the function itself such that it could consume a simpler object.
@@ -907,6 +908,7 @@ const familyParser = (westerosFamilies) => {
     return `${northernKingdom}, ${southernKingdom}`;
 }
 ```
+For additional reading on destructuring functional parameters specifically, check out our [blog post](https://www.eventbrite.com/engineering/learning-es6-destructuring/#destructured-parameters) on the topic!
 
 ### Arrays
 
@@ -929,4 +931,6 @@ let [mrPoopy, _, antsInMyEyes] = characters;
 let mrPoopy = characters[0];
 let antsInMyEyes = characters[2];
 ```
+For additional reading on destructuring arrays, check out our [blog post](https://www.eventbrite.com/engineering/learning-es6-destructuring/#array-destructuring) on the topic!
+
 **[⬆ back to top](#table-of-contents)**

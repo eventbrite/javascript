@@ -10,7 +10,6 @@ Eventbrite’s guidelines to ensure consistency in JavaScript code in any enviro
 0. [Iterators](#iterators)
 0. [Naming Conventions](#naming-conventions)
 0. [Commas](#commas)
-0. [Destructuring](#destructuring)
 
 ## Conditionals
 
