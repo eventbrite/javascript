@@ -55,12 +55,12 @@ module.exports = {
         'jsx-a11y/aria-unsupported-elements': 'error',
 
         // Enforce an anchor element's `href` prop value is not just `#`
-        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/href-no-hash.md
-        'jsx-a11y/href-no-hash': 'error',
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md
+        'jsx-a11y/anchor-is-valid': 'error',
 
-        // Enforce that `<img>` JSX elements use the `alt` prop
-        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/img-has-alt.md
-        'jsx-a11y/img-has-alt': 'error',
+        // Enforce that `<img> <area> <input type="image"> <object>` JSX elements use the `alt` prop
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/alt-text.md
+        'jsx-a11y/alt-text': 'error',
 
         // Enforce `<img>` alt prop does not contain the word "image", "picture", or "photo"
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/img-redundant-alt.md
@@ -86,13 +86,13 @@ module.exports = {
         'jsx-a11y/no-onchange': 'off',
 
         // Enforce that elements with `onClick` handlers must be focusable
-        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/onclick-has-focus.md
-        'jsx-a11y/onclick-has-focus': 'error',
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/interactive-supports-focus.md
+        'jsx-a11y/interactive-supports-focus': 'error',
 
         // Enforce that non-interactive, visible elements (such as `<div>`)
         // that have click handlers use the role attribute
-        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/onclick-has-role.md
-        'jsx-a11y/onclick-has-role': 'error',
+        // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/no-noninteractive-element-interactions.md
+        'jsx-a11y/no-noninteractive-element-interactions': 'error',
 
         // Enforce that elements with ARIA roles must have all required attributes for that role
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/role-has-required-aria-props.md
