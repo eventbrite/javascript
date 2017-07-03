@@ -11,18 +11,22 @@ Eventbrite's ESLint config that lints React & JSX, adhering to the [Eventbrite J
 
 This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`babel-eslint`](https://github.com/babel/babel-eslint).
 
-- Install peer dependencies if they are not installed already
+#### Install peer dependencies if they are not installed already
+- Using npm
 
 ```npm install --save-dev eslint@^3.0.0 eslint-plugin-import@^2.0.0 eslint-plugin-react@^6.0.0 eslint-plugin-jsx-a11y@^6.0.0 babel-eslint@^7.0.0```
 
-Using yarn
+- Using yarn
+
 ```yarn add -D eslint@^3.0.0 eslint-plugin-import@^2.0.0 eslint-plugin-react@^6.0.0 eslint-plugin-jsx-a11y@^6.0.0 babel-eslint@^7.0.0```
 
-- Install eslint-config-eventbrite-react
+#### Install eslint-config-eventbrite-react
+- Using npm
 
 ```npm install --save-dev eslint-config-eventbrite-react```
 
-Using yarn
+- Using yarn
+
 ```yarn add -D eslint-config-eventbrite-react```
 
 ```sh
