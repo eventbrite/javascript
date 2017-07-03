@@ -29,11 +29,8 @@ This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint),
 
 ```yarn add -D eslint-config-eventbrite-react```
 
-```sh
-npm install --save-dev eslint eslint-plugin-import eslint-plugin-react eslint-plugin-jsx-a11y babel-eslint eslint-config-eventbrite-react
-```
 
-Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
+#### Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
 
 ```json
 {
