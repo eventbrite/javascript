@@ -12,6 +12,7 @@ This coding style guide has been created _for_ Eventbrite developers, but is cer
 0. [General guidelines](general/)
 0. [ES6+](es6/)
 0. [React & JSX](react/)
+0. [Testing React](react/testing.md)
 0. [Legacy ES5](es5/)
 0. [Backbone & Marionette](backbone/)
 0. [Resources](#resources)
