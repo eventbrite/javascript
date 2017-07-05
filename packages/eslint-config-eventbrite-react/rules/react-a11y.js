@@ -13,9 +13,9 @@ module.exports = {
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-has-content.md
         'jsx-a11y/anchor-has-content': 'error',
 
-        // Enforce an anchor element's `href` prop value is not just `#`
+        // Enforce an anchor element contains a valid `href` attribute and if it can be replaced by a button
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/anchor-is-valid.md
-        'jsx-a11y/anchor-is-valid': 'error',
+        'jsx-a11y/anchor-is-valid': ['error', {components: ['Link']}],
 
         // Enforce all `aria-*` props are valid
         // https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/aria-props.md
