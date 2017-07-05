@@ -33,14 +33,14 @@
   },
   "homepage": "https://github.com/eventbrite/javascript#readme",
   "dependencies": {
-    "eslint-config-eventbrite": "^4.0.0"
+    "eslint-config-eventbrite": "^4.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
     "eslint": "^3.11.1",
     "eslint-config-eventbrite-legacy": "^3.0.0",
     "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-jsx-a11y": "^3.0.1",
+    "eslint-plugin-jsx-a11y": "^6.0.0",
     "eslint-plugin-react": "^6.7.1",
     "pre-commit": "^1.1.2"
   },
@@ -48,7 +48,7 @@
     "babel-eslint": "^7.0.0",
     "eslint": "^3.0.0",
     "eslint-plugin-import": "^2.0.0",
-    "eslint-plugin-jsx-a11y": "^3.0.0",
+    "eslint-plugin-jsx-a11y": "^6.0.0",
     "eslint-plugin-react": "^6.0.0"
   },
   "engines": {
