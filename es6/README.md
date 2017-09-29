@@ -704,6 +704,69 @@ Button.propTypes = {
 
 Both declarative property syntaxes are not a part of the ES2015 specification and are a in the midst of the ECMAScript proposal approval process. Currently they are sitting in Stage 3. For details, check out [ECMAScript Class Fields and Static Properties](https://github.com/jeffmo/es-class-fields-and-static-properties).
 
+For bound methods within classes, we recommend to use fat arrow syntax to write functions need current context:
+
+```js
+// good
+class Button extends React.Component {
+    _handleOnClick = () => {
+        //handle button click.
+    }
+
+    render() {
+        return (
+            <button onClick={this._handleOnClick}/>
+        );
+    }
+}
+
+// good
+class myComponent extends React.Component {
+    onResize = () => {
+        //handle resize window.
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.onResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.onResize);
+    }
+}
+
+// bad: use `Function.bind` in constructor
+class Button extends React.Component {
+    constructor() {
+        this._handleOnClick = this._handleOnClick.bind(this);
+    }
+
+    _handleOnClick() {
+        //handle button click.
+    }
+
+    render() {
+        return (
+            <button onClick={this._handleOnClick}/>
+        );
+    }
+}
+
+// bad: use `::func` to bind events need to be removed later
+class myComponent extends React.Component {
+    onResize() {
+        //handle resize window.
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', ::this.onResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', ::this.onResize);
+    }
+}
+```
 For more on classes, read [_Learning ES6: Classes_](http://www.eventbrite.com/engineering/learning-es6-classes/).
 
 **[⬆ back to top](#table-of-contents)**
