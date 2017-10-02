@@ -704,6 +704,57 @@ Button.propTypes = {
 
 Both declarative property syntaxes are not a part of the ES2015 specification and are a in the midst of the ECMAScript proposal approval process. Currently they are sitting in Stage 3. For details, check out [ECMAScript Class Fields and Static Properties](https://github.com/jeffmo/es-class-fields-and-static-properties).
 
+When defining methods to be attached to event listeners, we recommend using the fat arrow syntax within classes to bind the current context without returning a new function each time.
+
+```js
+
+// good: bind the current context using fat arrow syntax
+class myComponent extends React.PureComponent {
+    _handleResize = () => {
+        //handle resize window.
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this._handleResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this._handleResize);
+    }
+}
+
+// good:
+class Button extends React.Component {
+    _handleOnClick = () => {
+        //handle button click.
+    }
+
+    render() {
+        return (
+            <button onClick={this._handleOnClick}/>
+        );
+    }
+}
+
+// bad: use `Function.bind` in constructor
+class Button extends React.Component {
+    constructor() {
+        this._handleOnClick = this._handleOnClick.bind(this);
+    }
+
+    _handleOnClick() {
+        //handle button click.
+    }
+
+    render() {
+        return (
+            <button onClick={this._handleOnClick}/>
+        );
+    }
+}
+
+```
+
 For more on classes, read [_Learning ES6: Classes_](http://www.eventbrite.com/engineering/learning-es6-classes/).
 
 **[⬆ back to top](#table-of-contents)**
