@@ -710,32 +710,32 @@ When defining methods to be attached to event listeners, we recommend using the 
 
 // good: bind the current context using fat arrow syntax
 class myComponent extends React.PureComponent {
-    onResize = () => {
+    _handleResize = () => {
         //handle resize window.
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.onResize);
+        window.addEventListener('resize', this._handleResize);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.onResize);
+        window.removeEventListener('resize', this._handleResize);
     }
 }
 
 // bad: use `::func` to bind events need to be removed later
 // the `resize` handler won't be removed as `::onResize` will return a new function
 class myComponent extends React.PureComponent {
-    onResize() {
+    _handleResize() {
         //handle resize window.
     }
 
     componentDidMount() {
-        window.addEventListener('resize', ::this.onResize);
+        window.addEventListener('resize', ::this._handleResize);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', ::this.onResize);
+        window.removeEventListener('resize', ::this._handleResize);
     }
 }
 ```
