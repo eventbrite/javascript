@@ -723,21 +723,36 @@ class myComponent extends React.PureComponent {
     }
 }
 
-// bad: use `::func` to bind events need to be removed later
-// the `resize` handler won't be removed as `::onResize` will return a new function
-class myComponent extends React.PureComponent {
-    _handleResize() {
-        //handle resize window.
+// good:
+class Button extends React.Component {
+    _handleOnClick = () => {
+        //handle button click.
     }
 
-    componentDidMount() {
-        window.addEventListener('resize', ::this._handleResize);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', ::this._handleResize);
+    render() {
+        return (
+            <button onClick={this._handleOnClick}/>
+        );
     }
 }
+
+// bad: use `Function.bind` in constructor
+class Button extends React.Component {
+    constructor() {
+        this._handleOnClick = this._handleOnClick.bind(this);
+    }
+
+    _handleOnClick() {
+        //handle button click.
+    }
+
+    render() {
+        return (
+            <button onClick={this._handleOnClick}/>
+        );
+    }
+}
+
 ```
 
 For more on classes, read [_Learning ES6: Classes_](http://www.eventbrite.com/engineering/learning-es6-classes/).
