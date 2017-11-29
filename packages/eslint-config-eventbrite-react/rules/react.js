@@ -83,8 +83,8 @@ module.exports = {
         'react/jsx-pascal-case': 'error',
 
         // Enforce that there's a space before the closing bracket of self-closing JSX elements
-        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md
-        'react/jsx-space-before-closing': 'error',
+        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
+        'react/jsx-tag-spacing': 'error',
 
         // Enforce multi-line JSX is wrapped in parentheses
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-wrap-multilines.md
