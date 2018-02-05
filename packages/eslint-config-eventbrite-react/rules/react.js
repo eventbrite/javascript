@@ -2,6 +2,9 @@ module.exports = {
     plugins: [
         'react'
     ],
+    env: {
+        browser: true
+    },
     parser: 'babel-eslint',
     parserOptions: {
         ecmaVersion: 7,
