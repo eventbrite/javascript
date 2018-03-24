@@ -1350,7 +1350,7 @@ When handling a DOM event that will be passed to the parent via a callback, avoi
 
 If you pass the entire DOM event object:
 
-- It's a leaky interface. The parent now has access to `event.taget` (among other properties), which, in turn gives the parent access to DOM nodes that it should not access. At worst, the parent can manipulate or even remove those DOM nodes.
+- It's a leaky interface. The parent now has access to `event.target` (among other properties), which, in turn gives the parent access to DOM nodes that it should not access. At worst, the parent can manipulate or even remove those DOM nodes.
 - It's a poor interface. Instead of directly receiving the required data, the parent now has to navigate within the event object to get the data it wants.
 - It's a fragile interface. If you later want to change how the event is triggered, maybe by adding another type of DOM event that can also trigger it, a parent may now have to check the _type_ of event object it receives
 
