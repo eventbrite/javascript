@@ -830,7 +830,7 @@ export default class TextInput extends React.PureComponent {
 
     render() {
         return (
-            <input type="text" onChange={this._handleChange.bind(this)} />
+            <input type="text" onChange={this.handleChange.bind(this)} />
         );
     }
 }
