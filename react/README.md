@@ -1825,10 +1825,7 @@ const INITIAL_STATE = {
 }
 
 export default ContactForm extends React.PureComponent {
-    state = {
-        name: '',
-        message: ''
-    }
+    state = INITIAL_STATE
 
     _handleFormSubmit() {
         // code for submitting form
