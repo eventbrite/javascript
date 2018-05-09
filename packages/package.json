@@ -1,0 +1,8 @@
+{
+    "private": true,
+    "workspaces": [
+        "eslint-config-eventbrite-legacy",
+        "eslint-config-eventbrite",
+        "eslint-config-eventbrite-react"
+    ]
+}

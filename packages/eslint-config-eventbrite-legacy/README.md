@@ -11,10 +11,16 @@ Eventbrite's legacy ESLint config that lints ES5- and adheres to the [Eventbrite
 
 This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint).
 
-Install `eslint` & `eslint-config-eventbrite-legacy` dependencies:
+Install using [npm](https://www.npmjs.com/get-npm):
 
 ```sh
-npm install --save-dev eslint eslint-config-eventbrite-legacy
+npm install --save-dev eslint@^4.0.0 eslint-config-eventbrite-react
+```
+
+...or using [yarn](https://yarnpkg.com/):
+
+```sh
+yarn add --dev eslint@^4.0.0 eslint-config-eventbrite-react
 ```
 
 Extend `eslint-config-eventbrite-legacy` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
@@ -37,7 +43,7 @@ If you are uncertain as to whether your suggestion qualifies, go ahead and submi
 
 ## License
 
-[MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016 Eventbrite.
+[MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016-2018 Eventbrite.
 
 ## Thanks
 
