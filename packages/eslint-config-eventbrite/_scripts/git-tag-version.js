@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
-var execSync = require('child_process').execSync,
+let execSync = require('child_process').execSync,
     packageInfo = require('../package.json'),
 
     name = packageInfo.name,
     version = packageInfo.version,
-    tagName = name + '-v' + version,
+    tagName = `${name}-v${version}`,
 
     gitCommands = [
         'git add package.json CHANGELOG.md',
-        'git commit --message "Release ' + tagName + '"',
-        'git tag ' + tagName
+        `git commit --message "Release ${tagName}"`,
+        `git tag ${tagName}`,
     ],
     shellCommand = gitCommands.join(' && ');
 
@@ -20,11 +20,11 @@ var execSync = require('child_process').execSync,
 // so that when looking at the tags in the repo they will be differentiated.
 // It also commits the package.json.
 
-console.log('Committing ' + tagName + ' of package.json & adding tag');
+console.log(`Committing ${tagName} of package.json & adding tag`);
 
-execSync(shellCommand, function(error, stdout, stderr) {
+execSync(shellCommand, (error, stdout, stderr) => {
     if (error) {
-        console.error('execSync error: ' + error);
+        console.error(`execSync error: ${error}`);
         return;
     }
 

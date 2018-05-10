@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "git-tag-version": "node ./_scripts/git-tag-version.js",
-    "lint": "eslint .",
-    "test": "npm run lint",
-    "preversion": "npm test",
-    "version": "npm run git-tag-version",
+    "lint": "eslint rules",
+    "test": "yarn run lint",
+    "preversion": "yarn test",
+    "version": "yarn run git-tag-version",
     "postversion": "git push && git push --tags",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
@@ -33,21 +33,21 @@
   },
   "homepage": "https://github.com/eventbrite/javascript#readme",
   "dependencies": {
-    "eslint-config-eventbrite-legacy": "^3.0.0"
+    "eslint-config-eventbrite-legacy": "^4.0.0"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
-    "eslint": "^3.11.1",
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.2.0",
     "pre-commit": "^1.1.2"
   },
   "peerDependencies": {
-    "babel-eslint": "^7.0.0",
-    "eslint": "^3.0.0",
-    "eslint-plugin-import": "^2.0.0"
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-plugin-import": "^2.2.0"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "pre-commit": [
     "test"
