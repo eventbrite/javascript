@@ -33,18 +33,20 @@
   },
   "homepage": "https://github.com/eventbrite/javascript#readme",
   "dependencies": {
-    "eslint-config-eventbrite-legacy": "^4.0.0"
+    "eslint-config-eventbrite-legacy": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
     "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "^21.15.1",
     "pre-commit": "^1.1.2"
   },
   "peerDependencies": {
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jest": "^21.15.1"
   },
   "engines": {
     "node": ">=6"

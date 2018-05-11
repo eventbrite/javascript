@@ -11,18 +11,18 @@ Eventbrite's base ESLint config that lints ES6+/ES2015+ and adheres to the [Even
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), and [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), and [`eslint-plugin-jest`](https://github.com/jest-community/eslint-plugin-jest).
 
 Install using [npm](https://www.npmjs.com/get-npm):
 
 ```sh
-npm install --save-dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-config-eventbrite
+npm install --save-dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite
 ```
 
 ...or using [yarn](https://yarnpkg.com/):
 
 ```sh
-yarn add --dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-config-eventbrite
+yarn add --dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite
 ```
 
 Extend `eslint-config-eventbrite` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):

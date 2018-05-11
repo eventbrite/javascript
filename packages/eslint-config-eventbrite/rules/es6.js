@@ -8,12 +8,8 @@ module.exports = {
         ecmaFeatures: {
         },
     },
-    plugins: [
-        'import',
-    ],
-    extends: [
-        'plugin:import/errors',
-    ],
+    plugins: ['import'],
+    extends: ['plugin:import/errors'],
     rules: {
         // require no braces where they can be omitted
         // http://eslint.org/docs/rules/arrow-body-style
