@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "git-tag-version": "node ./_scripts/git-tag-version.js",
-    "lint": "eslint .",
+    "lint": "eslint rules",
     "test": "yarn run lint",
     "preversion": "yarn test",
-    "version": "npm run git-tag-version",
+    "version": "yarn run git-tag-version",
     "postversion": "git push && git push --tags",
     "version:patch": "npm version patch --no-git-tag-version",
     "version:minor": "npm version minor --no-git-tag-version",
@@ -37,7 +37,7 @@
     "pre-commit": "^1.1.2"
   },
   "peerDependencies": {
-    "eslint": "^4.0.0"
+    "eslint": "^4.19.1"
   },
   "engines": {
     "node": ">=6"

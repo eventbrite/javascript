@@ -45,7 +45,7 @@ If you are uncertain as to whether your suggestion qualifies, go ahead and submi
 
 ## License
 
-[MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016-2018 Eventbrite.
+The library is available as open source under the terms of the [MIT License](https://github.com/evenbrite/javascript/LICENSE).
 
 ## Thanks
 

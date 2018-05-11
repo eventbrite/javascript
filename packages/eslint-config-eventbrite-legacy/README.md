@@ -3,6 +3,8 @@
 [![version](https://img.shields.io/npm/v/eslint-config-eventbrite-legacy.svg?style=flat-square)](http://npm.im/eslint-config-eventbrite-legacy)
 [![downloads](https://img.shields.io/npm/dt/eslint-config-eventbrite-legacy.svg?style=flat-square)](http://npm-stat.com/charts.html?package=eslint-config-eventbrite-legacy&from=2016-05-27)
 [![Maintenance Status](https://img.shields.io/badge/status-maintained-brightgreen.svg)](https://github.com/eventbrite/javascript/pulse)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![license](https://img.shields.io/npm/l/eslint-config-eventbrite-legacy.svg?style=flat-square)](http://spdx.org/licenses/MIT)
 
 Eventbrite's legacy ESLint config that lints ES5- and adheres to the [Eventbrite JavaScript Coding Style Guide](https://github.com/eventbrite/javascript).
@@ -14,13 +16,13 @@ This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint).
 Install using [npm](https://www.npmjs.com/get-npm):
 
 ```sh
-npm install --save-dev eslint@^4.0.0 eslint-config-eventbrite-react
+npm install --save-dev eslint@^4.19.1 eslint-config-eventbrite-legacy
 ```
 
 ...or using [yarn](https://yarnpkg.com/):
 
 ```sh
-yarn add --dev eslint@^4.0.0 eslint-config-eventbrite-react
+yarn add --dev eslint@^4.19.1 eslint-config-eventbrite-legacy
 ```
 
 Extend `eslint-config-eventbrite-legacy` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
@@ -43,7 +45,7 @@ If you are uncertain as to whether your suggestion qualifies, go ahead and submi
 
 ## License
 
-[MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016-2018 Eventbrite.
+The library is available as open source under the terms of the [MIT License](https://github.com/evenbrite/javascript/LICENSE).
 
 ## Thanks
 
