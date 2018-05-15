@@ -1,0 +1,11 @@
+{
+    "private": true,
+    "workspaces": [
+        "eslint-config-eventbrite-legacy",
+        "eslint-config-eventbrite",
+        "eslint-config-eventbrite-react"
+    ],
+    "scripts": {
+        "test": "yarn workspace eslint-config-eventbrite-legacy test && yarn workspace eslint-config-eventbrite test && yarn workspace eslint-config-eventbrite-react test"
+    }
+}

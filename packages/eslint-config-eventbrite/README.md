@@ -3,18 +3,26 @@
 [![version](https://img.shields.io/npm/v/eslint-config-eventbrite.svg?style=flat-square)](http://npm.im/eslint-config-eventbrite)
 [![downloads](https://img.shields.io/npm/dt/eslint-config-eventbrite.svg?style=flat-square)](http://npm-stat.com/charts.html?package=eslint-config-eventbrite&from=2016-05-27)
 [![Maintenance Status](https://img.shields.io/badge/status-maintained-brightgreen.svg)](https://github.com/eventbrite/javascript/pulse)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![license](https://img.shields.io/npm/l/eslint-config-eventbrite.svg?style=flat-square)](http://spdx.org/licenses/MIT)
 
 Eventbrite's base ESLint config that lints ES6+/ES2015+ and adheres to the [Eventbrite JavaScript Coding Style Guide](https://github.com/eventbrite/javascript).
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), and [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), and [`eslint-plugin-jest`](https://github.com/jest-community/eslint-plugin-jest).
 
-Install `eslint`, `babel-eslint`, `eslint-plugin-import` & `eslint-config-eventbrite` dependencies:
+Install using [npm](https://www.npmjs.com/get-npm):
 
 ```sh
-npm install --save-dev eslint babel-eslint eslint-plugin-import eslint-config-eventbrite
+npm install --save-dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite
+```
+
+...or using [yarn](https://yarnpkg.com/):
+
+```sh
+yarn add --dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite
 ```
 
 Extend `eslint-config-eventbrite` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
@@ -37,7 +45,7 @@ If you are uncertain as to whether your suggestion qualifies, go ahead and submi
 
 ## License
 
-[MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016 Eventbrite.
+The library is available as open source under the terms of the [MIT License](https://github.com/evenbrite/javascript/LICENSE).
 
 ## Thanks
 

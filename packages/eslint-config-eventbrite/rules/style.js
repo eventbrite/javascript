@@ -1,6 +1,16 @@
 // The rules ultimately override any rules defined in legacy/rules/style.js
 module.exports = {
     rules: {
+        // enforce dangling commas at the end of arrays, objects, imports & exports
+        // http://eslint.org/docs/rules/comma-dangle
+        'comma-dangle': ['error', {
+            'arrays': 'always-multiline',
+            'objects': 'always-multiline',
+            'imports': 'always-multiline',
+            'exports': 'always-multiline',
+            'functions': 'ignore',
+        }],
+
         // Enforce function expressions
         // http://eslint.org/docs/rules/func-style
         'func-style': ['error', 'expression'],
@@ -11,6 +21,6 @@ module.exports = {
 
         // enforce spacing around infix operators
         // http://eslint.org/docs/rules/space-infix-ops
-        'space-infix-ops': 'error'
-    }
+        'space-infix-ops': 'error',
+    },
 };

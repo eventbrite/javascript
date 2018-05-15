@@ -1,5 +1,9 @@
 module.exports = {
     rules: {
+        // enforce getter when setter is specified
+        // https://eslint.org/docs/rules/accessor-pairs
+        'accessor-pairs': 'error',
+
         // enforces usage of return statement in callbacks of array’s methods
         // http://eslint.org/docs/rules/array-callback-return
         'array-callback-return': 'error',
@@ -43,14 +47,6 @@ module.exports = {
         // http://eslint.org/docs/rules/guard-for-in
         'guard-for-in': 'error',
 
-        // Require constructor function names to begin with a capital letter
-        // Requires all `new` operators to be called with uppercase-started functions.
-        // Requires all uppercase-started functions to be called with new (except `Backbone`)
-        // http://eslint.org/docs/rules/new-cap
-        'new-cap': ['error', {
-            capIsNewExceptions: ['Backbone']
-        }],
-
         // warn when using alert, confirm & prompt
         // http://eslint.org/docs/rules/no-alert
         'no-alert': 'warn',
@@ -74,6 +70,10 @@ module.exports = {
         // disallow use of eval()
         // http://eslint.org/docs/rules/no-eval
         'no-eval': 'error',
+
+        // disallow extending native types
+        // https://eslint.org/docs/rules/no-extend-native
+        'no-extend-native': 'error',
 
         // disallow unnecessary function binding
         // http://eslint.org/docs/rules/no-extra-bind
@@ -186,6 +186,10 @@ module.exports = {
         // disallow unnecessary usage of escape character
         // http://eslint.org/docs/rules/no-useless-escape
         'no-useless-escape': 'error',
+
+        // disallow redundant return statements
+        // http://eslint.org/docs/rules/no-useless-return
+        'no-useless-return': 'error',
 
         // disallow use of the void operator
         // http://eslint.org/docs/rules/no-void

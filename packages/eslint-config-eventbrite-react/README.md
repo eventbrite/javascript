@@ -3,34 +3,29 @@
 [![version](https://img.shields.io/npm/v/eslint-config-eventbrite-react.svg?style=flat-square)](http://npm.im/eslint-config-eventbrite-react)
 [![downloads](https://img.shields.io/npm/dt/eslint-config-eventbrite-react.svg?style=flat-square)](http://npm-stat.com/charts.html?package=eslint-config-eventbrite-react&from=2016-05-27)
 [![Maintenance Status](https://img.shields.io/badge/status-maintained-brightgreen.svg)](https://github.com/eventbrite/javascript/pulse)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![license](https://img.shields.io/npm/l/eslint-config-eventbrite-react.svg?style=flat-square)](http://spdx.org/licenses/MIT)
 
 Eventbrite's ESLint config that lints React & JSX, adhering to the [Eventbrite JavaScript Coding Style Guide](https://github.com/eventbrite/javascript).
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`babel-eslint`](https://github.com/babel/babel-eslint).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`eslint-plugin-jest`](https://github.com/jest-community/eslint-plugin-jest).
 
-#### Install peer dependencies if they are not installed already
-- Using npm
+Install using [npm](https://www.npmjs.com/get-npm):
 
-```npm install --save-dev eslint@^3.0.0 eslint-plugin-import@^2.0.0 eslint-plugin-react@^6.0.0 eslint-plugin-jsx-a11y@^6.0.0 babel-eslint@^7.0.0```
+```sh
+npm install --save-dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-react@^7.7.0 eslint-plugin-jsx-a11y@^6.0.3 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite-react
+```
 
-- Using yarn
+...or using [yarn](https://yarnpkg.com/):
 
-```yarn add -D eslint@^3.0.0 eslint-plugin-import@^2.0.0 eslint-plugin-react@^6.0.0 eslint-plugin-jsx-a11y@^6.0.0 babel-eslint@^7.0.0```
+```sh
+yarn add --dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-react@^7.7.0 eslint-plugin-jsx-a11y@^6.0.3 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite-react
+```
 
-#### Install eslint-config-eventbrite-react
-- Using npm
-
-```npm install --save-dev eslint-config-eventbrite-react```
-
-- Using yarn
-
-```yarn add -D eslint-config-eventbrite-react```
-
-
-#### Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
+Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
 
 ```json
 {
@@ -50,7 +45,7 @@ If you are uncertain as to whether your suggestion qualifies, go ahead and submi
 
 ## License
 
-[MIT](https://github.com/evenbrite/javascript/LICENSE). Copyright (c) 2016 Eventbrite.
+The library is available as open source under the terms of the [MIT License](https://github.com/evenbrite/javascript/LICENSE).
 
 ## Thanks
 

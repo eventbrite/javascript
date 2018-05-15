@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
-var execSync = require('child_process').execSync,
-    packageInfo = require('../package.json'),
+const execSync = require('child_process').execSync;
+const packageInfo = require('../package.json');
 
-    name = packageInfo.name,
-    version = packageInfo.version,
-    tagName = name + '-v' + version,
+const name = packageInfo.name;
+const version = packageInfo.version;
+const tagName = `${name}-v${version}`;
 
-    gitCommands = [
-        'git add package.json CHANGELOG.md',
-        'git commit --message "Release ' + tagName + '"',
-        'git tag ' + tagName
-    ],
-    shellCommand = gitCommands.join(' && ');
+const gitCommands = [
+    'git add package.json CHANGELOG.md',
+    `git commit --message "Release ${tagName}"`,
+    `git tag ${tagName}`,
+];
+const shellCommand = gitCommands.join(' && ');
 
 // NOTE: The normal npm-version script creates a git tag that's in the form of
 // "v1.0.0" which is a problem because we have 3 NPM packages in this one git
@@ -20,11 +20,11 @@ var execSync = require('child_process').execSync,
 // so that when looking at the tags in the repo they will be differentiated.
 // It also commits the package.json.
 
-console.log('Committing ' + tagName + ' of package.json & adding tag');
+console.log(`Committing ${tagName} of package.json & adding tag`);
 
-execSync(shellCommand, function(error, stdout, stderr) {
+execSync(shellCommand, (error, stdout, stderr) => {
     if (error) {
-        console.error('execSync error: ' + error);
+        console.error(`execSync error: ${error}`);
         return;
     }
 

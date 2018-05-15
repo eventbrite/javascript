@@ -4,6 +4,7 @@ module.exports = {
         './rules/errors',
         './rules/es6',
         './rules/esnext',
-        './rules/style'
-    ].map(require.resolve))
+        './rules/strict',
+        './rules/style',
+    ].map(require.resolve)),
 };
