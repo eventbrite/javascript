@@ -31,10 +31,6 @@ module.exports = {
         // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/export.md
         'import/export': 'error',
 
-        // enforce all exports appear after other statements
-        // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/exports-last.md
-        'import/exports-last': 'error',
-
         // enforce all imports appear before other statements
         // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md
         'import/first': 'error',
