@@ -92,11 +92,9 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md
         'react/jsx-max-props-per-line': ['error', {maximum: 4}],
 
-        // Prevent arrow functions & refs in a JSX prop (but still allow bind for now)
+        // Prevent `.bind`, arrow functions & refs in a JSX prop
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-bind.md
-        'react/jsx-no-bind': ['error', {
-            allowBind: true,
-        }],
+        'react/jsx-no-bind': 'error',
 
         // Prevent usage of unsafe target="_blank" w/o rel="noopener noreferrer"
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-no-target-blank.md
@@ -164,9 +162,9 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md
         'react/no-typos': 'error',
 
-        // Prevent invalid characters from appearing in markup
+        // Prevent some characters from appearing in markup w/o being escaped
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unescaped-entities.md
-        'react/no-unescaped-entities': 'error',
+        'react/no-unescaped-entities': ['error', {forbid: ['>', '}', '"']}],
 
         // Prevent definitions of unused state
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unused-state.md
