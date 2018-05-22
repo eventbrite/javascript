@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-eventbrite-legacy",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Eventbrites's legacy ESLint config that lints ES5- and adheres to the Eventbrite JavaScript Coding Style Guide",
   "main": "index.js",
   "scripts": {
