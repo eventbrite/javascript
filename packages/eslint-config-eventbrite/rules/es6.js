@@ -8,7 +8,7 @@ module.exports = {
         ecmaFeatures: {
         },
     },
-    plugins: ['import'],
+    plugins: ['babel', 'import'],
     extends: ['plugin:import/errors'],
     rules: {
         // require no braces where they can be omitted
@@ -22,6 +22,11 @@ module.exports = {
         // require spacing before & after arrow function's arrow
         // http://eslint.org/docs/rules/arrow-spacing
         'arrow-spacing': 'error',
+
+        // disallow `this` keywords outside of classes or class-like objects
+        // (but allow inside class properties)
+        // https://github.com/babel/eslint-plugin-babel/
+        'babel/no-invalid-this': 'off',
 
         // enforce a default export is present, given a default import
         // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/default.md
