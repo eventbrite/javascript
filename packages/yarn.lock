@@ -418,6 +418,12 @@ eslint-module-utils@^2.2.0:
     debug "^2.6.8"
     pkg-dir "^1.0.0"
 
+eslint-plugin-babel@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.npmjs.org/eslint-plugin-babel/-/eslint-plugin-babel-5.1.0.tgz#9c76e476162041e50b6ba69aa4eae3bdd6a4e1c3"
+  dependencies:
+    eslint-rule-composer "^0.3.0"
+
 eslint-plugin-import@^2.2.0:
   version "2.11.0"
   resolved "https://registry.npmjs.org/eslint-plugin-import/-/eslint-plugin-import-2.11.0.tgz#15aeea37a67499d848e8e981806d4627b5503816"
@@ -457,6 +463,10 @@ eslint-plugin-react@^7.7.0:
     has "^1.0.1"
     jsx-ast-utils "^2.0.1"
     prop-types "^15.6.0"
+
+eslint-rule-composer@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.npmjs.org/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
 
 eslint-scope@^3.7.1, eslint-scope@~3.7.1:
   version "3.7.1"

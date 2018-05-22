@@ -11,18 +11,18 @@ Eventbrite's ESLint config that lints React & JSX, adhering to the [Eventbrite J
 
 ## Usage
 
-This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`eslint-plugin-jest`](https://github.com/jest-community/eslint-plugin-jest).
+This ESLint configuration requires [`eslint`](https://github.com/eslint/eslint), [`babel-eslint`](https://github.com/babel/babel-eslint), [`eslint-plugin-babel`](https://github.com/babel/eslint-plugin-babel), [`eslint-plugin-import`](https://github.com/benmosher/eslint-plugin-import), [`eslint-plugin-react`](https://github.com/yannickcr/eslint-plugin-react), [`eslint-plugin-jsx-a11y`](https://github.com/evcohen/eslint-plugin-jsx-a11y/) and [`eslint-plugin-jest`](https://github.com/jest-community/eslint-plugin-jest).
 
 Install using [npm](https://www.npmjs.com/get-npm):
 
 ```sh
-npm install --save-dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-react@^7.7.0 eslint-plugin-jsx-a11y@^6.0.3 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite-react
+npm install --save-dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-babel@^5.1.0 eslint-plugin-import@^2.11.0 eslint-plugin-react@^7.7.0 eslint-plugin-jsx-a11y@^6.0.3 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite-react
 ```
 
 ...or using [yarn](https://yarnpkg.com/):
 
 ```sh
-yarn add --dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-import@^2.11.0 eslint-plugin-react@^7.7.0 eslint-plugin-jsx-a11y@^6.0.3 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite-react
+yarn add --dev eslint@^4.19.1 babel-eslint@^8.2.3 eslint-plugin-babel@^5.1.0 eslint-plugin-import@^2.11.0 eslint-plugin-react@^7.7.0 eslint-plugin-jsx-a11y@^6.0.3 eslint-plugin-jest@^21.15.1 eslint-config-eventbrite-react
 ```
 
 Extend `eslint-config-eventbrite-react` in your [`.eslintrc.json`](http://eslint.org/docs/user-guide/configuring#extending-configuration-files):
