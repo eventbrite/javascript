@@ -6,17 +6,29 @@ node_js:
   - "6"
 
 cache: yarn
-install:
-  - cd packages
-  - yarn
+install: cd packages && yarn
 
 script: yarn test
 
-#deploy:
-#  provider: npm
-#  email: npmjs+eng@eventbrite.com
-#  api_key:
-#    secure: WhYIjJQQBvZktOxQL2vbkP7WJ+l1o5lsRYcEXYvAjXXgJAgk6D8OCzUKt1ef8zbgAHimI4CIqw5aQO5Ok6aUDNhJOHZaFOQ5FC1hzj6mdOB8Dv9Bulx/nPdJOTlpOGJ0dCyfnlXlPUfMFdcOGdNc6v469uvG/V+zmZo0ZpH14XwFvLb76XVVsBKLRwz47dAPXYF9mfp0l2biaw33hJXrLvnQBtuADpzk7vvVHVSSu/mDuCxW2f3eQS5kPFOOysmJOLeISAhUN3RGG/XEruxaEfUGASosZxIMU7DWAmgbf1ItlA2ifPOUYcs9nGBfufz7mIXE4OnBlI3YPa+baapqfOlPjgRqI2DGWfnRiLXzRNY4F7Q49e/WB/IJvX4qVL04wHYSa4SYKkLKGYEP+CBNgsVrZZK+Eb8NhCn7RUBdhcvn8vXyB/136gTXJapetD5Dol8S5NuFBLd7nXxga9arqZb3sVdjLOlrz24QRfBROgaCHsx+rtKRuVO32NbWYz4WF8s0cO2W+RLsKQu2HRq767HCAIEC7ua2BZAKqO5pEypgdZOR0AbHp3IA99mkjNMSFfu6u0SN+Dc3T8wggFlkWL8S2UOOhNjTzotAoKAPyIEhlVpln378IjtPJWjMuE4WJ3AoFC46rcb+4sLXhNxQS38T4e8PNki6qXY5vnrjBJ4=
-#  on:
-#    tags: true
-#    repo: eventbrite/javascript
+before_deploy: cd packages
+deploy:
+  # Deploy new version of eslint-config-eventbrite-legacy (but only on the "node" test matrix)
+  - provider: script
+    script: npx travis-deploy-once "yarn workspace eslint-config-eventbrite-legacy publish"
+    on:
+      tags: true
+      condition: TRAVIS_TAG =~ ^eslint-config-eventbrite-legacy-v.*$
+
+  # Deploy new version of eslint-config-eventbrite (but only on the "node" test matrix)
+  - provider: script
+    script: npx travis-deploy-once "yarn workspace eslint-config-eventbrite publish"
+    on:
+      tags: true
+      condition: TRAVIS_TAG =~ ^eslint-config-eventbrite-v.*$
+
+  # Deploy new version of eslint-config-eventbrite-react (but only on the "node" test matrix)
+  - provider: script
+    script: npx travis-deploy-once "yarn workspace eslint-config-eventbrite-react publish"
+    on:
+      tags: true
+      condition: TRAVIS_TAG =~ ^eslint-config-eventbrite-react-v.*$
