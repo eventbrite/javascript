@@ -6,11 +6,10 @@ node_js:
   - "6"
 
 cache: yarn
-install: cd packages && yarn
+install: yarn
 
 script: yarn test
 
-before_deploy: cd packages
 deploy:
   # Deploy new version of eslint-config-eventbrite-legacy (but only on the "node" test matrix)
   - provider: script

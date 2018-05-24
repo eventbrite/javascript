@@ -404,6 +404,10 @@ escape-string-regexp@^1.0.2, escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
+eslint-config-eventbrite-legacy@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/eslint-config-eventbrite-legacy/-/eslint-config-eventbrite-legacy-3.0.0.tgz#45fe0fa8d201a6edbd6135429de47712c90a3470"
+
 eslint-import-resolver-node@^0.3.1:
   version "0.3.2"
   resolved "https://registry.npmjs.org/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.2.tgz#58f15fb839b8d0576ca980413476aab2472db66a"
