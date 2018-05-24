@@ -20,6 +20,7 @@ before_deploy:
 deploy:
   # Deploy new version of eslint-config-eventbrite-legacy (but only on the "node" test matrix)
   - provider: script
+    skip_cleanup: true
     script: npm publish packages/eslint-config-eventbrite-legacy
     on:
       tags: true
@@ -28,6 +29,7 @@ deploy:
 
   # Deploy new version of eslint-config-eventbrite (but only on the "node" test matrix)
   - provider: script
+    skip_cleanup: true
     script: npm publish packages/eslint-config-eventbrite
     on:
       tags: true
@@ -36,6 +38,7 @@ deploy:
 
   # Deploy new version of eslint-config-eventbrite-react (but only on the "node" test matrix)
   - provider: script
+    skip_cleanup: true
     script: npm publish packages/eslint-config-eventbrite-react
     on:
       tags: true
