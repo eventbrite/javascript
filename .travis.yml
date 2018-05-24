@@ -13,7 +13,7 @@ script: yarn test
 deploy:
   # Deploy new version of eslint-config-eventbrite-legacy (but only on the "node" test matrix)
   - provider: script
-    script: yarn workspace eslint-config-eventbrite-legacy publish
+    script: npm publish packages/eslint-config-eventbrite-legacy
     on:
       tags: true
       condition: $TRAVIS_TAG =~ ^eslint-config-eventbrite-legacy-v.+$
@@ -21,7 +21,7 @@ deploy:
 
   # Deploy new version of eslint-config-eventbrite (but only on the "node" test matrix)
   - provider: script
-    script: yarn workspace eslint-config-eventbrite publish
+    script: npm publish packages/eslint-config-eventbrite
     on:
       tags: true
       condition: $TRAVIS_TAG =~ ^eslint-config-eventbrite-v.+$
@@ -29,7 +29,7 @@ deploy:
 
   # Deploy new version of eslint-config-eventbrite-react (but only on the "node" test matrix)
   - provider: script
-    script: yarn workspace eslint-config-eventbrite-react publish
+    script: npm publish packages/eslint-config-eventbrite-react
     on:
       tags: true
       condition: $TRAVIS_TAG =~ ^eslint-config-eventbrite-react-v.+$
