@@ -16,18 +16,18 @@ deploy:
     script: npx travis-deploy-once "yarn workspace eslint-config-eventbrite-legacy publish"
     on:
       tags: true
-      condition: TRAVIS_TAG =~ ^eslint-config-eventbrite-legacy-v.*$
+      condition: $TRAVIS_TAG =~ ^eslint-config-eventbrite-legacy-v.+$
 
   # Deploy new version of eslint-config-eventbrite (but only on the "node" test matrix)
   - provider: script
     script: npx travis-deploy-once "yarn workspace eslint-config-eventbrite publish"
     on:
       tags: true
-      condition: TRAVIS_TAG =~ ^eslint-config-eventbrite-v.*$
+      condition: $TRAVIS_TAG =~ ^eslint-config-eventbrite-v.+$
 
   # Deploy new version of eslint-config-eventbrite-react (but only on the "node" test matrix)
   - provider: script
     script: npx travis-deploy-once "yarn workspace eslint-config-eventbrite-react publish"
     on:
       tags: true
-      condition: TRAVIS_TAG =~ ^eslint-config-eventbrite-react-v.*$
+      condition: $TRAVIS_TAG =~ ^eslint-config-eventbrite-react-v.+$
