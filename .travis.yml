@@ -10,6 +10,13 @@ install: yarn
 
 script: yarn test
 
+before_deploy:
+  # Write the authentication token to .npmrc right before we're about to deploy.
+  # We cannot check this file in because then it'll try to authenticate on yarn install.
+  # And that is bad because $NPM_TOKEN isn't available in all PRs
+  # (see https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions).
+  # We only need the token for publishing the package so we'll create the .npmrc file right before.
+  - echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
 deploy:
   # Deploy new version of eslint-config-eventbrite-legacy (but only on the "node" test matrix)
   - provider: script
