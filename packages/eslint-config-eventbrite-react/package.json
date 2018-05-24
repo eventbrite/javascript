@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/eventbrite/javascript#readme",
   "dependencies": {
-    "eslint-config-eventbrite": "^4.1.0"
+    "eslint-config-eventbrite": "^5.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
