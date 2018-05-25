@@ -25,6 +25,7 @@
 - (major) Added `eslint-plugin-babel` peer dependency at `^5.1.0`
   * [babel/no-invalid-this](https://github.com/babel/eslint-plugin-babel/) replaces [no-invalid-this](http://eslint.org/docs/rules/no-invalid-this)
 - (major) Added `eslint-plugin-jest` peer dependency at `^21.15.1`
+  * Everything within [plugin:jest/recommended](https://github.com/jest-community/eslint-plugin-jest#rules)
   * [jest/consistent-test-it](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/consistent-test-it.md)
   * [jest/lowercase-name](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/lowercase-name.md)
   * [jest/prefer-to-be-null](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/prefer-to-be-null.md)
