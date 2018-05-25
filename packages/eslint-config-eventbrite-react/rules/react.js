@@ -108,7 +108,7 @@ module.exports = {
         // Forbid spaces before the closing bracket
         // Enforce spaces before the closing bracket of self-closing elements
         // Forbid spaces between the angle bracket and slash of JSX closing or self-closing elements
-        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-space-before-closing.md
+        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-tag-spacing.md
         'react/jsx-tag-spacing': ['error', {
             afterOpening: 'never',
             beforeClosing: 'never',
@@ -158,7 +158,7 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-this-in-sfc.md
         'react/no-this-in-sfc': 'error',
 
-        // Prevent using (legacy) string references in ref attribute
+        // Prevents common typos made declaring static class properties and lifecycle methods
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-typos.md
         'react/no-typos': 'error',
 

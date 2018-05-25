@@ -1,3 +1,38 @@
+## v5.0.0 (May 24, 2018)
+- (major) Requires node >= 6
+- (major) bump `eslint-config-eventbrite-legacy` to `^4.0.0`
+- (major) Bumped `eslint` peer dependency to `^4.19.1`
+- (major) Bumped `babel-eslint` peer dependency to `^8.2.3`
+- (minor) Bumped `eslint-plugin-import` peer dependency to `^2.11.0`
+- (major) New erroring rules:
+  * [import/default](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/default.md)
+  * [import/named](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/named.md)
+  * [import/namespace](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/namespace.md)
+  * [import/no-amd](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-amd.md)
+  * [import/no-commonjs](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-commonjs.md)
+  * [import/no-cycle](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-cycle.md)
+  * [import/no-named-as-default](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-as-default.md)
+  * [import/no-named-as-default-member](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-as-default-member.md)
+  * [import/no-named-default](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-named-default.md)
+  * [import/no-self-import](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-self-import.md)
+  * [import/no-useless-path-segments](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-useless-path-segments.md)
+  * [no-await-in-loop](https://eslint.org/docs/rules/no-await-in-loop)
+  * [no-return-await](https://eslint.org/docs/rules/no-return-await)
+  * [strict](https://eslint.org/docs/rules/strict)
+- (major) Stronger exiting erroring rules:
+  * [comma-dangle](http://eslint.org/docs/rules/comma-dangle) is turned on for `import` & `export`
+  * [prefer-const](http://eslint.org/docs/rules/prefer-const) is turned on enforce using `const` whenever possible
+- (major) Added `eslint-plugin-babel` peer dependency at `^5.1.0`
+  * [babel/no-invalid-this](https://github.com/babel/eslint-plugin-babel/) replaces [no-invalid-this](http://eslint.org/docs/rules/no-invalid-this)
+- (major) Added `eslint-plugin-jest` peer dependency at `^21.15.1`
+  * Everything within [plugin:jest/recommended](https://github.com/jest-community/eslint-plugin-jest#rules)
+  * [jest/consistent-test-it](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/consistent-test-it.md)
+  * [jest/lowercase-name](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/lowercase-name.md)
+  * [jest/prefer-to-be-null](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/prefer-to-be-null.md)
+  * [jest/prefer-to-be-undefined](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/prefer-to-be-undefined.md)
+  * [jest/valid-describe](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/valid-describe.md)
+  * [jest/valid-expect-in-promise](https://github.com/jest-community/eslint-plugin-jest/blob/master/docs/rules/valid-expect-in-promise.md)
+
 ## v4.0.0 (February 10, 2017)
 - (major) bump `eslint-config-eventbrite-legacy` to 3.0.0
 
