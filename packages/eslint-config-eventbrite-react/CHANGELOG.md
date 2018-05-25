@@ -1,4 +1,4 @@
-## v5.0.0 (May 24, 2018)
+## v6.0.0 (May 24, 2018)
 - (major) Requires node >= 6
 - (major) bump `eslint-config-eventbrite-legacy` to `^4.0.0`
 - (major) Bumped `eslint` peer dependency to `^4.19.1`
@@ -32,6 +32,9 @@
   * [jsx-a11y/label-has-for](https://github.com/evcohen/eslint-plugin-jsx-a11y/blob/master/docs/rules/label-has-for.md) to support `<label>` or `<Label>` with text contents
   * [react/jsx-first-prop-new-line](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-first-prop-new-line.md) only requires prop on separate line when there are multiple props AND the component spans multiple lines
   * [react/jsx-max-props-per-line](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-max-props-per-line.md) now allows 4 props per line (up from 3)
+
+## v5.0.0 (July 5, 2017)
+- (major) Replace old `jsx-a11y` rules
 
 ## v4.0.0 (April 28, 2017)
 - (major) Add new `jsx-a11y` rules
