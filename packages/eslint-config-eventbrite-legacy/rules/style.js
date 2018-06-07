@@ -104,7 +104,7 @@ module.exports = {
 
         // disallow padding within curly braces of object literals
         // http://eslint.org/docs/rules/object-curly-spacing
-        'object-curly-spacing': 'error',
+        'object-curly-spacing': ['error', 'always'],
 
         // enforce that `var` declarations are declared together
         // http://eslint.org/docs/rules/one-var
