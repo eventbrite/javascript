@@ -327,11 +327,11 @@ const peoplesFavoriteFruits = {
 };
 
 // good (use a functional approach) ES6
-const fruits = Object.keys(peoplesFavoriteFruits).map((key, index) => key[index]);
+const fruits = Object.keys(peoplesFavoriteFruits).map(key => peoplesFavoriteFruits[key]);
 
 // good (use a functional approach) ES5
-var fruits = Object.keys(peoplesFavoriteFruits).map(function(key, index) {
-    return key[index]
+var fruits = Object.keys(peoplesFavoriteFruits).map(function(key) {
+    return peoplesFavoriteFruits[key];
 });
 
 // bad
@@ -343,7 +343,7 @@ Object.keys(peoplesFavoriteFruits).forEach(function (index) {
 // very bad
 var fruits = [];
 for (var key in peoplesFavoriteFruits) {
-   fruits.push(peoplesFavoriteFruits[index]);
+   fruits.push(peoplesFavoriteFruits[key]);
 }
 
 /// Arrays
