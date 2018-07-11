@@ -461,19 +461,25 @@ Constants should be all written in capital letters and in snake_case. (except co
 
 ```js
 //good
-const DEFAULT_VALUE = 'none';
+// ./constants.js
+export const DEFAULT_VALUE = 'none';
+export const TIMEOUT = 3;
+export const config = {};
 
-var TIMEOUT = 3;
+// ./app.js
+import {DEFAULT_VALUE} from "./constants";
 
-var config = {};
+const baseUrl = "/some/url";
+fetch(`${baseUrl}/DEFAULT_VALUE`);
 
 //bad
-const defaultValue = 'none';
-
-var timeout = 3;
-
-var someOtherStaticVariable = 'blah';
+// ./constants.js
+export const defaultValue = 'none';
+export const timeout = 3;
+export const someOtherStaticVariable = 'blah';
 ```
+
+What about all `const` variables? - This is unnecessary, so uppercasing should not be used for constants within a file. It should be used for exported constants however.
 
 ### Variables: objects, strings, integers
 
