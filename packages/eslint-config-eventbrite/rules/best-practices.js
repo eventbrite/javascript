@@ -4,5 +4,6 @@ module.exports = {
         // disallow modifying properties of parameters
         // http://eslint.org/docs/rules/no-param-reassign
         'no-param-reassign': ['error', {props: true}],
+        'keyword-spacing': 'error'
     },
 };
