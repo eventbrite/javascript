@@ -44,13 +44,17 @@ module.exports = {
             SwitchCase: 1
         }],
 
-        // disallow inline comments after code
-        // http://eslint.org/docs/rules/line-comment-position
-        'line-comment-position': 'error',
-
         // space for values in object literals
         // http://eslint.org/docs/rules/key-spacing
         'key-spacing': 'error',
+
+        // require spacing before and after keywords
+        // https://eslint.org/docs/rules/keyword-spacing
+        'keyword-spacing': 'error',
+
+        // disallow inline comments after code
+        // http://eslint.org/docs/rules/line-comment-position
+        'line-comment-position': 'error',
 
         // Require constructor function names to begin with a capital letter
         // Requires all `new` operators to be called with uppercase-started functions.
@@ -143,10 +147,6 @@ module.exports = {
 
         // never have a space before function parentheses
         // http://eslint.org/docs/rules/space-before-function-paren
-        'space-before-function-paren': ['error', 'never'],
-
-        // require spacing before and after keywords
-        // https://eslint.org/docs/rules/keyword-spacing
-        'keyword-spacing': 'error'
+        'space-before-function-paren': ['error', 'never']
     }
 };
