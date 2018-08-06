@@ -143,6 +143,10 @@ module.exports = {
 
         // never have a space before function parentheses
         // http://eslint.org/docs/rules/space-before-function-paren
-        'space-before-function-paren': ['error', 'never']
+        'space-before-function-paren': ['error', 'never'],
+
+        // require spacing before and after keywords
+        // https://eslint.org/docs/rules/keyword-spacing
+        'keyword-spacing': 'error',
     }
 };
