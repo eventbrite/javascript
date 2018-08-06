@@ -147,6 +147,6 @@ module.exports = {
 
         // require spacing before and after keywords
         // https://eslint.org/docs/rules/keyword-spacing
-        'keyword-spacing': 'error',
+        'keyword-spacing': 'error'
     }
 };
