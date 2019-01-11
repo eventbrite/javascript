@@ -141,11 +141,6 @@ module.exports = {
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-find-dom-node.md
         'react/no-find-dom-node': 'error',
 
-        // Prevent multiple component definitions in a given file
-        // (stateless helper components are ok)
-        // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md
-        'react/no-multi-comp': ['error', {ignoreStateless: true}],
-
         // Prevent usage of `shouldComponentUpdate` when extending `React.PureComponent`
         // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-redundant-should-component-update.md
         'react/no-redundant-should-component-update': 'error',
