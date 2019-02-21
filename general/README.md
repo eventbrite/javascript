@@ -308,7 +308,7 @@ _handleEvent = function(e) {
 
 ## Iterators
 
-We particularly try to avoid iterations that don't have output predictable output e.g. `forEach`, `for` and `while` loops.
+We particularly try to avoid iterations that don't have predictable output e.g. `forEach`, `for` and `while` loops.
 Any need for an external element to store or transform the result of an output, is frowned upon.
 
 This enforces our [immutability](https://www.sitepoint.com/immutability-javascript/) rule and limits the temptation of putting logic inside a loop.
