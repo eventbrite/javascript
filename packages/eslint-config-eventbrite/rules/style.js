@@ -22,5 +22,11 @@ module.exports = {
         // enforce spacing around infix operators
         // http://eslint.org/docs/rules/space-infix-ops
         'space-infix-ops': 'error',
+        
+        // enforce a space after async
+        // const foo = async () => {}
+        'space-before-function-paren': ['error', {
+            'asyncArrow': 'always'
+        }],
     },
 };
