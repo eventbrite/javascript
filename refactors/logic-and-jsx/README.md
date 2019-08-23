@@ -404,7 +404,7 @@ inside of other chunks of JSX.
 By putting all of the JSX into the `return ()`'d JSX, we can see it clearly as a
 tree, which is going to make the next refactor easier.
 
-## Step 4: [`PullIntoComponents.js`](3-PullIntoComponents.js)
+## Step 4: [`PullIntoComponents.js`](4-PullIntoComponents.js)
 
 Our final step in this refactor is going to be to take chunks of our
 `return ()`'d JSX and pull them out into their own components.
