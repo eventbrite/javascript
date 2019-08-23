@@ -19,7 +19,7 @@ that says the following:
 > particularly ternary expressions, should be stored in variables outside of
 > JSX.
 >
-> ```jsx
+> ```js
 > // good
 > render() {
 >     let {includeHeader} = this.props;
@@ -81,7 +81,7 @@ some of the imports.
 
 #### Before:
 
-```jsx
+```js
 import {
     ACCOUNT_SETTINGS_LIST_COLUMNS as columns,
     DELETION_ALLOWED,
@@ -134,7 +134,7 @@ const {
 
 #### After:
 
-```jsx
+```js
 import * as Constants from '../constants';
 
 // ...
@@ -170,7 +170,7 @@ assigned to variables into their own sections.
 
 #### Before:
 
-```jsx
+```js
 let emptyState = null;
 let bottomText = null;
 let pagination = null;
@@ -208,7 +208,7 @@ if (isEmpty(paymentInstrumentsItems)) {
 
 #### After:
 
-```jsx
+```js
 // --------------------------------------------------------------------
 
 let filterPrimaryText = null;
@@ -276,7 +276,7 @@ code directly into the `render()` method's `return (...)` JSX.
 
 #### Before:
 
-```jsx
+```js
 let filter = (
     <InstrumentFilter
         onFilterChange={this._handleFilter}
@@ -337,7 +337,7 @@ return (
 
 #### After:
 
-```jsx
+```js
 return (
     <div>
         ...
@@ -411,7 +411,7 @@ Our final step in this refactor is going to be to take chunks of our
 
 #### Before:
 
-```jsx
+```js
 return (
     <div>
         {!isEmpty(paymentInstrumentsItems) &&
@@ -461,7 +461,7 @@ return (
 
 #### After:
 
-```jsx
+```js
 function DeletionEmptyListDialog(props) {
     return (
         <Dialog
@@ -562,7 +562,7 @@ they are pretty simple conditionals, all of them are boolean values.
 If we had something more complex, we might choose to pull that complexity back
 out into "selectors" or utilities that we can call inline.
 
-```jsx
+```js
 // Before:
 function MyComponent(props) {
     return (
@@ -600,7 +600,7 @@ Doing more complex computations that create data for your JSX to render is tough
 to do inline. So in those cases we'll choose to pull the data out into a
 variable, and possibly pull the computation logic into its own function.
 
-```jsx
+```js
 // Before:
 function MyComponent(props) {
     return (

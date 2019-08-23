@@ -10,7 +10,7 @@
 
 **Before:**
 
-```jsx
+```js
 class MyComponent extends React.Component {
     render() {
         let { foo, bar } = this.props;
@@ -39,7 +39,7 @@ class MyComponent extends React.Component {
 
 **After:**
 
-```jsx
+```js
 function Component1(props) {
     return <SomeComponent kind="gah" foo={props.foo} baz={props.baz} />;
 }

@@ -1695,7 +1695,7 @@ describe which logic is complex and which is not. But if it starts to become
 hard to read at a glance, you might want to pull that logic out into a small
 utility function.
 
-```jsx
+```js
 // bad (complex inline conditions)
 function MyComponent(props) {
     return (
