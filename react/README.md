@@ -1621,49 +1621,189 @@ In addition to `render()` being the _last_ method in a component (see [Method or
 
 ### Logic and JSX
 
-React and JSX supporting logic and markup in the same file allows for substantial complexity in markup generation over other traditional templating languages (like [handlebars](http://handlebarsjs.com)). But with that increased complexity can come a decrease in readability.
+> **Note:** This rule was changed from a previous version that said the
+> opposite, read the [refactoring](../refactors/logic-and-jsx) that explains why.
 
-In order to maximize both complexity and readability, we suggest keeping all logic out of JSX, except variable references and method calls. Expressions, particularly ternary expressions, should be stored in variables outside of JSX.
+A single component's returned JSX code can get quite complex with lots of
+expressions. But instead of pulling those expressions out into variables and
+statements, you should focus on pulling out parts of the JSX into seperate
+components, and some of the logic into utility functions.
 
 ```js
-// good
-render() {
-    let {includeHeader} = this.props;
-    let buttons = [1, 2, 3, 4, 5].map((page) => (
-        <Button key={page} onClick={this._handlePageClick.bind(this, page)} />
-    ));
-    let header;
+// good (inlining all JSX/simple logic and abstracting complex JSX into separate components)
+function Component1(props) {
+    return <SomeComponent kind="gah" foo={props.foo} baz={props.baz} />;
+}
 
-    if (includeHeader) {
-        header = (<h2>Pagination</h2>);
+function Component2(props) {
+    return <SomeComponent kind="goop" bar={bar} baz={baz} />;
+}
+
+class MyComponent extends React.Component {
+    render() {
+        return (
+            <div>
+                {cond && otherCond && (
+                    <Component1 foo={this.props.foo} baz={this.state.baz} />
+                )}
+                {cond && !otherCond && (
+                    <Component2 bar={this.props.bar} baz={this.state.baz} />
+                )}
+            </div>
+        );
     }
+}
 
+// bad (hard to refactor into seperate components / moves JSX around)
+class MyComponent extends React.Component {
+    render() {
+        let { foo, bar } = this.props;
+        let { baz } = this.state;
+
+        let element1 = null;
+        let element2 = null;
+
+        if (cond) {
+            if (otherCond) {
+                element1 = <SomeComponent kind="gah" foo={foo} baz={baz} />;
+            } else {
+                element2 = <SomeComponent kind="goop" bar={bar} baz={baz} />;
+            }
+        }
+
+        return (
+            <div>
+                {element1}
+                {element2}
+            </div>
+        );
+    }
+}
+```
+
+This might seem unnatural at first if you aren't familiar with writing React
+code this way. But if you start splitting JSX into logical statements, you end
+up with code that is hard to pull out into separate components, making your code
+less refactorable (and maintainable as a result).
+
+See [Helper components](#helper-components) for another way to help keep `render()` lean.
+
+#### Logic and JSX Tip #1: Complex Conditionals
+
+Sometimes inline JSX conditionals will get really complex. This can be hard to
+describe which logic is complex and which is not. But if it starts to become
+hard to read at a glance, you might want to pull that logic out into a small
+utility function.
+
+```jsx
+// bad (complex inline conditions)
+function MyComponent(props) {
     return (
         <div>
-            {header}
-            {buttons}
+            {(props.foo === CONSTANT_VALUE && props.bar !== CONSTANT_VALUE) ||
+                (props.foo !== CONSTANT_VALUE &&
+                    props.bar === CONSTANT_VALUE && (
+                        <div>Hello, I have a complex conditional render</div>
+                    ))}
+            {typeof props.baz === 'object' &&
+                    props.baz !== null &&
+                    !Array.isArray(props.baz) &&
+                    Object.keys(props.baz).length > 1 && (
+                        <div>
+                            Hello, I also have a complex conditional render
+                        </div>
+                    )}
         </div>
     );
 }
 
-// bad (expressions in JSX)
-render() {
-    let {includeHeader} = this.props;
+// good (small utils for the conditional logic that we pass info into)
+function xorEq(a, b, value) {
+    if (a === value && b !== value) return true;
+    if (a !== value && b === value) return true;
+    return false;
+}
 
+function isPlainObject(val) {
+    return typeof val === 'object' && val !== null && !Array.isArray(val);
+}
+
+function isEmptyObject(obj) {
+    return Object.keys(obj).length === 0
+}
+
+function MyComponent(props) {
     return (
         <div>
-            {includeHeader ? (<h2>Pagination</h2>) : null}
-            {[1, 2, 3, 4, 5].map((page) => (
-                <Button key={page} onClick={this._handlePageClick.bind(this, page)} />
-            ))}
+            {xorEq(props.foo, props.bar, CONSTANT_VALUE) && (
+                <div>Hello, I have a complex conditional render</div>
+            )}
+            {isPlainObject(props.baz) && !isEmptyObject(props.baz) && (
+                <div>Hello, I also have a complex conditional render</div>
+            )}
         </div>
     );
 }
 ```
 
-The above "bad" example doesn't seem so bad right? But as we know, code tends to grow over time. If we add more expressions, add more markup to the header, or the map gets more more logic, the code will become unwieldy. Setting up this guideline, even in the most simple examples, helps set the code along the right path.
+#### Logic and JSX Tip #2: Computed Data
 
-See [Helper components](#helper-components) for another way to help keep `render()` lean.
+Sometimes when you're writing JSX you'll start to compute data inline using
+functions like `array.map/reduce/filter/etc`. However, it's better to pull that
+logic out into separate functions, and store the data in variables before the
+JSX code.
+
+```js
+// bad (complex computed data written inline)
+function MyComponent(props) {
+    return (
+        <ul>
+            {Object.keys(props.items)
+                .reduce((items, key) => {
+                    return [...items, props.items[key]];
+                }, [])
+                .map((item, index) => {
+                    return { ...item, index };
+                })
+                .filter(item => {
+                    return matchFields(item.fields, props.searchQueryFields);
+                })
+                .map(item => {
+                    return <div key={item.id}>...</div>;
+                })}
+        </ul>
+    );
+}
+
+// good (computations pulled out into their own functions, stored in variables before JSX)
+function convertToItemsArray(items) {
+    return Object.keys(items)
+        .reduce((arr, key) => {
+            return [...arr, items[key]];
+        }, [])
+        .map((item, index) => {
+            return { ...item, index };
+        });
+}
+
+function filterItems(items, searchQueryFields) {
+    return items.filter(item => {
+        return matchFields(item.fields, searchQueryFields);
+    });
+}
+
+function MyComponent(props) {
+    let items = convertToItemsArray(props.items);
+    let filteredItems = filterItems(items, props.searchQueryFields);
+    return (
+        <ul>
+            {filteredItems.map(item => {
+                return <div key={item.id}>...</div>;
+            })}
+        </ul>
+    );
+}
+```
 
 **[⬆ back to top](#table-of-contents)**
 
