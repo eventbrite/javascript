@@ -1636,7 +1636,7 @@ function Component1(props) {
 }
 
 function Component2(props) {
-    return <SomeComponent kind="goop" bar={bar} baz={baz} />;
+    return <SomeComponent kind="goop" bar={props.bar} baz={props.baz} />;
 }
 
 class MyComponent extends React.Component {
