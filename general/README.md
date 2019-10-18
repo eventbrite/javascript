@@ -60,21 +60,25 @@ If satisfying a negative condition should exit or throw, put the negative condit
 
 ```js
 // good
-if (!something) {
-    return;
+const cond = () => {
+    if (!something) {
+        return;
+    }
+
+    /* do other stuff */
 }
 
-/* do other stuff */
-
 // bad 
-if (something) {
-    /* do stuff */
-    /* do more stuff */
-    /* do even more stuff */
-    /* keep doing stuff */
-    /* never stop doing stuff... */
-} else {
-    return;
+const cond = () => {
+    if (something) {
+        /* do stuff */
+        /* do more stuff */
+        /* do even more stuff */
+        /* keep doing stuff */
+        /* never stop doing stuff... */
+    } else {
+        return;
+    }
 }
 
 **[⬆ back to top](#table-of-contents)**
