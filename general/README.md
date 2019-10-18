@@ -56,6 +56,31 @@ if (!something || !somethingElse ) {
 }
 ```
 
+If satisfying a negative condition should exit or throw, put the negative condition first. This generally improves readability especially for functions with more than one logical branching or large blocks.
+
+```js
+// good
+const cond = () => {
+    if (!something) {
+        return;
+    }
+
+    /* do other stuff */
+}
+
+// bad 
+const cond = () => {
+    if (something) {
+        /* do stuff */
+        /* do more stuff */
+        /* do even more stuff */
+        /* keep doing stuff */
+        /* never stop doing stuff... */
+    } else {
+        return;
+    }
+}
+
 **[⬆ back to top](#table-of-contents)**
 
 ### Multiple `if-else`
