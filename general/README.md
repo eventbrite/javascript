@@ -56,7 +56,7 @@ if (!something || !somethingElse ) {
 }
 ```
 
-If satisfying a negative condition should exit or throw, put the negative condition first. This generally improves readability especially for functions with more than one logical branching.
+If satisfying a negative condition should exit or throw, put the negative condition first. This generally improves readability especially for functions with more than one logical branching or large blocks.
 
 ```js
 // good
