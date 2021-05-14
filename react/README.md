@@ -266,7 +266,50 @@ export default class TextInput extends React.PureComponent {
 
 **[⬆ back to top](#table-of-contents)**
 
-### Required props
+### Required Props
+
+Any prop that does not have a default in `defaultProps` should be marked as `isRequired`. If you don't want to mark a prop as required, but don't want to provide a default, you instead provide a default value of `null`.
+
+
+```js
+// good
+export default class TextInput extends React.PureComponent {
+    static propTypes = {
+        onChange: React.PropTypes.func.isRequired,
+        type: React.PropTypes.string,
+        required: React.PropTypes.bool,
+        defaultValue: React.PropTypes.string,
+        role: React.PropTypes.string,
+    }
+    
+    static defaultProps = {
+        type: 'text',
+        required: false,
+        defaultValue: '',
+        role: null,
+    }
+}
+
+// bad (`required` is not marked as _required_ (the irony) but does not have a default &
+// `role` is not marked as required, and even though we're okay with no value being provided,
+// we haven't set the default to `null`)
+export default class TextInput extends React.PureComponent {
+    static propTypes = {
+        onChange: React.PropTypes.func.isRequired,
+        type: React.PropTypes.string,
+        required: React.PropTypes.bool,
+        defaultValue: React.PropTypes.string,
+        role: React.PropTypes.string,
+    }
+    
+    static defaultProps = {
+        type: 'text',
+        defaultValue: '',
+    }
+}
+```
+
+### Props with Defaults
 
 Don't declare any of the `propTypes` as required if they are included in `defaultProps`:
 
@@ -283,7 +326,9 @@ export default class TextInput extends React.PureComponent {
 
     static defaultProps = {
         type: 'text',
-        defaultValue: ''
+        required: false,
+        defaultValue: '',
+        role: null,
     }
 }
 
@@ -300,7 +345,9 @@ export default class TextInput extends React.PureComponent {
 
     static defaultProps = {
         type: 'text',
-        defaultValue: ''
+        required: false,
+        defaultValue: '',
+        role: null,
     }
 }
 ```
